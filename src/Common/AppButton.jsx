@@ -14,7 +14,10 @@ const AppButton = ({ onPress, title }) => {
       //position="absolute"
       //display="flex"
       onPress={onPress}>
-      <Text style={textStyle}>{title}</Text>
+      <Text
+        color={'white'}
+        fontSize={15}>
+        {title}</Text>
     </Button>
   );
 };

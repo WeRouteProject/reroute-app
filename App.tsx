@@ -18,6 +18,7 @@ import { NativeBaseProvider } from 'native-base';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Login from './src/Pages/Login/Index';
 import { StyleSheet, View } from 'react-native';
+import Signup from './src/Pages/Signup/Index';
 function App(): React.JSX.Element {
 
   // const [mobileno, setMobileno] = useState('');
@@ -38,7 +39,8 @@ function App(): React.JSX.Element {
           onPress={handleLogin}
           title="Login"
         /> */}
-          <Login />
+          {/* <Login /> */}
+          <Signup />
         </View>
       </SafeAreaProvider>
     </NativeBaseProvider>

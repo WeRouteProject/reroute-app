@@ -68,15 +68,15 @@ const containerStyle = {
     padding: 30,
 };
 
-const headingTitle = {
-    fontSize: 32,
-    color: '#4b6798',
-    margin: 30,
-};
+// const headingTitle = {
+//     fontSize: 32,
+//     color: '#4b6798',
+//     margin: 30,
+// };
 
-const text = {
-    color: 'black',
-    fontSize: 12,
-};
+// const text = {
+//     color: 'black',
+//     fontSize: 12,
+// };
 
 export default Login;

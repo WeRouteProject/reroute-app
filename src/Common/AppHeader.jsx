@@ -1,8 +1,9 @@
-import {Box, HStack, IconButton, Pressable, Text} from 'native-base';
+/* eslint-disable prettier/prettier */
+import { Box, HStack, IconButton, Pressable, Text } from 'native-base';
 import React from 'react';
 import AppIcon from './AppIcon';
-import {colors, fontSize} from '../../utils/constants';
-import {NavigationProp} from '@react-navigation/native';
+import { colors, fontSize } from '../../utils/constants';
+import { NavigationProp } from '@react-navigation/native';
 
 export default function AppHeader({
   navigation,
