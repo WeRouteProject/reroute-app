@@ -39,8 +39,8 @@ function App(): React.JSX.Element {
           onPress={handleLogin}
           title="Login"
         /> */}
-          {/* <Login /> */}
-          <Signup />
+          <Login />
+          {/* <Signup /> */}
         </View>
       </SafeAreaProvider>
     </NativeBaseProvider>
