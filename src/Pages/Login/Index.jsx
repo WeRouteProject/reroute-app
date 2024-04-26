@@ -2,16 +2,16 @@ import React, {useState} from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import {Checkbox, Box, Text, HStack} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons'; // Assuming you're using Expo for vector icons
+import {MaterialIcons} from '@expo/vector-icons';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false); // State for remembering user
+  const [rememberMe, setRememberMe] = useState(false);
 
   function handleLogin() {
     console.log('login');
-    console.log('Remember Me:', rememberMe); // Log the value of Remember Me checkbox
+    console.log('Remember Me:', rememberMe); 
   }
 
   return (
@@ -49,7 +49,7 @@ const Login = () => {
           Forget password?
         </Text>
       </HStack>
-      <Box mt={'50%'} w={'100%'}>
+      <Box mt={'60%'} w={'100%'}>
         <AppButton onPress={handleLogin} title="Login" />
       </Box>
 
