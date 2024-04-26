@@ -66,7 +66,7 @@ const Signup = () => {
                 alignItems={'flex-end'}
             >
                 <Text >Already have an account?</Text>
-                <Text underline >Login</Text>
+                <Text underline>Login</Text>
             </HStack>
         </Box >
     );
