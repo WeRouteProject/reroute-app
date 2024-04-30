@@ -1,36 +1,21 @@
 /* eslint-disable prettier/prettier */
-// MyButton.js
 import React from 'react';
-import { Button, Text } from 'native-base';
-//import { color } from 'react-native-reanimated';
+import {Button, Text} from 'native-base';
+import {Colors, FontSizes} from './Utils/Constants';
 
-const AppButton = ({ onPress, title }) => {
+const AppButton = ({onPress, title, width, mt}) => {
+  const buttonStyle = {
+    backgroundColor: Colors.ButtonColor,
+    width: width || '100%',
+    borderRadius: 16,
+    marginTop: mt || 0,
+  };
+
   return (
-    <Button
-      color="#2895bc"
-      width="100%"
-      borderRadius={16}
-      //justifyContent="flex-end"
-      //position="absolute"
-      //display="flex"
-      onPress={onPress}>
-      <Text
-        color={'white'}
-        fontSize={15}>
-        {title}</Text>
+    <Button style={buttonStyle} onPress={onPress}>
+      <Text color={Colors.white} fontSize={FontSizes.large} fontWeight="bold" fontFamily="Poppins-Bold">{title}</Text>
     </Button>
   );
-};
-
-const buttonStyle = {
-  // color: ,
-  width: '100%',
-  padding: 20,
-  borderRadius: 16,
-};
-
-const textStyle = {
-  color: 'white', fontSize: 20,
 };
 
 export default AppButton;

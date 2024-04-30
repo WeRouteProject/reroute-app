@@ -1,32 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-//import { Center } from 'native-base';
-//import React, { useState } from "react";
-
-//import { View } from 'react-native';
-import { NativeBaseProvider, Select } from 'native-base';
+import {NativeBaseProvider, Select} from 'native-base';
 // import AppInput from './src/Common/AppInput';
 // import AppButton from "./src/Common/AppButton";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Login from './src/Pages/Login/Index';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Signup from './src/Pages/Signup/Index';
 import AppDropDown from './src/Common/AppDropDown';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Navigation from './src/Navigation/Index';
 
-
 function App(): React.JSX.Element {
-
   // const [mobileno, setMobileno] = useState('');
 
   // function handleLogin() {
@@ -35,8 +18,8 @@ function App(): React.JSX.Element {
 
   const [selectedValue, setSelectedValue] = useState('');
   const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
+    {label: 'Option 1', value: 'option1'},
+    {label: 'Option 2', value: 'option2'},
     // Add more options as needed
   ];
 
@@ -44,7 +27,7 @@ function App(): React.JSX.Element {
     setSelectedValue(newValue);
   };
   return (
-    <NativeBaseProvider >
+    <NativeBaseProvider>
       <SafeAreaProvider>
         <Navigation style={styles.main}>
           {/* <AppInput
@@ -82,8 +65,7 @@ const styles = StyleSheet.create({
 
     // backgroundColor: 'black',
     justifyContent: 'center',
-  }
-
-})
+  },
+});
 
 export default App;

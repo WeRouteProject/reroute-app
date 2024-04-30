@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import { Checkbox, Box, Text, HStack } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import {Checkbox, Box, Text, HStack} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
 
 const Login = () => {
   const [email, setEmail] = useState('');
