@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
@@ -12,13 +13,18 @@
 //import React, { useState } from "react";
 
 //import { View } from 'react-native';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, Select } from 'native-base';
 // import AppInput from './src/Common/AppInput';
 // import AppButton from "./src/Common/AppButton";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Login from './src/Pages/Login/Index';
 import { StyleSheet, View } from 'react-native';
 import Signup from './src/Pages/Signup/Index';
+import AppDropDown from './src/Common/AppDropDown';
+import React, { useState } from 'react';
+import Navigation from './src/Navigation/Index';
+
+
 function App(): React.JSX.Element {
 
   // const [mobileno, setMobileno] = useState('');
@@ -26,10 +32,21 @@ function App(): React.JSX.Element {
   // function handleLogin() {
   //   console.log('login');
   // }
+
+  const [selectedValue, setSelectedValue] = useState('');
+  const options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    // Add more options as needed
+  ];
+
+  const handleChange = (newValue: any) => {
+    setSelectedValue(newValue);
+  };
   return (
     <NativeBaseProvider >
       <SafeAreaProvider>
-        <View style={styles.main}>
+        <Navigation style={styles.main}>
           {/* <AppInput
           placeholder="Mobile no."
           value={mobileno}
@@ -41,7 +58,18 @@ function App(): React.JSX.Element {
         /> */}
           <Login />
           {/* <Signup /> */}
-        </View>
+          {/* <AppDropDown
+            label="Select an option"
+            value={selectedValue}
+            onChange={handleChange}
+            renderSelectItems={() => (
+              options.map(option => (
+                <Select.Item key={option.value} label={option.label} value={option.value} />
+              ))
+            )}
+            errorMessage="Please select an option"
+          /> */}
+        </Navigation>
       </SafeAreaProvider>
     </NativeBaseProvider>
   );

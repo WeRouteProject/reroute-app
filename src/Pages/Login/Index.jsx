@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useState } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import {Checkbox, Box, Text, HStack} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
+import { Checkbox, Box, Text, HStack } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
+  const navigation = useNavigation();
+
   function handleLogin() {
     console.log('login');
-    console.log('Remember Me:', rememberMe); 
+    console.log('Remember Me:', rememberMe);
+    navigation.navigate('Form');
   }
 
   return (

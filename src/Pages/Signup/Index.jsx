@@ -5,6 +5,7 @@ import { Box, Text, HStack } from "native-base";
 import AppInput from "../../Common/AppInput";
 import AppButton from "../../Common/AppButton";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from "@react-navigation/native";
 
 const Signup = () => {
 
@@ -13,8 +14,11 @@ const Signup = () => {
     const [name, setName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const navigation = useNavigation();
+
     function handleSignup() {
         console.log('Register');
+        navigation.navigate('Login');
     }
     return (
         <Box
