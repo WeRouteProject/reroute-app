@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Select, TextArea } from 'native-base';
+import { Box, Select, TextArea, Input } from 'native-base';
 import AppDropDown from '../../Common/AppDropDown';
+import AppCenterLayout from '../../Common/AppCenterLayout';
 
 const Form = () => {
     const [selectedValue, setSelectedValue] = useState('');
@@ -106,59 +107,61 @@ const Form = () => {
     };
 
     return (
-        <Box
-            alignItems="center" w="100%" p={2}
-        >
-            <AppDropDown
-                label="Country"
-                value={selectedValue}
-                onChange={handleChange}
-                renderSelectItems={() => (
-                    options.map(option => (
-                        <Select.Item key={option.value} label={option.label} value={option.value} />
-                    ))
-                )}
-                errorMessage="Please select an option"
-            />
-            <AppDropDown
-                label="Region"
-                value={selectedValue}
-                onChange={handleChange}
-                renderSelectItems={() => (
-                    options.map(option => (
-                        <Select.Item key={option.value} label={option.label} value={option.value} />
-                    ))
-                )}
-                errorMessage="Please select an option"
-            />
-            <AppDropDown
-                label="Service"
-                value={selectedService}
-                onChange={handleServiceChange}
-                renderSelectItems={() => (
-                    serviceOptions.map(option => (
-                        <Select.Item key={option.value} label={option.label} value={option.value} />
-                    ))
-                )}
-                errorMessage="Please select a service"
-            />
-            {selectedService && (
+        <AppCenterLayout>
+            <Box
+                alignItems="center" w="100%" p={3}
+            >
+                <Input
+                    m={10}
+                    variant={'underlined'}>Name</Input>
                 <AppDropDown
-                    label="Sub-Service"
-                    value={selectedSubService}
-                    onChange={handleSubServiceChange}
+                    value={selectedValue}
+                    onChange={handleChange}
                     renderSelectItems={() => (
-                        subServiceOptions[selectedService].map(option => (
+                        options.map(option => (
                             <Select.Item key={option.value} label={option.label} value={option.value} />
                         ))
                     )}
-                    errorMessage="Please select a sub-service"
+                    errorMessage="Please select an option"
                 />
-            )}
+                <AppDropDown
 
-            <TextArea h={20} placeholder="Text Area Placeholder" w="75%" maxW="300" />
-        </Box>
+                    value={selectedValue}
+                    onChange={handleChange}
+                    renderSelectItems={() => (
+                        options.map(option => (
+                            <Select.Item key={option.value} label={option.label} value={option.value} />
+                        ))
+                    )}
+                    errorMessage="Please select an option"
+                />
+                <AppDropDown
+                    value={selectedService}
+                    onChange={handleServiceChange}
+                    renderSelectItems={() => (
+                        serviceOptions.map(option => (
+                            <Select.Item key={option.value} label={option.label} value={option.value} />
+                        ))
+                    )}
+                    errorMessage="Please select a service"
+                />
+                {selectedService && (
+                    <AppDropDown
+                        value={selectedSubService}
+                        onChange={handleSubServiceChange}
+                        renderSelectItems={() => (
+                            subServiceOptions[selectedService].map(option => (
+                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                            ))
+                        )}
+                        errorMessage="Please select a sub-service"
+                    />
+                )}
+
+                <TextArea h={20} placeholder="Text Area Placeholder" w="75%" maxW="300" />
+            </Box>
+        </AppCenterLayout>
     );
 }
 
-export default Form
+export default Form;

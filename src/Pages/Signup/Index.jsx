@@ -1,13 +1,13 @@
 /* eslint-disable eol-last */
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
-import {Box, Text, HStack} from 'native-base';
+import React, { useState } from 'react';
+import { Box, Text, HStack } from 'native-base';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
-import {Colors, FontSizes} from '../../Common/Utils/Constants';
+import { Colors, FontSizes } from '../../Common/Utils/Constants';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -43,8 +43,8 @@ const Signup = () => {
             setValue={setEmail}
             icon={<Icon name="heart" size={20} color="red" />}
           />
-           <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
-           Name
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+            Name
           </Text>
           <AppInput
             placeholder={'Enter your Name'}
@@ -52,7 +52,7 @@ const Signup = () => {
             setValue={setName}
             secureTextEntry={true}
           />
-           <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
             Password
           </Text>
           <AppInput
@@ -61,7 +61,7 @@ const Signup = () => {
             setValue={setPassword}
             secureTextEntry={true}
           />
-           <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
             Confirm Password
           </Text>
           <AppInput
@@ -72,11 +72,11 @@ const Signup = () => {
           />
         </Box>
 
-        <AppButton title={'Create an account'}  onPress={handleSignup} mt={36} />
+        <AppButton title={'Create an account'} onPress={handleSignup} mt={36} />
 
         <HStack mb={4} mt={6} justifyContent={'center'}>
-          <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account?</Text>
-          <Text underline color={Colors.primary} onPress={handleSignup}>Login</Text>
+          <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
+          <Text underline color={Colors.primary} onPress={handleSignup}> Login</Text>
         </HStack>
       </Box>
     </AppCenterLayout>

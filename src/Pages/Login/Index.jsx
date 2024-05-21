@@ -1,10 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import {Checkbox, Box, Text, HStack} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import { Checkbox, Box, Text, HStack } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import AppCenterLayout from '../../Common/AppCenterLayout';
+import { Colors, FontSizes } from '../../Common/Utils/Constants';
+import AppFooter from '../../Common/AppFooter';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,55 +19,67 @@ const Login = () => {
   function handleLogin() {
     console.log('login');
     console.log('Remember Me:', rememberMe);
-    navigation.navigate('Form');
+    navigation.navigate('Home');
   }
 
   return (
-    <Box style={containerStyle}>
-      <Text fontSize={25} color="#4b6798" mb={20}>
-        LOGIN
-      </Text>
-
-      <AppInput
-        placeholder="Enter your email"
-        value={email}
-        setValue={setEmail}
-        secureTextEntry={true}
-      />
-
-      <AppInput
-        placeholder="Enter your password"
-        value={password}
-        setValue={setPassword}
-        secureTextEntry={true}
-      />
-
-      <HStack justifyContent="space-between" alignItems="center" mb={4}>
-        <HStack space={2} alignItems="center" flex={1}>
-          <Checkbox
-            value="test"
-            accessibilityLabel="This is a dummy checkbox"
-            isChecked={rememberMe}
-            onChange={isChecked => setRememberMe(isChecked)}
+    <AppCenterLayout>
+      <Box
+        backgroundColor={'white'}
+        width={'100%'}
+        h={'100%'}
+        mt={20}
+        p={30}>
+        <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'}>
+          LOGIN
+        </Text>
+        <Box mt={10}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>Email ID</Text>
+          <AppInput
+            placeholder="Enter your email"
+            value={email}
+            setValue={setEmail}
+            secureTextEntry={true}
           />
-          {rememberMe && <MaterialIcons name="check" size={20} color="green" />}
-          <Text fontSize={12}>Remember me</Text>
-        </HStack>
-        <Text fontSize={12} underline>
-          Forget password?
-        </Text>
-      </HStack>
-      <Box mt={'60%'} w={'100%'}>
-        <AppButton onPress={handleLogin} title="Login" />
-      </Box>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>Password</Text>
+          <AppInput
+            placeholder="Enter your password"
+            value={password}
+            setValue={setPassword}
+            secureTextEntry={true}
+          />
 
-      <HStack space={4} alignItems="center" my={4}>
-        <Text fontSize={12}>Don't have an account?</Text>
-        <Text fontSize={14} underline color={'#2895bc'}>
-          Register Now
-        </Text>
-      </HStack>
-    </Box>
+          <HStack justifyContent="space-between" alignItems="center" mb={4}>
+            <HStack space={2} alignItems="center" flex={1}>
+              <Checkbox
+                value="test"
+                accessibilityLabel="This is a dummy checkbox"
+                isChecked={rememberMe}
+                onChange={isChecked => setRememberMe(isChecked)}
+              />
+              {rememberMe && <MaterialIcons name="check" size={FontSizes.small} color={Colors.gray} />}
+              <Text fontSize={FontSizes.small} color={Colors.dark}>Remember me</Text>
+            </HStack>
+            <Text fontSize={FontSizes.small} color={Colors.dark} underline onPress={() => navigation.navigate('Forgot')}>
+              Forgot password?
+            </Text>
+          </HStack>
+        </Box>
+
+
+        <AppFooter>
+          <Box>
+            <AppButton onPress={handleLogin} title="Login" mt={60} />
+
+            <HStack mb={4} mt={2} justifyContent={'center'}>
+              <Text color={Colors.dark} fontSize={FontSizes.medium}>Don't have an account? </Text>
+              <Text underline color={Colors.primary} fontSize={FontSizes.medium} onPress={handleLogin}>Register Now</Text>
+            </HStack>
+          </Box>
+        </AppFooter>
+
+      </Box>
+    </AppCenterLayout>
   );
 };
 

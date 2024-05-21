@@ -2535,6 +2535,23 @@
     serve-static "^1.13.1"
     ws "^7.5.1"
 
+"@react-native-community/cli-tools@^13.6.5":
+  version "13.6.6"
+  resolved "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-13.6.6.tgz"
+  integrity sha512-ptOnn4AJczY5njvbdK91k4hcYazDnGtEPrqIwEI+k/CTBHNdb27Rsm2OZ7ye6f7otLBqF8gj/hK6QzJs8CEMgw==
+  dependencies:
+    appdirsjs "^1.2.4"
+    chalk "^4.1.2"
+    execa "^5.0.0"
+    find-up "^5.0.0"
+    mime "^2.4.1"
+    node-fetch "^2.6.0"
+    open "^6.2.0"
+    ora "^5.4.1"
+    semver "^7.5.2"
+    shell-quote "^1.7.3"
+    sudo-prompt "^9.0.0"
+
 "@react-native-community/cli-tools@12.3.6":
   version "12.3.6"
   resolved "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-12.3.6.tgz"
@@ -2581,6 +2598,22 @@
     graceful-fs "^4.1.3"
     prompts "^2.4.2"
     semver "^7.5.2"
+
+"@react-native-vector-icons/common@^0.0.1-alpha.6":
+  version "0.0.1-alpha.6"
+  resolved "https://registry.npmjs.org/@react-native-vector-icons/common/-/common-0.0.1-alpha.6.tgz"
+  integrity sha512-3LgnZIGyhCJz/BaOLCwqWlZkFRgxLCb9+y0maWBAkq2BYw/FzXTyMjpM6nYZ2wSE9FVuY1NfwHRZvNDxa5IYUQ==
+  dependencies:
+    "@react-native-community/cli-tools" "^13.6.5"
+    prop-types "^15.8.1"
+    yargs "^17.7.2"
+
+"@react-native-vector-icons/material-icons@^0.0.1-alpha.9":
+  version "0.0.1-alpha.9"
+  resolved "https://registry.npmjs.org/@react-native-vector-icons/material-icons/-/material-icons-0.0.1-alpha.9.tgz"
+  integrity sha512-nLzoAazCniUW5QwzUBz9gP18LjCxm0IWi4bApB6dGWr7l2LQWkw9SRTl/BngGDvD05xUxIz/RnKXtx3Henbudg==
+  dependencies:
+    "@react-native-vector-icons/common" "^0.0.1-alpha.6"
 
 "@react-native/assets-registry@~0.73.1", "@react-native/assets-registry@0.73.1":
   version "0.73.1"
@@ -6905,10 +6938,10 @@ lighthouse-logger@^1.0.0:
     debug "^2.6.9"
     marky "^1.2.2"
 
-lightningcss-darwin-x64@1.19.0:
+lightningcss-win32-x64-msvc@1.19.0:
   version "1.19.0"
-  resolved "https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.19.0.tgz"
-  integrity sha512-Lif1wD6P4poaw9c/4Uh2z+gmrWhw/HtXFoeZ3bEsv6Ia4tt8rOJBdkfVaUJ6VXmpKHALve+iTyP2+50xY1wKPw==
+  resolved "https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.19.0.tgz"
+  integrity sha512-C+VuUTeSUOAaBZZOPT7Etn/agx/MatzJzGRkeV+zEABmPuntv1zihncsi+AyGmjkkzq3wVedEy7h0/4S84mUtg==
 
 lightningcss@~1.19.0:
   version "1.19.0"
@@ -8277,6 +8310,13 @@ react-native-gesture-handler@^2.16.1:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-ico-material-design@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.npmjs.org/react-native-ico-material-design/-/react-native-ico-material-design-5.1.2.tgz"
+  integrity sha512-R/lbUKMDDXuccZ9rtQBWIcVrVoZVWEF/LRam2H1J09kwmveIDLs/xcRcqYYvch2X8RKmTwYQbaaPR/ywF+krYA==
+  dependencies:
+    react-svg-main "^4.0.1"
+
 react-native-loading-spinner-overlay@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-3.0.1.tgz"
@@ -8307,18 +8347,26 @@ react-native-screens@^3.31.1, "react-native-screens@>= 3.0.0":
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-svg@*, react-native-svg@^15.2.0:
-  version "15.2.0"
-  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-15.2.0.tgz"
-  integrity sha512-R0E6IhcJfVLsL0lRmnUSm72QO+mTqcAOM5Jb8FVGxJqX3NfJMlMP0YyvcajZiaRR8CqQUpEoqrY25eyZb006kw==
+react-native-svg@*, react-native-svg@^15.3.0:
+  version "15.3.0"
+  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-15.3.0.tgz"
+  integrity sha512-mBHu/fdlzUbpGX8SZFxgbKvK/sgqLfDLP8uh8G7Us+zJgdjO8OSEeqHQs+kPRdQmdLJQiqPJX2WXgCl7ToTWqw==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
-react-native-vector-icons@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.0.3.tgz"
-  integrity sha512-ZgVlV5AdQgnPHHvBEihGf2xwyziT1acpXV1U+WfCgCv3lcEeCRsmwAsBU+kUSNsU+8TcWVsX04kdI6qUaS8D7w==
+react-native-svg@^13.13.0:
+  version "13.14.1"
+  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.14.1.tgz"
+  integrity sha512-0DSa0EOySzV0J9utmRFVE5Vr4mKRXA7GtH1Ga1B6fzR967HGFW1ytH6hmnOf36316hjYpXMMB7s4oVe1FqghlQ==
+  dependencies:
+    css-select "^5.1.0"
+    css-tree "^1.1.3"
+
+react-native-vector-icons@^10.1.0:
+  version "10.1.0"
+  resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.1.0.tgz"
+  integrity sha512-fdQjCHIdoXmRoTZ5gvN1FmT4sGLQ2wmQiNZHKJQUYnE2tkIwjGnxNch+6Nd4lHAACvMWO7LOzBNot2u/zlOmkw==
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
@@ -8379,6 +8427,13 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-svg-main@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/react-svg-main/-/react-svg-main-4.0.2.tgz"
+  integrity sha512-IP07Ihu6ZJ+VS1Vcm9OWz7324cVz9D/HUFTMKTkNvWkB2DN5m+vH2S4O6d466i24+oVZ2gDalTa/i/XasSKOGQ==
+  dependencies:
+    react-native-svg "^13.13.0"
 
 react-test-renderer@18.2.0:
   version "18.2.0"
@@ -9964,7 +10019,7 @@ yargs@^16.1.1:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-yargs@^17.3.1, yargs@^17.6.2:
+yargs@^17.3.1, yargs@^17.6.2, yargs@^17.7.2:
   version "17.7.2"
   resolved "https://registry.npmjs.org/yargs/-/yargs-17.7.2.tgz"
   integrity sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==

@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { Box, Select, FormControl, CheckIcon, WarningOutlineIcon } from 'native-base';
+import { Select, FormControl, CheckIcon, WarningOutlineIcon, Input } from 'native-base';
 
-const AppDropDown = ({ label, value, onChange, renderSelectItems, errorMessage }) => {
+const AppDropDown = ({ value, onChange, renderSelectItems, errorMessage }) => {
     const hasError = !value || value === '';
     return (
         <>
+
             <FormControl isInvalid={hasError}>
-                <FormControl.Label>{label}</FormControl.Label>
+                {/* <FormControl.Label >{label}</FormControl.Label> */}
                 <Select
                     minWidth="200"
                     borderRadius="lg"
