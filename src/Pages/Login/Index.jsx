@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import { Checkbox, Box, Text, HStack } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
+import AppCheckbox from '../../Common/AppCheckbox';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -51,14 +51,19 @@ const Login = () => {
 
           <HStack justifyContent="space-between" alignItems="center" mb={4}>
             <HStack space={2} alignItems="center" flex={1}>
-              <Checkbox
+              {/* <Checkbox
                 value="test"
                 accessibilityLabel="This is a dummy checkbox"
                 isChecked={rememberMe}
                 onChange={isChecked => setRememberMe(isChecked)}
               />
-              {rememberMe && <MaterialIcons name="check" size={FontSizes.small} color={Colors.gray} />}
-              <Text fontSize={FontSizes.small} color={Colors.dark}>Remember me</Text>
+              {/* {rememberMe && <MaterialIcons name="check" size={FontSizes.small} color={Colors.gray} />} */}
+              {/* <Text fontSize={FontSizes.small} color={Colors.dark}>Remember me</Text> * */}
+              <AppCheckbox
+                isChecked={rememberMe}
+                onChange={value => setRememberMe(value)}
+                label="Remember me"
+              />
             </HStack>
             <Text fontSize={FontSizes.small} color={Colors.dark} underline onPress={() => navigation.navigate('Forgot')}>
               Forgot password?
