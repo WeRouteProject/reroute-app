@@ -21,6 +21,11 @@ const Login = () => {
     console.log('Remember Me:', rememberMe);
     navigation.navigate('Home');
   }
+  function handleSignUp() {
+    console.log('SignUp');
+    console.log('Remember Me:', rememberMe);
+    navigation.navigate('Signup');
+  }
 
   return (
     <AppCenterLayout>
@@ -65,7 +70,8 @@ const Login = () => {
                 label="Remember me"
               />
             </HStack>
-            <Text fontSize={FontSizes.small} color={Colors.dark} underline onPress={() => navigation.navigate('Forgot')}>
+            <Text fontSize={FontSizes.small} color={Colors.dark}
+              underline onPress={() => navigation.navigate('Forgot')}>
               Forgot password?
             </Text>
           </HStack>
@@ -78,7 +84,7 @@ const Login = () => {
 
             <HStack mb={4} mt={2} justifyContent={'center'}>
               <Text color={Colors.dark} fontSize={FontSizes.medium}>Don't have an account? </Text>
-              <Text underline color={Colors.primary} fontSize={FontSizes.medium} onPress={handleLogin}>Register Now</Text>
+              <Text underline color={Colors.primary} fontSize={FontSizes.medium} onPress={handleSignUp}>Register Now</Text>
             </HStack>
           </Box>
         </AppFooter>

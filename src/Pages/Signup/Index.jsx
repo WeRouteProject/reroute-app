@@ -76,7 +76,7 @@ const Signup = () => {
 
         <HStack mb={4} mt={6} justifyContent={'center'}>
           <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
-          <Text underline color={Colors.primary} onPress={handleSignup}> Login</Text>
+          <Text underline color={Colors.primary} onPress={handleSignup}>Login</Text>
         </HStack>
       </Box>
     </AppCenterLayout>

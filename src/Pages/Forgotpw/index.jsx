@@ -20,7 +20,7 @@ const Forgot = () => {
 
     function handleSignup() {
         console.log('Register');
-        navigation.navigate('VerifyCode');
+        navigation.navigate('Login');
     }
 
     return (
