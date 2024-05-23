@@ -1,19 +1,17 @@
-/* eslint-disable prettier/prettier */
-import { View, Text } from 'react-native'
 import React from 'react';
-import 'react-native-gesture-handler';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from '../Pages/Home/Index';
 import About from '../Pages/About/Index';
+
 
 const Drawer = createDrawerNavigator();
 
 const AppDrawer = () => {
-    return (
-        <Drawer.Navigator>
-            <Drawer.Screen name="HomeScreen" component={Home} />
-            <Drawer.Screen name="AboutScreen" component={About} />
-        </Drawer.Navigator>
-    );
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="HomeScreen" component={Home} />
+      <Drawer.Screen name="AboutScreen" component={About} />
+    </Drawer.Navigator>
+  );
 };
 export default AppDrawer;
