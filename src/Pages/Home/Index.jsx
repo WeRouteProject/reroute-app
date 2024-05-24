@@ -9,11 +9,10 @@ const Home = () => {
     return (
         <NavigationContainer independent={true}>
             <NativeBaseProvider>
-                <AppDrawer />
-                <AppBottomNav />
-                <Text>home</Text>
-            </NativeBaseProvider>
-        </NavigationContainer>
+                <><AppDrawer /><AppBottomNav /><Text>home</Text></>
+                {/* <AppDrawer /> */}
+            </NativeBaseProvider >
+        </NavigationContainer >
     );
 };
 
