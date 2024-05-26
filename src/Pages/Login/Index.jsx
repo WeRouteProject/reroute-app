@@ -56,14 +56,6 @@ const Login = () => {
 
           <HStack justifyContent="space-between" alignItems="center" mb={4}>
             <HStack space={2} alignItems="center" flex={1}>
-              {/* <Checkbox
-                value="test"
-                accessibilityLabel="This is a dummy checkbox"
-                isChecked={rememberMe}
-                onChange={isChecked => setRememberMe(isChecked)}
-              />
-              {/* {rememberMe && <MaterialIcons name="check" size={FontSizes.small} color={Colors.gray} />} */}
-              {/* <Text fontSize={FontSizes.small} color={Colors.dark}>Remember me</Text> * */}
               <AppCheckbox
                 isChecked={rememberMe}
                 onChange={value => setRememberMe(value)}
