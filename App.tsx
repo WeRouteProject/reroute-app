@@ -8,6 +8,7 @@ import Login from './src/Pages/Login/Index';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import Navigation from './src/Navigation/Index';
+import Signup from './src/Pages/Signup/Index';
 
 function App(): React.JSX.Element {
   // const [mobileno, setMobileno] = useState('');
@@ -30,6 +31,7 @@ function App(): React.JSX.Element {
       <SafeAreaProvider>
         <Navigation style={styles.main}>
           <Login />
+          <Signup />
         </Navigation>
       </SafeAreaProvider>
     </NativeBaseProvider>
