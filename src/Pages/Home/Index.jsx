@@ -1,12 +1,27 @@
 /* eslint-disable prettier/prettier */
-import { Box, NativeBaseProvider, Text } from 'native-base';
+/* eslint-disable prettier/prettier */
+import { Box, NativeBaseProvider, Pressable, Text } from 'native-base';
 import React from 'react';
-//import { NavigationContainer } from '@react-navigation/native';
-import AppDrawerNav from '../../Common/AppDrawerNav';
+import { NavigationContainer } from '@react-navigation/native';
+import { Avatar } from 'react-native-elements';
+import { Colors } from '../../Common/Utils/Constants';
 
 const Home = () => {
     return (
-        <><Text>Home</Text><AppDrawerNav /></>
+        <Box>
+            <Text>home</Text>
+            {/* <Pressable onPress={openDrawer}>
+            <Avatar icon={{
+                name: 'person-outline',
+                type: 'material',
+                color: Colors.danger,
+                size: 50,
+            }} />
+        </Pressable> */}
+        </Box >
+
+
+
     );
 };
 

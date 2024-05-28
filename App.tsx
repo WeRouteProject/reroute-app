@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 /* eslint-disable no-lone-blocks */
 /* eslint-disable prettier/prettier */
 import { NativeBaseProvider } from 'native-base';
