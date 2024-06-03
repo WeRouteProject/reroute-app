@@ -66,6 +66,40 @@ const DrawerNavigator = () => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="About"
+        component={About}
+        options={{
+          headerShown: false,
+          drawerIcon: () => (
+            <Avatar
+              icon={{
+                name: 'person-outline',
+                type: 'material',
+                color: Colors.danger,
+                size: 50,
+              }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Change Password"
+        component={Forgot}
+        options={{
+          headerShown: false,
+          drawerIcon: () => (
+            <Avatar
+              icon={{
+                name: 'person-outline',
+                type: 'material',
+                color: Colors.danger,
+                size: 50,
+              }}
+            />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };

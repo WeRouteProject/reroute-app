@@ -1,3 +1,5 @@
+/* eslint-disable jsx-quotes */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {
@@ -8,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Box, Text, Divider, HStack, Pressable } from 'native-base';
 import { Avatar } from 'react-native-elements';
 import { Colors } from './Utils/Constants';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CustomDrawerContent = props => {
     const navigation = useNavigation();
@@ -27,13 +30,7 @@ const CustomDrawerContent = props => {
                 </Pressable>
                 <HStack alignItems={'center'} space={5}>
                     <Box>
-                        <Avatar
-                            icon={{
-                                name: 'person-outline',
-                                type: 'material',
-                                color: Colors.danger,
-                                size: 50,
-                            }}
+                        <Icon name='user-circle' color="grey" size={55}
                         />
                     </Box>
                     <Box>
@@ -73,6 +70,22 @@ const CustomDrawerContent = props => {
                         {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
                         <Text color={Colors.white} fontSize={16}>
                             Login
+                        </Text>
+                    </HStack>
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate('About')}>
+                    <HStack alignItems={'center'} space={8} ml={3} mt={8}>
+                        {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
+                        <Text color={Colors.white} fontSize={16}>
+                            About
+                        </Text>
+                    </HStack>
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate('Change Password')}>
+                    <HStack alignItems={'center'} space={8} ml={3} mt={8}>
+                        {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
+                        <Text color={Colors.white} fontSize={16}>
+                            Change Password
                         </Text>
                     </HStack>
                 </Pressable>
