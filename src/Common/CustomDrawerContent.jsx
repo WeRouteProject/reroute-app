@@ -63,6 +63,7 @@ const CustomDrawerContent = props => {
                 <Pressable onPress={() => navigation.navigate('Login')}>
                     <HStack alignItems={'center'} space={8} ml={3} mt={8}>
                         {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
+                        <Icon name='home' color="white" size={25} />
                         <Text color={Colors.white} fontSize={16}>
                             Login
                         </Text>
