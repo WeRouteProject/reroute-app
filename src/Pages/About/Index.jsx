@@ -2,7 +2,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, Alert } from 'react-native';
 import { Box, Text, Image, VStack, HStack, Button } from 'native-base';
-import Logo from '../../Common/Utils/assets/images/light.png';
+import Logo from '../../Common/Utils/assets/images/short.png';
 
 const About = () => {
     const { height } = useWindowDimensions();
@@ -27,7 +27,7 @@ const About = () => {
             <Box alignItems="center" style={styles.logoContainer}>
                 <Image
                     source={Logo}
-                    style={[styles.logo, { height: height * 0.45 }]}
+                    style={[styles.logo, { height: height * 0.35 }]}
                     resizeMode="contain"
                     alt="image not found"
                 />

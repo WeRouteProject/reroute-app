@@ -11,6 +11,7 @@ import { Box, Text, Divider, HStack, Pressable } from 'native-base';
 import { Avatar } from 'react-native-elements';
 import { Colors } from './Utils/Constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import home from 'react-native-vector-icons/Entypo';
 
 const CustomDrawerContent = props => {
     const navigation = useNavigation();
@@ -30,7 +31,7 @@ const CustomDrawerContent = props => {
                 </Pressable>
                 <HStack alignItems={'center'} space={5}>
                     <Box>
-                        <Icon name='user-circle' color="grey" size={55}
+                        <Icon name='user-circle' color="white" size={65}
                         />
                     </Box>
                     <Box>
@@ -51,14 +52,8 @@ const CustomDrawerContent = props => {
 
             <Box mt={4} ml={2}>
                 <Pressable onPress={() => navigation.navigate('Home')}>
-                    <HStack alignItems={'center'} space={8} ml={3} mt={8}>
-                        <Avatar
-                            icon={{
-                                name: 'person-outline',
-                                type: 'material',
-                                color: Colors.danger,
-                                size: 50,
-                            }}
+                    <HStack alignItems={'center'} space={5} ml={3} mt={8}>
+                        <Icon name='home' color="white" size={25}
                         />
                         <Text color={Colors.white} fontSize={16}>
                             Home

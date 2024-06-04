@@ -17,6 +17,7 @@ const Home = () => {
 
     return (
         <Box ml={2} mt={2}>
+
             <Pressable onPress={openDrawer}>
                 {/* <Avatar icon={{
                     name: 'person-outline',
