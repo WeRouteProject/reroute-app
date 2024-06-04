@@ -14,6 +14,7 @@ import { Colors } from '../Common/Utils/Constants';
 import { Avatar } from 'react-native-elements';
 import CustomDrawerContent from '../Common/CustomDrawerContent';
 import About from '../Pages/About/Index';
+import BottomNav from '../Common/BottomNav';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -110,6 +111,7 @@ const Navigation = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="About" component={About} /> */}
         <Stack.Screen name="Drawer" component={DrawerNavigator} />
+        <Stack.Screen name="Bottom" component={BottomNav} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />

@@ -6,6 +6,7 @@ import { Avatar } from 'react-native-elements';
 import { Colors } from '../../Common/Utils/Constants';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import BottomNav from '../../Common/BottomNav';
 
 const Home = () => {
     const navigation = useNavigation();  // Use the useNavigation hook
@@ -25,6 +26,7 @@ const Home = () => {
                 }} /> */}
                 <Icon name="menu" color="black" size={30} />
             </Pressable>
+
         </Box>
     );
 };

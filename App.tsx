@@ -10,6 +10,7 @@ import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import Navigation from './src/Navigation/Index';
 import Signup from './src/Pages/Signup/Index';
+import BottomNav from './src/Common/BottomNav';
 
 function App(): React.JSX.Element {
   // const [mobileno, setMobileno] = useState('');
