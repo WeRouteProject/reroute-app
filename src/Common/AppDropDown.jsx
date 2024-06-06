@@ -10,13 +10,13 @@ const AppDropDown = ({ value, onChange, renderSelectItems, errorMessage }) => {
             <FormControl isInvalid={hasError}>
                 {/* <FormControl.Label >{label}</FormControl.Label> */}
                 <Select
-                    minWidth="200"
+                    minWidth="300"
                     borderRadius="lg"
                     borderWidth="1"
                     borderColor="#c8eaf3"
                     bgColor="#f0f0f0"
                     mb={14}
-                    m={12}
+                    m={6}
                     selectedValue={value}
                     onValueChange={itemValue => onChange(itemValue)}
                     _selectedItem={{

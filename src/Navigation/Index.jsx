@@ -1,3 +1,4 @@
+/* eslint-disable jsx-quotes */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
 import React from 'react';
@@ -109,9 +110,12 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="About" component={About} /> */}
-        <Stack.Screen name="Drawer" component={DrawerNavigator} />
-        <Stack.Screen name="Bottom" component={BottomNav} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Drawer"
+          component={DrawerNavigator}
+        />
+        <Stack.Screen name='BottomNav' component={BottomNav} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />

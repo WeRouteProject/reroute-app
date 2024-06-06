@@ -3,7 +3,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {
-    createDrawerNavigator,
     DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +10,6 @@ import { Box, Text, Divider, HStack, Pressable } from 'native-base';
 import { Avatar } from 'react-native-elements';
 import { Colors } from './Utils/Constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import home from 'react-native-vector-icons/Entypo';
 
 const CustomDrawerContent = props => {
     const navigation = useNavigation();
@@ -83,6 +81,15 @@ const CustomDrawerContent = props => {
                         {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
                         <Text color={Colors.white} fontSize={16}>
                             Change Password
+                        </Text>
+                    </HStack>
+                </Pressable>
+
+                <Pressable onPress={() => navigation.navigate('Form')}>
+                    <HStack alignItems={'center'} space={8} ml={3} mt={8}>
+                        {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
+                        <Text color={Colors.white} fontSize={16}>
+                            Form
                         </Text>
                     </HStack>
                 </Pressable>

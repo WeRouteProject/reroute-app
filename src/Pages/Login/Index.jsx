@@ -19,7 +19,7 @@ const Login = () => {
   function handleLogin() {
     console.log('login');
     console.log('Remember Me:', rememberMe);
-    navigation.navigate('Home');
+    navigation.navigate('BottomNav');
   }
   function handleSignUp() {
     console.log('SignUp');
