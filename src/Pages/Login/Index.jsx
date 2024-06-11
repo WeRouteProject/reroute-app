@@ -30,7 +30,7 @@ const Login = () => {
       const result = await response.json();
 
       if (response.ok) {
-        console.log('ok');
+        // console.log('ok');
         navigation.navigate('Drawer');
         Alert.alert('Login Successfully');
       } else {
