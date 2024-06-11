@@ -16,6 +16,8 @@ import { Avatar } from 'react-native-elements';
 import CustomDrawerContent from '../Common/CustomDrawerContent';
 import About from '../Pages/About/Index';
 import BottomNav from '../Common/BottomNav';
+import Feedback from '../Pages/Feedback/Index';
+import ChangePassword from '../Pages/ChangePassword/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -87,7 +89,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="Change Password"
-        component={Forgot}
+        component={ChangePassword}
         options={{
           headerShown: false,
           drawerIcon: () => (
@@ -115,11 +117,14 @@ const Navigation = () => {
           name="Drawer"
           component={DrawerNavigator}
         />
-        <Stack.Screen name='BottomNav' component={BottomNav} />
+        {/* <Stack.Screen name='BottomNav' component={BottomNav} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />
         <Stack.Screen name="VerifyCode" component={VerifyCode} />
+        <Stack.Screen name='Feedback' component={Feedback} />
+        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Change Password' component={ChangePassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

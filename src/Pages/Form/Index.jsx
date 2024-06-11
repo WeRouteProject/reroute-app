@@ -1,11 +1,15 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Select, TextArea, Input, ScrollView } from 'native-base';
+import { Box, Select, TextArea, Input, ScrollView, Text } from 'native-base';
 import AppDropDown from '../../Common/AppDropDown';
 import AppCenterLayout from '../../Common/AppCenterLayout';
+import AppButton from '../../Common/AppButton';
+import { useNavigation } from '@react-navigation/native';
 
 const Form = () => {
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedCountry, setSelectedCountryValue] = useState('');
+    const [selectedState, setSelectedStateValue] = useState('');
+    const [selectedCity, setSelectedCityValue] = useState('');
     const [selectedService, setSelectedService] = useState('');
     const [selectedSubService, setSelectedSubService] = useState('');
 
@@ -93,8 +97,16 @@ const Form = () => {
         ],
     };
 
-    const handleChange = (newValue) => {
-        setSelectedValue(newValue);
+
+
+    const handleCountryChange = (newValue) => {
+        setSelectedCountryValue(newValue);
+    };
+    const handleStateChange = (newValue) => {
+        setSelectedStateValue(newValue);
+    };
+    const handleCityChange = (newValue) => {
+        setSelectedCityValue(newValue);
     };
 
     const handleServiceChange = (newValue) => {
@@ -106,18 +118,39 @@ const Form = () => {
         setSelectedSubService(newValue);
     };
 
+    const navigation = useNavigation();
+
+    const handleSubmit = () => {
+        navigation.navigate('Feedback');
+    }
+
     return (
         <AppCenterLayout>
             <ScrollView>
+
                 <Box
-                    alignItems="center" w="100%" p={3}
+                    alignItems="center" w="100%" p={2}
                 >
+                    <Box
+                        mt={10}
+                        alignItems={'center'}
+                    >
+                        <Text
+                            fontSize={25}
+                            color={'#007bff'}
+                            underline
+                            bold
+                        >Your Requirements</Text>
+                    </Box>
                     <Input
                         m={10}
-                        variant={'underlined'}>Name</Input>
+                        variant={'underlined'}
+                        fontSize={18}
+                    >Name</Input>
                     <AppDropDown
-                        value={selectedValue}
-                        onChange={handleChange}
+                        value={selectedCountry}
+                        onChange={handleCountryChange}
+                        placeholder={'Country'}
                         renderSelectItems={() => (
                             options.map(option => (
                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -127,8 +160,20 @@ const Form = () => {
                     />
                     <AppDropDown
 
-                        value={selectedValue}
-                        onChange={handleChange}
+                        value={selectedState}
+                        onChange={handleStateChange}
+                        placeholder={'State'}
+                        renderSelectItems={() => (
+                            options.map(option => (
+                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                            ))
+                        )}
+                        errorMessage="Please select an option"
+                    />
+                    <AppDropDown
+                        value={selectedCity}
+                        onChange={handleCityChange}
+                        placeholder={'City'}
                         renderSelectItems={() => (
                             options.map(option => (
                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -139,6 +184,7 @@ const Form = () => {
                     <AppDropDown
                         value={selectedService}
                         onChange={handleServiceChange}
+                        placeholder={'Our Services'}
                         renderSelectItems={() => (
                             serviceOptions.map(option => (
                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -150,6 +196,20 @@ const Form = () => {
                         <AppDropDown
                             value={selectedSubService}
                             onChange={handleSubServiceChange}
+                            placeholder={'Project Title'}
+                            renderSelectItems={() => (
+                                subServiceOptions[selectedService].map(option => (
+                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                ))
+                            )}
+                            errorMessage="Please select a sub-service"
+                        />
+                    )}
+                    {selectedService && (
+                        <AppDropDown
+                            value={selectedSubService}
+                            onChange={handleSubServiceChange}
+                            placeholder={'Project Title'}
                             renderSelectItems={() => (
                                 subServiceOptions[selectedService].map(option => (
                                     <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -159,7 +219,15 @@ const Form = () => {
                         />
                     )}
 
-                    <TextArea h={20} placeholder="Text Area Placeholder" w="75%" maxW="300" />
+
+                    <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
+
+                    <AppButton
+                        onPress={handleSubmit}
+                        title={'Submit'}
+                        width={'85%'}
+                        mt={60}
+                    />
                 </Box>
             </ScrollView>
         </AppCenterLayout>

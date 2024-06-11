@@ -1,7 +1,7 @@
 /* eslint-disable jsx-quotes */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState } from 'react';
 import {
     DrawerContentScrollView,
 } from '@react-navigation/drawer';
@@ -10,22 +10,25 @@ import { Box, Text, Divider, HStack, Pressable } from 'native-base';
 import { Avatar } from 'react-native-elements';
 import { Colors } from './Utils/Constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/Entypo';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const CustomDrawerContent = props => {
+    const [profilePicture, setProfilePicture] = useState('');
+
     const navigation = useNavigation();
 
     return (
         <DrawerContentScrollView {...props}>
-            <Box ml={3} mb={5}>
+            <Box
+                ml={3}
+                mb={5}
+            // height={200}
+            // width={'100%'}
+            // backgroundColor={Colors.gray}
+            >
                 <Pressable onPress={() => navigation.closeDrawer()} ml={'80%'} p={2}>
-                    <Avatar
-                        icon={{
-                            name: 'person-outline',
-                            type: 'material',
-                            color: Colors.danger,
-                            size: 50,
-                        }}
-                    />
+                    <Icon2 name='cross' color={'white'} size={25} />
                 </Pressable>
                 <HStack alignItems={'center'} space={5}>
                     <Box>
@@ -44,14 +47,14 @@ const CustomDrawerContent = props => {
             <Divider
                 w={250}
                 alignSelf={'center'}
-                mt={4}
+                //mt={4}
                 style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
             />
 
             <Box mt={4} ml={2}>
                 <Pressable onPress={() => navigation.navigate('Home')}>
                     <HStack alignItems={'center'} space={5} ml={3} mt={8}>
-                        <Icon name='home' color="white" size={25}
+                        <Icon name='home' color="white" size={20}
                         />
                         <Text color={Colors.white} fontSize={16}>
                             Home
@@ -104,7 +107,8 @@ const CustomDrawerContent = props => {
 
             <HStack space={8} ml={5}>
                 {/* <AppIcon isCustom name={'logout'} color={colors.white} size={25} /> */}
-                <Text color={Colors.white} fontSize={16}>
+                <Box mt={4}><MaterialIcon name='logout' color={Colors.light} size={20} /></Box>
+                <Text color={Colors.white} fontSize={16} mt={3}>
                     Logout
                 </Text>
             </HStack>

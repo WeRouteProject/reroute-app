@@ -7,6 +7,7 @@ import About from '../Pages/About/Index';
 import Login from '../Pages/Login/Index';
 import Logout from '../Pages/Logout/Index';
 import Forgot from '../Pages/Forgotpw';
+import Form from '../Pages/Form/Index';
 
 
 const Tab = createBottomTabNavigator();
@@ -71,8 +72,8 @@ const BottomNav = () => (
             }}
         />
         <Tab.Screen
-            name="Logout"
-            component={Logout}
+            name="Form"
+            component={Form}
             options={{
                 tabBarLabel: '',
                 // eslint-disable-next-line react/no-unstable-nested-components
@@ -88,7 +89,7 @@ const BottomNav = () => (
                 ),
             }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
             name="Forgot"
             component={Forgot}
             options={{
@@ -105,7 +106,7 @@ const BottomNav = () => (
                     />
                 ),
             }}
-        />
+        /> */}
     </Tab.Navigator>
 );
 

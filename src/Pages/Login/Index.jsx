@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
+import { Alert } from 'react-native';
 import { Checkbox, Box, Text, HStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
@@ -16,13 +17,38 @@ const Login = () => {
 
   const navigation = useNavigation();
 
-  function handleLogin() {
-    console.log('login');
-    console.log('Remember Me:', rememberMe);
-    navigation.navigate('BottomNav');
-  }
+  const handleLogin = async () => {
+    const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/signIn';
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('ok');
+        navigation.navigate('Drawer');
+        Alert.alert('Login Successfully');
+      } else {
+        console.log('not-ok');
+        Alert.alert('Login Failed', result?.message || 'Invalid Credientials');
+      }
+    } catch (error) {
+      Alert.alert('Error');
+    }
+  };
+
+  // function handleLogin() {
+  //   console.log('login');
+  //   console.log('Remember Me:', rememberMe);
+  //   navigation.navigate('Drawer');
+  // }
   function handleSignUp() {
-    console.log('SignUp');
+    console.log('Signup');
     console.log('Remember Me:', rememberMe);
     navigation.navigate('Signup');
   }
@@ -44,7 +70,7 @@ const Login = () => {
             placeholder="Enter your email"
             value={email}
             setValue={setEmail}
-            secureTextEntry={true}
+            secureTextEntry={false}
           />
           <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>Password</Text>
           <AppInput
@@ -72,15 +98,14 @@ const Login = () => {
 
         <AppFooter>
           <Box>
-            <AppButton onPress={handleLogin} title="Login" mt={60} />
+            <AppButton onPress={handleLogin} title="Login" mt={40} />
 
             <HStack mb={4} mt={2} justifyContent={'center'}>
-              <Text color={Colors.dark} fontSize={FontSizes.medium}>Don't have an account? </Text>
-              <Text underline color={Colors.primary} fontSize={FontSizes.medium} onPress={handleSignUp}>Register Now</Text>
+              <Text color={Colors.dark} fontSize={FontSizes.small}>Don't have an account? </Text>
+              <Text underline color={Colors.primary} fontSize={FontSizes.small} onPress={handleSignUp}>Register Now</Text>
             </HStack>
           </Box>
         </AppFooter>
-
       </Box>
     </AppCenterLayout>
   );
