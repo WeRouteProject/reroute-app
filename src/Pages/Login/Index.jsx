@@ -28,7 +28,8 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
       const result = await response.json();
-
+      console.log('Response Status:', response.status);
+      console.log('Response Body:', result);
       if (response.ok) {
         // console.log('ok');
         navigation.navigate('Drawer');

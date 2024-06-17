@@ -15,7 +15,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  //const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigation = useNavigation();
 
@@ -25,15 +25,23 @@ const Signup = () => {
   }
   const handleSignup = async () => {
     const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/signUp';
+    if (!mobile || !email || !name || !password) {
+      Alert.alert('Please fill in all required fields.');
+      return;
+    }
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mobile, email, password }),
+        // body: JSON.stringify({ mobile, email, name, password }),
+        body: JSON.stringify({ mobileno: mobile, email, Name: name, password }),
       });
       const result = await response.json();
+
+      console.log('Response Status:', response.status);
+      console.log('Response Body:', result);
 
       if (response.ok) {
         navigation.navigate('Login');

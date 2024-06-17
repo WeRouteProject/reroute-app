@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Box, Text, HStack } from 'native-base';
+import { Alert } from 'react-native';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,9 +13,9 @@ import AppFooter from '../../Common/AppFooter';
 const Forgot = () => {
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    // const [password, setPassword] = useState('');
+    // const [name, setName] = useState('');
+    // const [confirmPassword, setConfirmPassword] = useState('');
 
     const navigation = useNavigation();
 
@@ -22,6 +23,32 @@ const Forgot = () => {
         console.log('Register');
         navigation.navigate('Login');
     }
+
+    const handleSendCode = async () => {
+        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/otp-generate';
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+            const result = await response.json();
+            console.log('Response Status:', response.status);
+            console.log('Response Body:', result);
+            if (response.ok) {
+                // console.log('ok');
+                navigation.navigate('VerifyCode');
+                Alert.alert('Otp sent on registered mail id');
+            } else {
+                console.log('not-ok');
+                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+            }
+        } catch (error) {
+            Alert.alert('Error');
+        }
+    };
 
     return (
         <AppCenterLayout>
@@ -53,7 +80,7 @@ const Forgot = () => {
 
                 <AppFooter>
                     <Box mt={70}>
-                        <AppButton title={'Send Code'} onPress={handleSignup} mt={36} />
+                        <AppButton title={'Send Code'} onPress={handleSendCode} mt={36} />
                     </Box>
                 </AppFooter>
             </Box>
