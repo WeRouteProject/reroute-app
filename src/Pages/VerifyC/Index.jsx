@@ -8,10 +8,12 @@ import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
+import { Alert } from 'react-native';
 
 const VerifyCode = () => {
 
     const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
     // const [password, setPassword] = useState('');
     // const [name, setName] = useState('');
     // const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,6 +24,34 @@ const VerifyCode = () => {
         console.log('Register');
         //navigation.navigate('Login');
     }
+
+    const navigation = useNavigation();
+    const handleVerifyCode = async () => {
+        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/verify-otp';
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, otp }),
+            });
+            const result = await response.json();
+            console.log('Response Status:', response.status);
+            console.log('Response Body:', result);
+            if (response.ok) {
+                // console.log('ok');
+                navigation.navigate('Change Password');
+                Alert.alert('Otp sent on registered mail id');
+            } else {
+                console.log('not-ok');
+                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+            }
+        } catch (error) {
+            Alert.alert('Error');
+        }
+    };
+
 
     return (
         <AppCenterLayout>
@@ -40,9 +70,16 @@ const VerifyCode = () => {
                     </Text>
 
                     <AppInput
-                        placeholder="Enter your verification code"
+                        placeholder="Enter your Email Address"
                         value={email}
                         setValue={setEmail}
+                        icon={<Icon name="heart" size={20} color="red" />}
+                    />
+
+                    <AppInput
+                        placeholder="Enter your verification code"
+                        value={otp}
+                        setValue={setOtp}
                         icon={<Icon name="heart" size={20} color="red" />}
                     />
                 </Box>
@@ -54,7 +91,7 @@ const VerifyCode = () => {
 
                 <AppFooter>
                     <Box mt={70}>
-                        <AppButton title={'Verify'} onPress={handleSignup} mt={36} />
+                        <AppButton title={'Verify'} onPress={handleVerifyCode} mt={36} />
                     </Box>
                 </AppFooter>
             </Box>
