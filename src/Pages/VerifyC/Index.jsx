@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Text, HStack } from 'native-base';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
@@ -9,6 +9,7 @@ import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
 import { Alert } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
 const VerifyCode = () => {
 
@@ -20,10 +21,21 @@ const VerifyCode = () => {
 
     // const navigation = useNavigation();
 
+
+
     function handleSignup() {
         console.log('Register');
         //navigation.navigate('Login');
     }
+
+    const route = useRoute();
+    const initialEmail = route.params?.email;
+
+    useEffect(() => {
+        if (initialEmail) {
+            setEmail(initialEmail);
+        }
+    }, [initialEmail]);
 
     const navigation = useNavigation();
     const handleVerifyCode = async () => {
@@ -40,12 +52,12 @@ const VerifyCode = () => {
             console.log('Response Status:', response.status);
             console.log('Response Body:', result);
             if (response.ok) {
-                // console.log('ok');
-                navigation.navigate('Change Password');
-                Alert.alert('Otp sent on registered mail id');
+                const { token } = result;
+                Alert.alert('Success', 'OTP verified successfully.');
+                navigation.navigate('Change Password', { token });
             } else {
                 console.log('not-ok');
-                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+                Alert.alert('Error', result?.message || 'Invalid credentials.');
             }
         } catch (error) {
             Alert.alert('Error');
@@ -74,6 +86,7 @@ const VerifyCode = () => {
                         value={email}
                         setValue={setEmail}
                         icon={<Icon name="heart" size={20} color="red" />}
+                        editable={false}
                     />
 
                     <AppInput
@@ -98,4 +111,4 @@ const VerifyCode = () => {
         </AppCenterLayout>
     );
 };
-export default VerifyCode;        
+export default VerifyCode;

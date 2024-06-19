@@ -9,26 +9,38 @@ import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 
 const ChangePassword = () => {
-    const [oldPassword, setOldPassword] = useState('');
+    //const [token, setToken] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setconfirmNewPassword] = useState('');
 
-    // function handleChangePassword() {
-    //     console.log('change password');
-    // }
-
     const navigation = useNavigation();
 
+    const route = useRoute();
+    const { token } = route.params?.token;
+
     const handleChangePassword = async () => {
+
+        if (!newPassword || !confirmNewPassword) {
+            Alert.alert('Error', 'Please fill in both password fields.');
+            return;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            Alert.alert('Error', 'Passwords do not match.');
+            return;
+        }
+
         const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/update-pass';
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ newPassword, confirmNewPassword }),
             });
@@ -36,9 +48,8 @@ const ChangePassword = () => {
             console.log('Response Status:', response.status);
             console.log('Response Body:', result);
             if (response.ok) {
-                // console.log('ok');
-                navigation.navigate('Change Password');
-                Alert.alert('password changed successfully');
+                Alert.alert('Success', 'Password changed successfully.');
+                navigation.navigate('Login');
             } else {
                 console.log('not-ok');
                 Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');

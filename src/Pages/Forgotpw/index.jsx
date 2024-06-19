@@ -39,7 +39,7 @@ const Forgot = () => {
             console.log('Response Body:', result);
             if (response.ok) {
                 // console.log('ok');
-                navigation.navigate('VerifyCode');
+                navigation.navigate('VerifyCode', { email });
                 Alert.alert('Otp sent on registered mail id');
             } else {
                 console.log('not-ok');

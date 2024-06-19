@@ -3,7 +3,7 @@ import React from 'react';
 import { Input, InputRightElement } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import icons from react-native-vector-icons
 
-const AppInput = ({ value, setValue, placeholder, secureTextEntry, iconName }) => {
+const AppInput = ({ value, setValue, placeholder, secureTextEntry, iconName, editable }) => {
   return (
     <Input
       borderRadius="lg"
@@ -15,6 +15,7 @@ const AppInput = ({ value, setValue, placeholder, secureTextEntry, iconName }) =
       value={value}
       onChangeText={setValue} // Use onChangeText instead of setValue for NativeBase Input component
       secureTextEntry={secureTextEntry}
+      editable={editable}
     >
       {iconName && ( // Render icon if provided
         <InputRightElement>
