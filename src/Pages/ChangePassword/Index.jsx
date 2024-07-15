@@ -37,7 +37,7 @@ const ChangePassword = () => {
         const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/update-pass';
         try {
             const response = await fetch(apiUrl, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,

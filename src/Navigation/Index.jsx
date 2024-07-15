@@ -18,6 +18,7 @@ import About from '../Pages/About/Index';
 import BottomNav from '../Common/BottomNav';
 import Feedback from '../Pages/Feedback/Index';
 import ChangePassword from '../Pages/ChangePassword/Index';
+import UserProfile from '../Pages/User-Profile/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,7 +29,7 @@ const DrawerNavigator = () => {
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          backgroundColor: Colors.primary,
+          backgroundColor: Colors.logo,
           borderTopRightRadius: 12,
           borderBottomRightRadius: 12,
         },
@@ -125,6 +126,7 @@ const Navigation = () => {
         <Stack.Screen name='Feedback' component={Feedback} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Change Password' component={ChangePassword} />
+        <Stack.Screen name='user-profile' component={UserProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
