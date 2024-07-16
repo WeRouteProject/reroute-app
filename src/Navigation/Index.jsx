@@ -118,7 +118,7 @@ const Navigation = () => {
           name="Drawer"
           component={DrawerNavigator}
         />
-        {/* <Stack.Screen name='BottomNav' component={BottomNav} /> */}
+        <Stack.Screen name='BottomNav' component={BottomNav} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />
