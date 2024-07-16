@@ -10,7 +10,7 @@ const Home = () => {
     const navigation = useNavigation();  // Use the useNavigation hook
 
     const openDrawer = () => {
-        navigation.openDrawer();
+        navigation.navigate('Drawer');
         // navigation.dispatch(DrawerActions.openDrawer());  // Correctly call the openDrawer method
     };
 
@@ -29,5 +29,4 @@ const Home = () => {
         </Box >
     );
 };
-
 export default Home;
