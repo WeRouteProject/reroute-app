@@ -32,7 +32,7 @@ const Login = () => {
       console.log('Response Body:', result);
       if (response.ok) {
         // console.log('ok');
-        navigation.navigate('BottomNav');
+        navigation.navigate('Drawer');
         Alert.alert('Login Successfully');
       } else {
         console.log('not-ok');

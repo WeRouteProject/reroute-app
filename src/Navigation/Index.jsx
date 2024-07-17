@@ -1,24 +1,22 @@
-/* eslint-disable jsx-quotes */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Login from '../Pages/Login/Index';
-import Signup from '../Pages/Signup/Index';
-import Home from '../Pages/Home/Index';
-import Form from '../Pages/Form/Index';
-import Forgot from '../Pages/Forgotpw';
-import VerifyCode from '../Pages/VerifyC/Index';
 import { Colors } from '../Common/Utils/Constants';
 import { Avatar } from 'react-native-elements';
 import CustomDrawerContent from '../Common/CustomDrawerContent';
-import About from '../Pages/About/Index';
-import BottomNav from '../Common/BottomNav';
+import Login from '../Pages/Login/Index';
+import Signup from '../Pages/Signup/Index';
+import Form from '../Pages/Form/Index';
+import Forgot from '../Pages/Forgotpw';
+import VerifyCode from '../Pages/VerifyC/Index';
 import Feedback from '../Pages/Feedback/Index';
-import ChangePassword from '../Pages/ChangePassword/Index';
 import UserProfile from '../Pages/User-Profile/Index';
+import BottomNav from '../Common/BottomNav';
+import About from '../Pages/About/Index';
+import ChangePassword from '../Pages/ChangePassword/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -29,7 +27,7 @@ const DrawerNavigator = () => {
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          backgroundColor: Colors.logo,
+          backgroundColor: Colors.ButtonColor,
           borderTopRightRadius: 12,
           borderBottomRightRadius: 12,
         },
@@ -38,31 +36,14 @@ const DrawerNavigator = () => {
         },
       }}>
       <Drawer.Screen
-        name="Home"
-        component={Home}
+        name="BottomNav"
+        component={BottomNav}
         options={{
           headerShown: false,
           drawerIcon: () => (
             <Avatar
               icon={{
-                name: 'person-outline',
-                type: 'material',
-                color: Colors.danger,
-                size: 50,
-              }}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: false,
-          drawerIcon: () => (
-            <Avatar
-              icon={{
-                name: 'person-outline',
+                name: 'home',
                 type: 'material',
                 color: Colors.danger,
                 size: 50,
@@ -79,7 +60,7 @@ const DrawerNavigator = () => {
           drawerIcon: () => (
             <Avatar
               icon={{
-                name: 'person-outline',
+                name: 'info',
                 type: 'material',
                 color: Colors.danger,
                 size: 50,
@@ -89,14 +70,14 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="Change Password"
+        name="ChangePassword"
         component={ChangePassword}
         options={{
           headerShown: false,
           drawerIcon: () => (
             <Avatar
               icon={{
-                name: 'person-outline',
+                name: 'lock',
                 type: 'material',
                 color: Colors.danger,
                 size: 50,
@@ -114,78 +95,16 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen
-          name="Drawer"
-          component={DrawerNavigator}
-        />
-        <Stack.Screen name='BottomNav' component={BottomNav} />
+        <Stack.Screen name="Drawer" component={DrawerNavigator} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />
         <Stack.Screen name="VerifyCode" component={VerifyCode} />
-        <Stack.Screen name='Feedback' component={Feedback} />
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Change Password' component={ChangePassword} />
-        <Stack.Screen name='user-profile' component={UserProfile} />
+        <Stack.Screen name="Feedback" component={Feedback} />
+        <Stack.Screen name="user-profile" component={UserProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default Navigation;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /* eslint-disable prettier/prettier */
-// import React from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import Login from '../Pages/Login/Index';
-// import Signup from '../Pages/Signup/Index';
-// import Home from '../Pages/Home/Index';
-// import Form from '../Pages/Form/Index';
-// import Forgot from '../Pages/Forgotpw';
-// import VerifyCode from '../Pages/VerifyC/Index';
-// import About from '../Pages/About/Index';
-
-// const Navigation = () => {
-//   const Stack = createNativeStackNavigator();
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator screenOptions={{ headerShown: false }}>
-//         <Stack.Screen name="Login" component={Login} />
-//         <Stack.Screen name="Home" component={Home} />
-//         <Stack.Screen name="Signup" component={Signup} />
-//         <Stack.Screen name="Form" component={Form} />
-//         <Stack.Screen name="Forgot" component={Forgot} />
-//         <Stack.Screen name="VerifyCode" component={VerifyCode} />
-//         <Stack.Screen name="About" component={About} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// };
-
-// export default Navigation;
