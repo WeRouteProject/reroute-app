@@ -3,9 +3,12 @@ import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, Alert } from 'react-native';
 import { Box, Text, Image, VStack, HStack, Button } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/short.png';
+import AppHeader from '../../Common/AppHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const About = () => {
     const { height } = useWindowDimensions();
+    const navigation = useNavigation();
 
     const handleContactUsPress = () => {
         Alert.alert(
@@ -22,7 +25,12 @@ const About = () => {
     };
 
     return (
+        <Box>
+                <AppHeader title='About Us' navigation={navigation} showBack />
+
+
         <ScrollView contentContainerStyle={styles.container}>
+
             {/* Box component to contain the logo */}
             <Box alignItems="center" style={styles.logoContainer}>
                 <Image
@@ -50,6 +58,7 @@ const About = () => {
                 </HStack>
             </VStack>
         </ScrollView>
+        </Box>
     );
 };
 
