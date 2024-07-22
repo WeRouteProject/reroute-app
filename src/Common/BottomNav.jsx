@@ -18,7 +18,7 @@ const BottomNav = () => (
         screenOptions={{
             headerShown: false,
             tabBarStyle: {
-                backgroundColor: Colors.ButtonColor, // Your preferred background color
+                backgroundColor: Colors.primary, // Your preferred background color
                 paddingBottom: 5,
                 height: 50,
                 margin: 20,

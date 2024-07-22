@@ -27,7 +27,7 @@ const DrawerNavigator = () => {
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          backgroundColor: Colors.ButtonColor,
+          backgroundColor: Colors.primary,
           borderTopRightRadius: 12,
           borderBottomRightRadius: 12,
         },
@@ -36,7 +36,7 @@ const DrawerNavigator = () => {
         },
       }}>
       <Drawer.Screen
-        name="BottomNav"
+        name="Home"
         component={BottomNav}
         options={{
           headerShown: false,
