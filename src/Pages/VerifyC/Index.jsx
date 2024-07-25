@@ -20,9 +20,6 @@ const VerifyCode = () => {
     // const [confirmPassword, setConfirmPassword] = useState('');
 
     // const navigation = useNavigation();
-
-
-
     function handleSignup() {
         console.log('Register');
         //navigation.navigate('Login');

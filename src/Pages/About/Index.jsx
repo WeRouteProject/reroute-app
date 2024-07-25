@@ -5,6 +5,7 @@ import { Box, Text, Image, VStack, HStack, Button } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/short.png';
 import AppHeader from '../../Common/AppHeader';
 import { useNavigation } from '@react-navigation/native';
+import { Colors } from '../../Common/Utils/Constants';
 
 const About = () => {
     const { height } = useWindowDimensions();
@@ -64,19 +65,72 @@ const About = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
+        flex: 1,
+        backgroundColor: Colors.white, // Elegant light background
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 16,
         backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0,0,0,0.1)',
     },
-    // Style for the Box component containing the logo
-    logoContainer: {
-        marginBottom: 0, // Adjust the margin bottom to remove the white space
+    scrollContent: {
+        flexGrow: 1,
+        padding: 16,
     },
-    logo: {
+    mainContainer: {
+        backgroundColor: '#F0F8FF',
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
+        marginBottom: 20,
+    },
+    aboutImage: {
         width: '100%',
-        maxWidth: 200,
-        maxHeight: 200,
+        height: 200,
+        resizeMode: 'contain',
+        borderRadius: 10,
+    },
+    learnMoreButton: {
+        backgroundColor: '#4a69bd',
+        borderRadius: 30,
+        paddingVertical: 12,
+    },
+    sectionContainer: {
+        backgroundColor: '#F0F8FF',
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
+        marginBottom: 20,
+    },
+    visionMissionBox: {
+        flex: 1,
+        backgroundColor: '#f7f9fc',
+        borderRadius: 15,
+        padding: 20,
+        borderWidth: 1,
+        borderColor: '#e1e8ed',
+        justifyContent: 'center',
         alignItems: 'center',
+    },
+    infoBox: {
+        backgroundColor: '#f7f9fc',
+        borderRadius: 15,
+        padding: 20,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: '#e1e8ed',
     },
 });
 
