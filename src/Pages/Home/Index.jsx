@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
 import { Box, Text, Image, VStack, HStack, Button } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/short.png';
+import HappinessChart from '../../components/HappinessChart';
 
 const Home = () => {
     const navigation = useNavigation();
@@ -40,6 +41,11 @@ const Home = () => {
                     alt="image not found"
                 />
             </HStack>
+
+            <Box style={styles.chartContainer}>
+                {/* <Text style={styles.title}>The Happiest Countries in the World</Text> */}
+                <HappinessChart />
+            </Box>
         </Box>
     );
 };
@@ -60,6 +66,12 @@ const styles = StyleSheet.create({
         maxHeight: 200,
         alignItems: 'center',
     },
+    title: {
+        alignItems: 'center',
+        fontSize: 20,
+        fontWeight: '700',
+        paddingBottom: 5,
+    }
 });
 
 export default Home;
