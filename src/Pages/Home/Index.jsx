@@ -1,13 +1,9 @@
-import {Box} from 'native-base';
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Text, TouchableOpacity} from 'react-native';
-
-const Home = () => {
-  const navigation = useNavigation();
 import { TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
-import { Box, Text, Image, VStack, HStack, Button } from 'native-base';
+import { Box, Image, HStack, Text } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/short.png';
 import HappinessChart from '../../components/HappinessChart';
 
@@ -15,51 +11,37 @@ const Home = () => {
     const navigation = useNavigation();
     const { height } = useWindowDimensions();
 
-  const openDrawer = () => {
-    // Try using dispatch with DrawerActions
-    navigation.dispatch(DrawerActions.openDrawer());
-  };
+    const openDrawer = () => {
+        navigation.dispatch(DrawerActions.openDrawer());
+    };
 
-  return (
-    <Box ml={2} mt={2}>
-      <TouchableOpacity onPress={openDrawer}>
-        <Icon name="menu" color="black" size={24} />
-      </TouchableOpacity>
-      <Text style={{fontSize: 30}}>Home</Text>
-    </Box>
-  );
-};
-
-export default Home;
     return (
-
-        // <Box alignItems="center" style={styles.logoContainer}>
-        //     <Image
-        //         source={Logo}
-        //         style={[styles.logo, { height: height * 0.25 }]}
-        //         resizeMode="contain"
-        //         alt="image not found"
-        //     />
-        // </Box>
-
-        <Box ml={4} mt={2}>
-            <HStack>
+        <>
+            {/* <Box ml={2} mt={2}>
                 <TouchableOpacity onPress={openDrawer}>
-                    <Icon name="menu" color="black" size={28} />
+                    <Icon name="menu" color="black" size={24} />
                 </TouchableOpacity>
-                <Image
-                    source={Logo}
-                    style={[styles.logo, { height: height * 0.15 }]}
-                    resizeMode="contain"
-                    alt="image not found"
-                />
-            </HStack>
+                <Text style={{ fontSize: 30 }}>Home</Text>
+            </Box> */}
 
-            <Box style={styles.chartContainer}>
-                {/* <Text style={styles.title}>The Happiest Countries in the World</Text> */}
-                <HappinessChart />
+            <Box ml={4} mt={2}>
+                <HStack>
+                    <TouchableOpacity onPress={openDrawer}>
+                        <Icon name="menu" color="black" size={28} />
+                    </TouchableOpacity>
+                    <Image
+                        source={Logo}
+                        style={[styles.logo, { height: height * 0.15 }]}
+                        resizeMode="contain"
+                        alt="image not found"
+                    />
+                </HStack>
+
+                <Box style={styles.chartContainer}>
+                    <HappinessChart />
+                </Box>
             </Box>
-        </Box>
+        </>
     );
 };
 
@@ -69,9 +51,8 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#fff',
     },
-    // Style for the Box component containing the logo
     logoContainer: {
-        marginBottom: 0, // Adjust the margin bottom to remove the white space
+        marginBottom: 0,
     },
     logo: {
         width: '100%',
@@ -84,7 +65,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         paddingBottom: 5,
-    }
+    },
+    chartContainer: {
+        padding: 16,
+    },
 });
 
 export default Home;
