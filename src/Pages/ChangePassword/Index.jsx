@@ -20,44 +20,44 @@ const ChangePassword = () => {
     const navigation = useNavigation();
 
     const route = useRoute();
-    const { token } = route.params?.token;
+    // const { token } = route.params?.token;
 
-    const handleChangePassword = async () => {
+    // const handleChangePassword = async () => {
 
-        if (!newPassword || !confirmNewPassword) {
-            Alert.alert('Error', 'Please fill in both password fields.');
-            return;
-        }
+    //     if (!newPassword || !confirmNewPassword) {
+    //         Alert.alert('Error', 'Please fill in both password fields.');
+    //         return;
+    //     }
 
-        if (newPassword !== confirmNewPassword) {
-            Alert.alert('Error', 'Passwords do not match.');
-            return;
-        }
+    //     if (newPassword !== confirmNewPassword) {
+    //         Alert.alert('Error', 'Passwords do not match.');
+    //         return;
+    //     }
 
-        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/update-pass';
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ newPassword, confirmNewPassword }),
-            });
-            const result = await response.json();
-            console.log('Response Status:', response.status);
-            console.log('Response Body:', result);
-            if (response.ok) {
-                Alert.alert('Success', 'Password changed successfully.');
-                navigation.navigate('Login');
-            } else {
-                console.log('not-ok');
-                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
-            }
-        } catch (error) {
-            Alert.alert('Error');
-        }
-    };
+    //     const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/update-pass';
+    //     try {
+    //         const response = await fetch(apiUrl, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`,
+    //             },
+    //             body: JSON.stringify({ newPassword, confirmNewPassword }),
+    //         });
+    //         const result = await response.json();
+    //         console.log('Response Status:', response.status);
+    //         console.log('Response Body:', result);
+    //         if (response.ok) {
+    //             Alert.alert('Success', 'Password changed successfully.');
+    //             navigation.navigate('Login');
+    //         } else {
+    //             console.log('not-ok');
+    //             Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+    //         }
+    //     } catch (error) {
+    //         Alert.alert('Error');
+    //     }
+    // };
 
     return (
         <AppCenterLayout>
@@ -95,7 +95,7 @@ const ChangePassword = () => {
                 </Box>
                 <AppFooter>
                     <Box>
-                        <AppButton onPress={handleChangePassword} title="Change Password" mt={20} />
+                        <AppButton  title="Change Password" mt={20} />
                     </Box>
                 </AppFooter>
             </Box>
