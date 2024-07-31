@@ -62,8 +62,8 @@ const BottomNav = () => (
             }}
         />
         <Tab.Screen
-            name="ChangePassword"
-            component={ChangePassword}
+            name="Form"
+            component={Form}
             options={{
                 tabBarIcon: ({ focused }) => (
                     <Box style={styles.iconContainer}>
