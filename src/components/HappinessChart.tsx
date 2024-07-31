@@ -7,10 +7,12 @@ import { mean, rollups } from 'd3-array';
 import { forceSimulation, forceX, forceY, forceCollide, Simulation } from 'd3-force';
 import { happinessData as data } from '../data/happiness_data';
 import Legend from './Legend';
+import { Colors, FontSizes } from '../Common/Utils/Constants';
+import { Box } from 'native-base';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-const CHART_WIDTH = screenWidth * 0.9;
-const CHART_HEIGHT = screenHeight * 0.6;
+const CHART_WIDTH = screenWidth * 0.8;
+const CHART_HEIGHT = screenHeight * 0.3;
 const MARGIN = { top: 40, right: 20, bottom: 40, left: 80 };
 
 interface Node {
@@ -70,7 +72,7 @@ export default function HappinessChart() {
             <Legend colorScale={colorScale} />
             <View style={styles.chartContainer}>
                 <Svg width={CHART_WIDTH} height={CHART_HEIGHT}>
-                    <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill="#f5f5f5" />
+                    <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill={Colors.lightGray} />
                     <G>
                         {/* X-axis */}
                         <Line
@@ -114,22 +116,23 @@ export default function HappinessChart() {
                         ))}
                     </G>
                     {/* X-axis label */}
-                    <SvgText x={CHART_WIDTH / 2} y={CHART_HEIGHT - 5} textAnchor="middle" fill="#333" fontSize="10">
+                    <SvgText x={CHART_WIDTH / 2} y={CHART_HEIGHT - 10} textAnchor="middle" fill="#333" fontSize="12">
                         Happiness out of 10 →
                     </SvgText>
                     {/* Y-axis labels */}
                     {continents.map((continent, i) => (
-                        <SvgText
+                        <Text
                             key={i}
-                            x={5}
-                            y={yScale(continent)! + yScale.bandwidth() / 2}
-                            textAnchor="start"
-                            alignmentBaseline="middle"
-                            fill="#333"
-                            fontSize="8"
+                            style={styles.ytextstyle}
+                        //x={5}
+                        //y={yScale(continent)! + yScale.bandwidth() / 1}
+                        //textAnchor="start"
+                        //alignmentBaseline="middle"
+                        //fill={Colors.black}
+                        //fontSize={FontSizes.tiny}
                         >
                             {continent}
-                        </SvgText>
+                        </Text>
                     ))}
                 </Svg>
             </View>
@@ -141,8 +144,9 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor: '#fff',
+        backgroundColor: Colors.uniqueButton,
         paddingVertical: 10,
+        borderRadius: 10,
     },
     title: {
         fontSize: 16,
@@ -152,9 +156,17 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     chartContainer: {
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderWidth: 2,
+        borderColor: Colors.uniqueButton,
+        // opacity: 5,
+        shadowOpacity: 5,
         borderRadius: 5,
         overflow: 'hidden',
     },
+    ytextstyle: {
+        color: Colors.black,
+        fontSize: FontSizes.tiny,
+        marginStart: 12,
+        marginTop: 28,
+    }
 });

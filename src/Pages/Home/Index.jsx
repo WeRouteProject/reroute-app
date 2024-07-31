@@ -6,27 +6,27 @@ import { TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native'
 import { Box, Image, HStack, Text } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import HappinessChart from '../../components/HappinessChart';
+import { Colors } from '../../Common/Utils/Constants';
 
 const Home = () => {
     const navigation = useNavigation();
-    const { height } = useWindowDimensions();
 
     const openDrawer = () => {
         navigation.dispatch(DrawerActions.openDrawer());
     };
 
     return (
-        <Box >
-            <HStack alignItems="center" space={4}>
+        <Box safeArea>
+            <HStack alignItems="center" space={4} px={4} py={2}>
                 <TouchableOpacity onPress={openDrawer}>
                     <Icon name="menu" color="black" size={28} />
                 </TouchableOpacity>
                 <Box flex={1} alignItems="center">
                     <Image
                         source={Logo}
-                        style={[styles.logo, { height: height * 0.25 }]}
+                        style={styles.logo}
                         resizeMode="contain"
-                        alt="image not found"
+                        alt="WeRoute logo"
                     />
                 </Box>
             </HStack>
@@ -39,26 +39,13 @@ const Home = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    logoContainer: {
-        marginBottom: 0,
-    },
     logo: {
-        width: '110%',
-        alignItems: 'center',
-    },
-    title: {
-        alignItems: 'center',
-        fontSize: 20,
-        fontWeight: '700',
-        paddingBottom: 5,
+        width: '80%',
+        height: 40,
     },
     chartContainer: {
-        padding: 16,
+        padding: 10,
+        //backgroundColor: Colors.logo
     },
 });
 
