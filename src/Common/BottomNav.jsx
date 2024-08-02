@@ -13,6 +13,7 @@ import { Colors } from './Utils/Constants';
 import { Box } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
+
 const Tab = createBottomTabNavigator();
 
 const BottomNav = () => (
@@ -34,6 +35,7 @@ const BottomNav = () => (
             tabBarShowLabel: false,
             tabBarBackground: () => (
                 <LinearGradient
+                    //colors={['#1E3B70', '#29539B']}
                     colors={['#182B3A', '#1E3B70']} // Define your gradient colors here
                     style={{ flex: 1, borderRadius: 30 }}
                 />

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, Alert, View } from 'react-native';
@@ -8,7 +9,26 @@ import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 
+const GradientButton = ({ onPress, children }) => (
+    <Button
+        onPress={onPress}
+        style={styles.learnMoreButton}
+        p={0}
+        overflow="hidden"
+    >
+        <LinearGradient
+            colors={['#1E3B70', '#29539B']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12 }}
+        >
+            {children}
+        </LinearGradient>
+    </Button>
+);
 const About = ({ navigation }) => {
+
+
     const { width } = useWindowDimensions();
 
     const handleLearnMorePress = () => {
@@ -112,16 +132,16 @@ const About = ({ navigation }) => {
                     </Box>
                 </LinearGradient>
 
-                <Box style={styles.infoBox}>
-                    <HStack>
-                        <Button onPress={handleLearnMorePress} style={styles.learnMoreButton}>
-                            <Text color="white" bold>Learn more</Text>
-                        </Button>
-                        <Button onPress={handleLearnMorePress} style={styles.learnMoreButton}>
-                            <Text color="white" bold>Learn more</Text>
-                        </Button>
-                    </HStack>
-                </Box>
+
+                <HStack justifyContent="center" space={4} marginBottom={10}>
+                    <GradientButton onPress={handleLearnMorePress}>
+                        <Text color="white" bold>Learn more</Text>
+                    </GradientButton>
+                    <GradientButton onPress={handleLearnMorePress}>
+                        <Text color="white" bold>Contact us</Text>
+                    </GradientButton>
+                </HStack>
+
             </ScrollView>
         </View>
     );
