@@ -1,16 +1,19 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Dimensions, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Dimensions, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Svg, { Circle, G, Text as SvgText, Line, Rect } from 'react-native-svg';
 import { scaleLinear, scaleBand, scaleOrdinal, scaleSqrt } from 'd3-scale';
 import { mean, rollups } from 'd3-array';
 import { forceSimulation, forceX, forceY, forceCollide, Simulation } from 'd3-force';
 import { happinessData as data } from '../data/happiness_data';
 import Legend from './Legend';
+import { Colors, FontSizes } from '../Common/Utils/Constants';
+import { Box } from 'native-base';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-const CHART_WIDTH = screenWidth * 0.9;
-const CHART_HEIGHT = screenHeight * 0.6;
+const CHART_WIDTH = screenWidth * 0.8;
+const CHART_HEIGHT = screenHeight * 0.3;
 const MARGIN = { top: 40, right: 20, bottom: 40, left: 80 };
 
 interface Node {
@@ -42,7 +45,7 @@ export default function HappinessChart() {
 
     const xScale = scaleLinear().domain([1, 9]).range([MARGIN.left, CHART_WIDTH - MARGIN.right]);
     const yScale = scaleBand().domain(continents).range([MARGIN.top, CHART_HEIGHT - MARGIN.bottom]).padding(0.2);
-    const radiusScale = scaleSqrt().domain([1, 9]).range([2, 8]);
+    const radiusScale = scaleSqrt().domain([2, 9]).range([4, 6]);
 
     const simulationRef = React.useRef<Simulation<Node, undefined> | null>(null);
 
@@ -70,7 +73,7 @@ export default function HappinessChart() {
             <Legend colorScale={colorScale} />
             <View style={styles.chartContainer}>
                 <Svg width={CHART_WIDTH} height={CHART_HEIGHT}>
-                    <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill="#f5f5f5" />
+                    <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill={Colors.lightGray} />
                     <G>
                         {/* X-axis */}
                         <Line
@@ -79,16 +82,16 @@ export default function HappinessChart() {
                             x2={CHART_WIDTH - MARGIN.right}
                             y2={CHART_HEIGHT - MARGIN.bottom}
                             stroke="#333"
-                            strokeWidth={1}
+                            strokeWidth={2}
                         />
                         {/* Y-axis */}
                         <Line
                             x1={MARGIN.left}
-                            y1={MARGIN.top}
+                            y1={MARGIN.top - 10}
                             x2={MARGIN.left}
-                            y2={CHART_HEIGHT - MARGIN.bottom}
+                            y2={CHART_HEIGHT - MARGIN.bottom + 1}
                             stroke="#333"
-                            strokeWidth={1}
+                            strokeWidth={2}
                         />
                         {nodes.map((node, i) => (
                             <React.Fragment key={i}>
@@ -114,22 +117,28 @@ export default function HappinessChart() {
                         ))}
                     </G>
                     {/* X-axis label */}
-                    <SvgText x={CHART_WIDTH / 2} y={CHART_HEIGHT - 5} textAnchor="middle" fill="#333" fontSize="10">
+                    <SvgText
+                        x={CHART_WIDTH / 1.5}
+                        y={CHART_HEIGHT - 10}
+                        textAnchor="middle"
+                        fill="#333"
+                        fontSize="12">
                         Happiness out of 10 →
                     </SvgText>
                     {/* Y-axis labels */}
                     {continents.map((continent, i) => (
-                        <SvgText
+                        <Text
                             key={i}
-                            x={5}
-                            y={yScale(continent)! + yScale.bandwidth() / 2}
-                            textAnchor="start"
-                            alignmentBaseline="middle"
-                            fill="#333"
-                            fontSize="8"
+                            style={styles.ytextstyle}
+                        //x={5}
+                        //y={yScale(continent)! + yScale.bandwidth() / 1}
+                        //textAnchor="start"
+                        //alignmentBaseline="middle"
+                        //fill={Colors.black}
+                        //fontSize={FontSizes.tiny}
                         >
                             {continent}
-                        </SvgText>
+                        </Text>
                     ))}
                 </Svg>
             </View>
@@ -141,8 +150,9 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor: '#fff',
+        backgroundColor: Colors.uniqueButton,
         paddingVertical: 10,
+        borderRadius: 10,
     },
     title: {
         fontSize: 16,
@@ -152,9 +162,18 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     chartContainer: {
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderWidth: 2,
+        borderColor: Colors.uniqueButton,
+        // opacity: 5,
+        shadowOpacity: 5,
         borderRadius: 5,
         overflow: 'hidden',
     },
+    ytextstyle: {
+        color: Colors.dark,
+        fontSize: FontSizes.tiny,
+        marginStart: 18,
+        marginTop: 28,
+        gap: 1.5
+    }
 });

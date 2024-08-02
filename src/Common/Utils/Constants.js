@@ -15,6 +15,7 @@ export const Colors = {
   danger: '#dc3545',
   title: '#4b6798',
   ButtonColor: '#2895bc',
+  uniqueButton: '#4a69bd',
 };
 
 export const FontSizes = {
@@ -23,4 +24,5 @@ export const FontSizes = {
   medium: 14,
   large: 16,
   xlarge: 18,
+  xxlarge: 24,
 };

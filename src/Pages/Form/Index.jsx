@@ -5,6 +5,7 @@ import AppDropDown from '../../Common/AppDropDown';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
+import AppHeader from '../../Common/AppHeader';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -125,112 +126,108 @@ const Form = () => {
     }
 
     return (
-        <AppCenterLayout>
-            <ScrollView>
-
-                <Box
-                    alignItems="center" w="100%" p={2}
-                >
+        <><Box>
+            <AppHeader
+                navigation={navigation}
+                title="New Requirement" />
+        </Box><AppCenterLayout>
+                <ScrollView>
                     <Box
-                        mt={10}
-                        alignItems={'center'}
+                        alignItems="center" w="100%" p={2}
                     >
-                        <Text
-                            fontSize={25}
-                            color={'#007bff'}
-                            underline
-                            bold
-                        >Your Requirements</Text>
+                        {/* <Box
+                            mt={10}
+                            alignItems={'center'}
+                        >
+                            <Text
+                                fontSize={25}
+                                color={'#007bff'}
+                                underline
+                                bold
+                            >Your Requirements</Text>
+                        </Box> */}
+                        <Input
+                            m={8}
+                            variant={'underlined'}
+                            fontSize={18}
+                        >Name</Input>
+                        <AppDropDown
+                            value={selectedCountry}
+                            onChange={handleCountryChange}
+                            placeholder={'Country'}
+                            renderSelectItems={() => (
+                                options.map(option => (
+                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                ))
+                            )}
+                            errorMessage="Please select an option" />
+                        <AppDropDown
+
+                            value={selectedState}
+                            onChange={handleStateChange}
+                            placeholder={'State'}
+                            renderSelectItems={() => (
+                                options.map(option => (
+                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                ))
+                            )}
+                            errorMessage="Please select an option" />
+                        <AppDropDown
+                            value={selectedCity}
+                            onChange={handleCityChange}
+                            placeholder={'City'}
+                            renderSelectItems={() => (
+                                options.map(option => (
+                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                ))
+                            )}
+                            errorMessage="Please select an option" />
+                        <AppDropDown
+                            value={selectedService}
+                            onChange={handleServiceChange}
+                            placeholder={'Our Services'}
+                            renderSelectItems={() => (
+                                serviceOptions.map(option => (
+                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                ))
+                            )}
+                            errorMessage="Please select a service" />
+                        {selectedService && (
+                            <AppDropDown
+                                value={selectedSubService}
+                                onChange={handleSubServiceChange}
+                                placeholder={'Project Title'}
+                                renderSelectItems={() => (
+                                    subServiceOptions[selectedService].map(option => (
+                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    ))
+                                )}
+                                errorMessage="Please select a sub-service" />
+                        )}
+                        {selectedService && (
+                            <AppDropDown
+                                value={selectedSubService}
+                                onChange={handleSubServiceChange}
+                                placeholder={'Project Title'}
+                                renderSelectItems={() => (
+                                    subServiceOptions[selectedService].map(option => (
+                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    ))
+                                )}
+                                errorMessage="Please select a sub-service" />
+                        )}
+
+
+                        <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
+
+                        <AppButton
+                            onPress={handleSubmit}
+                            title={'Submit'}
+                            width={'85%'}
+                            mt={60} />
                     </Box>
-                    <Input
-                        m={10}
-                        variant={'underlined'}
-                        fontSize={18}
-                    >Name</Input>
-                    <AppDropDown
-                        value={selectedCountry}
-                        onChange={handleCountryChange}
-                        placeholder={'Country'}
-                        renderSelectItems={() => (
-                            options.map(option => (
-                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                            ))
-                        )}
-                        errorMessage="Please select an option"
-                    />
-                    <AppDropDown
-
-                        value={selectedState}
-                        onChange={handleStateChange}
-                        placeholder={'State'}
-                        renderSelectItems={() => (
-                            options.map(option => (
-                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                            ))
-                        )}
-                        errorMessage="Please select an option"
-                    />
-                    <AppDropDown
-                        value={selectedCity}
-                        onChange={handleCityChange}
-                        placeholder={'City'}
-                        renderSelectItems={() => (
-                            options.map(option => (
-                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                            ))
-                        )}
-                        errorMessage="Please select an option"
-                    />
-                    <AppDropDown
-                        value={selectedService}
-                        onChange={handleServiceChange}
-                        placeholder={'Our Services'}
-                        renderSelectItems={() => (
-                            serviceOptions.map(option => (
-                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                            ))
-                        )}
-                        errorMessage="Please select a service"
-                    />
-                    {selectedService && (
-                        <AppDropDown
-                            value={selectedSubService}
-                            onChange={handleSubServiceChange}
-                            placeholder={'Project Title'}
-                            renderSelectItems={() => (
-                                subServiceOptions[selectedService].map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select a sub-service"
-                        />
-                    )}
-                    {selectedService && (
-                        <AppDropDown
-                            value={selectedSubService}
-                            onChange={handleSubServiceChange}
-                            placeholder={'Project Title'}
-                            renderSelectItems={() => (
-                                subServiceOptions[selectedService].map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select a sub-service"
-                        />
-                    )}
-
-
-                    <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
-
-                    <AppButton
-                        onPress={handleSubmit}
-                        title={'Submit'}
-                        width={'85%'}
-                        mt={60}
-                    />
-                </Box>
-            </ScrollView>
-        </AppCenterLayout>
+                </ScrollView>
+            </AppCenterLayout></>
     );
 }
 
