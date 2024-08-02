@@ -22,7 +22,7 @@ export const happinessData: HappinessData[] = [
         happiness: 3.471,
         continent: 'Africa',
     },
-    
+
     // Asia
     {
         country: 'Afghanistan',
@@ -56,7 +56,7 @@ export const happinessData: HappinessData[] = [
         happiness: 5.173,
         continent: 'Europe',
     },
-    
+
     // South America
     {
         country: 'Venezuela',
@@ -73,7 +73,7 @@ export const happinessData: HappinessData[] = [
         happiness: 5.578,
         continent: 'South America',
     },
-    
+
     // North America
     {
         country: 'Dominican Republic',
@@ -106,5 +106,5 @@ export const happinessData: HappinessData[] = [
         country: 'Fiji',
         happiness: 6.196,
         continent: 'Oceania',
-    }
+    },
 ];

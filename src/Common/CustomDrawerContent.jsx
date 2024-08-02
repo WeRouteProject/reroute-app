@@ -26,9 +26,6 @@ const CustomDrawerContent = props => {
                 <Box
                     ml={3}
                     mb={5}
-                // height={200}
-                // width={'100%'}
-                // backgroundColor={Colors.gray}
                 >
                     <Pressable onPress={() => navigation.closeDrawer()} ml={'80%'} p={2}>
                         <Icon2 name='cross' color={'white'} size={25} />

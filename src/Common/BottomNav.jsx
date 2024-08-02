@@ -11,6 +11,7 @@ import Form from '../Pages/Form/Index';
 import Signup from '../Pages/Signup/Index';
 import { Colors } from './Utils/Constants';
 import { Box } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ const BottomNav = () => (
         screenOptions={{
             headerShown: false,
             tabBarStyle: {
-                backgroundColor: '#3262a8',
+                //backgroundColor: '#3262a8',
                 height: 50,
                 position: 'absolute',
                 left: 20,
@@ -31,7 +32,12 @@ const BottomNav = () => (
                 borderTopWidth: 0,
             },
             tabBarShowLabel: false,
-            tabBarBackground: () => null,
+            tabBarBackground: () => (
+                <LinearGradient
+                    colors={['#182B3A', '#1E3B70']} // Define your gradient colors here
+                    style={{ flex: 1, borderRadius: 30 }}
+                />
+            ),
         }}>
         <Tab.Screen
             name="Home"

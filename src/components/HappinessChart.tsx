@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     ytextstyle: {
-        color: Colors.dark,
+        color: Colors.black,
         fontSize: FontSizes.tiny,
         marginStart: 18,
         marginTop: 28,
