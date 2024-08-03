@@ -17,6 +17,7 @@ import UserProfile from '../Pages/User-Profile/Index';
 import BottomNav from '../Common/BottomNav';
 import About from '../Pages/About/Index';
 import ChangePassword from '../Pages/ChangePassword/Index';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -24,10 +25,17 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      drawerContent={props => <CustomDrawerContent {...props} />}
+      drawerContent={props => (
+        <LinearGradient
+          colors={['#182B3A', '#1E3B70']}
+          style={{ flex: 1, borderTopRightRadius: 12, borderBottomRightRadius: 12 }}
+        >
+          <CustomDrawerContent {...props} />
+        </LinearGradient>
+      )}
       screenOptions={{
         drawerStyle: {
-          backgroundColor: Colors.primary,
+          // backgroundColor: Colors.primary,
           borderTopRightRadius: 12,
           borderBottomRightRadius: 12,
         },
