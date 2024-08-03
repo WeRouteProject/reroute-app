@@ -10,13 +10,12 @@ const AppDropDown = ({ value, onChange, renderSelectItems, placeholder }) => {
             <FormControl >
                 {/* <FormControl.Label >{label}</FormControl.Label> */}
                 <Select
-                    minWidth="300"
-                    borderRadius="lg"
-                    borderWidth="1"
-                    borderColor="#c8eaf3"
-                    bgColor="#f0f0f0"
-                    mb={14}
-                    m={6}
+                    minWidth="250"
+                    borderRadius="20"
+                    borderWidth="2.5"
+                    borderColor="#CDE8E5"
+                    bgColor="#F6F5F2"
+                    mb={1}
                     selectedValue={value}
                     placeholder={placeholder}
                     onValueChange={itemValue => onChange(itemValue)}
@@ -90,3 +89,6 @@ export default AppDropDown;
 // }
 
 // export default AppDropDown;
+
+
+// add a strong shadow in this design

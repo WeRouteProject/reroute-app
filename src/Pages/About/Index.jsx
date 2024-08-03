@@ -8,24 +8,9 @@ import AboutLogo from '../../Common/Utils/assets/images/aboutus.png';
 import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
+import { GradientButton } from '../../Common/Utils/GradientButton';
 
-const GradientButton = ({ onPress, children }) => (
-    <Button
-        onPress={onPress}
-        style={styles.learnMoreButton}
-        p={0}
-        overflow="hidden"
-    >
-        <LinearGradient
-            colors={['#1E3B70', '#29539B']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12 }}
-        >
-            {children}
-        </LinearGradient>
-    </Button>
-);
+
 const About = ({ navigation }) => {
 
 
@@ -43,9 +28,6 @@ const About = ({ navigation }) => {
             <AppHeader
                 navigation={navigation}
                 title="About Us"
-            // showBack={true}
-            // showTickMark={false}
-            // onBackPress={() => navigation.goBack()}
             />
 
             <ScrollView contentContainerStyle={styles.scrollContent}>

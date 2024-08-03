@@ -1,11 +1,16 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Select, TextArea, Input, ScrollView, Text } from 'native-base';
+import { Box, FormControl, Select, TextArea, Input, ScrollView, Text, VStack } from 'native-base';
+import { StyleSheet, View } from 'react-native';
 import AppDropDown from '../../Common/AppDropDown';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../Common/AppHeader';
+import LinearGradient from 'react-native-linear-gradient';
+import { Colors } from '../../Common/Utils/Constants';
+import { GradientButton } from '../../Common/Utils/GradientButton';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -126,109 +131,250 @@ const Form = () => {
     }
 
     return (
-        <><Box>
+        <View style={styles.container}>
             <AppHeader
                 navigation={navigation}
-                title="New Requirement" />
-        </Box><AppCenterLayout>
-                <ScrollView>
-                    <Box
-                        alignItems="center" w="100%" p={2}
-                    >
-                        {/* <Box
-                            mt={10}
-                            alignItems={'center'}
-                        >
-                            <Text
-                                fontSize={25}
-                                color={'#007bff'}
-                                underline
-                                bold
-                            >Your Requirements</Text>
-                        </Box> */}
-                        <Input
-                            m={8}
-                            variant={'underlined'}
-                            fontSize={18}
-                        >Name</Input>
-                        <AppDropDown
-                            value={selectedCountry}
-                            onChange={handleCountryChange}
-                            placeholder={'Country'}
-                            renderSelectItems={() => (
-                                options.map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select an option" />
-                        <AppDropDown
-
-                            value={selectedState}
-                            onChange={handleStateChange}
-                            placeholder={'State'}
-                            renderSelectItems={() => (
-                                options.map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select an option" />
-                        <AppDropDown
-                            value={selectedCity}
-                            onChange={handleCityChange}
-                            placeholder={'City'}
-                            renderSelectItems={() => (
-                                options.map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select an option" />
-                        <AppDropDown
-                            value={selectedService}
-                            onChange={handleServiceChange}
-                            placeholder={'Our Services'}
-                            renderSelectItems={() => (
-                                serviceOptions.map(option => (
-                                    <Select.Item key={option.value} label={option.label} value={option.value} />
-                                ))
-                            )}
-                            errorMessage="Please select a service" />
-                        {selectedService && (
+                title="New Requirement"
+            />
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                <LinearGradient
+                    colors={['#1E3B70', '#29539B']} // Define your gradient colors here
+                    style={styles.sectionContainer}
+                >
+                    <Box>
+                        <VStack space={4} alignItems="stretch">
+                            <Input
+                                placeholder="Name"
+                                bg="white"
+                                borderRadius="lg"
+                            />
                             <AppDropDown
-                                value={selectedSubService}
-                                onChange={handleSubServiceChange}
-                                placeholder={'Project Title'}
+                                value={selectedCountry}
+                                onChange={handleCountryChange}
+                                placeholder={'Country'}
                                 renderSelectItems={() => (
-                                    subServiceOptions[selectedService].map(option => (
+                                    options.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
                                     ))
                                 )}
-                                errorMessage="Please select a sub-service" />
-                        )}
-                        {selectedService && (
+                                errorMessage="Please select an option" />
                             <AppDropDown
-                                value={selectedSubService}
-                                onChange={handleSubServiceChange}
-                                placeholder={'Project Title'}
+
+                                value={selectedState}
+                                onChange={handleStateChange}
+                                placeholder={'State'}
                                 renderSelectItems={() => (
-                                    subServiceOptions[selectedService].map(option => (
+                                    options.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
                                     ))
                                 )}
-                                errorMessage="Please select a sub-service" />
-                        )}
-
-
-                        <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
-
-                        <AppButton
-                            onPress={handleSubmit}
-                            title={'Submit'}
-                            width={'85%'}
-                            mt={60} />
+                                errorMessage="Please select an option" />
+                            <AppDropDown
+                                value={selectedCity}
+                                onChange={handleCityChange}
+                                placeholder={'City'}
+                                renderSelectItems={() => (
+                                    options.map(option => (
+                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    ))
+                                )}
+                                errorMessage="Please select an option" />
+                            <AppDropDown
+                                value={selectedService}
+                                onChange={handleServiceChange}
+                                placeholder={'Our Services'}
+                                renderSelectItems={() => (
+                                    serviceOptions.map(option => (
+                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    ))
+                                )}
+                                errorMessage="Please select a service" />
+                            {selectedService && (
+                                <AppDropDown
+                                    value={selectedSubService}
+                                    onChange={handleSubServiceChange}
+                                    placeholder={'Project Title'}
+                                    renderSelectItems={() => (
+                                        subServiceOptions[selectedService].map(option => (
+                                            <Select.Item key={option.value} label={option.label} value={option.value} />
+                                        ))
+                                    )}
+                                    errorMessage="Please select a sub-service" />
+                            )}
+                            {selectedService && (
+                                <AppDropDown
+                                    value={selectedSubService}
+                                    onChange={handleSubServiceChange}
+                                    placeholder={'Project Title'}
+                                    renderSelectItems={() => (
+                                        subServiceOptions[selectedService].map(option => (
+                                            <Select.Item key={option.value} label={option.label} value={option.value} />
+                                        ))
+                                    )}
+                                    errorMessage="Please select a sub-service" />
+                            )}
+                            <TextArea
+                                h={20}
+                                placeholder="Brief your requirement"
+                                w="100%"
+                                maxW="300"
+                                backgroundColor={'#FDF4F5'}
+                                mt={2} />
+                        </VStack>
                     </Box>
-                </ScrollView>
-            </AppCenterLayout></>
+                </LinearGradient>
+
+                {/* <AppButton
+                    onPress={handleSubmit}
+                    title={'Submit'}
+                    width={'85%'}
+                    mt={30} /> */}
+
+                <GradientButton onPress={handleSubmit}>
+                    <Text color="white" bold>Submit</Text>
+                </GradientButton>
+            </ScrollView>
+
+        </View>
     );
-}
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    gradientBackground: {
+        flex: 1,
+    },
+    scrollContent: {
+        flexGrow: 1,
+        padding: 16,
+    },
+    formContainer: {
+        backgroundColor: Colors.white,
+        borderRadius: 20,
+        padding: 20,
+        marginBottom: 20,
+    },
+    sectionContainer: {
+        backgroundColor: '#E6E6FA',
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 4,
+        elevation: 8,
+        marginBottom: 20,
+    },
+});
+
 
 export default Form;
+//     return (
+//         <><Box>
+//             <AppHeader
+//                 navigation={navigation}
+//                 title="New Requirement" />
+//         </Box><AppCenterLayout>
+//                 <ScrollView>
+//                     <Box
+//                         alignItems="center" w="100%" p={2}
+//                     >
+//                         {/* <Box
+//                             mt={10}
+//                             alignItems={'center'}
+//                         >
+//                             <Text
+//                                 fontSize={25}
+//                                 color={'#007bff'}
+//                                 underline
+//                                 bold
+//                             >Your Requirements</Text>
+//                         </Box> */}
+// <Input
+//     m={8}
+//     variant={'underlined'}
+//     fontSize={18}
+// >Name</Input>
+{/* <AppDropDown
+    value={selectedCountry}
+    onChange={handleCountryChange}
+    placeholder={'Country'}
+    renderSelectItems={() => (
+        options.map(option => (
+            <Select.Item key={option.value} label={option.label} value={option.value} />
+        ))
+    )}
+    errorMessage="Please select an option" />
+<AppDropDown
+
+    value={selectedState}
+    onChange={handleStateChange}
+    placeholder={'State'}
+    renderSelectItems={() => (
+        options.map(option => (
+            <Select.Item key={option.value} label={option.label} value={option.value} />
+        ))
+    )}
+    errorMessage="Please select an option" />
+<AppDropDown
+    value={selectedCity}
+    onChange={handleCityChange}
+    placeholder={'City'}
+    renderSelectItems={() => (
+        options.map(option => (
+            <Select.Item key={option.value} label={option.label} value={option.value} />
+        ))
+    )}
+    errorMessage="Please select an option" />
+<AppDropDown
+    value={selectedService}
+    onChange={handleServiceChange}
+    placeholder={'Our Services'}
+    renderSelectItems={() => (
+        serviceOptions.map(option => (
+            <Select.Item key={option.value} label={option.label} value={option.value} />
+        ))
+    )}
+    errorMessage="Please select a service" />
+{selectedService && (
+    <AppDropDown
+        value={selectedSubService}
+        onChange={handleSubServiceChange}
+        placeholder={'Project Title'}
+        renderSelectItems={() => (
+            subServiceOptions[selectedService].map(option => (
+                <Select.Item key={option.value} label={option.label} value={option.value} />
+            ))
+        )}
+        errorMessage="Please select a sub-service" />
+)}
+{selectedService && (
+    <AppDropDown
+        value={selectedSubService}
+        onChange={handleSubServiceChange}
+        placeholder={'Project Title'}
+        renderSelectItems={() => (
+            subServiceOptions[selectedService].map(option => (
+                <Select.Item key={option.value} label={option.label} value={option.value} />
+            ))
+        )}
+        errorMessage="Please select a sub-service" />
+)}
+ */}
+
+//                         <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
+
+// <AppButton
+//     onPress={handleSubmit}
+//     title={'Submit'}
+//     width={'85%'}
+//     mt={60} />
+// </Box>
+//                 </ScrollView>
+//             </AppCenterLayout></>
+//     );
+// }
+
+// export default Form;
