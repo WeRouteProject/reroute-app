@@ -17,8 +17,8 @@ import Feedback from '../Pages/Feedback/Index';
 import UserProfile from '../Pages/User-Profile/Index';
 import BottomNav from '../Common/BottomNav';
 import About from '../Pages/About/Index';
-import ChangePassword from '../Pages/ChangePassword/Index';
 import LinearGradient from 'react-native-linear-gradient';
+import ChangePasswordScreen from '../Pages/ChangePassword/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -80,7 +80,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="ChangePassword"
-        component={ChangePassword}
+        component={ChangePasswordScreen}
         options={{
           headerShown: false,
           drawerIcon: () => (
@@ -108,9 +108,10 @@ const Navigation = () => {
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Forgot" component={Forgot} />
-        <Stack.Screen name="VerifyCode" component={VerifyCode} />
+        <Stack.Screen name="VerifyOtp" component={VerifyCode} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="user-profile" component={UserProfile} />
+        <Stack.Screen name="change-password" component={ChangePasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

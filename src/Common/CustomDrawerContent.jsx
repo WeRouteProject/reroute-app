@@ -81,7 +81,7 @@ const CustomDrawerContent = props => {
                     </Pressable>
 
 
-                    <Pressable onPress={() => navigation.navigate('Change Password')}>
+                    <Pressable onPress={() => navigation.navigate('change-password')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
                             <MaterialCommunityIcons name='key-alert' color="white" size={20} />

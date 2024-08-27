@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
         fontSize: FontSizes.tiny,
         marginStart: 18,
         marginTop: 28,
-        gap: 1.5
-    }
+        gap: 1.5,
+    },
 });

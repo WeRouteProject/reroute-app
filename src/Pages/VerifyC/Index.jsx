@@ -1,111 +1,124 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
-import { Box, Text, HStack } from 'native-base';
-import AppInput from '../../Common/AppInput';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Box, HStack } from 'native-base';
 import AppButton from '../../Common/AppButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AppHeader from '../../Common/AppHeader';
+import { Colors } from '../../Common/Utils/Constants';
 import { useNavigation } from '@react-navigation/native';
-import AppCenterLayout from '../../Common/AppCenterLayout';
-import { Colors, FontSizes } from '../../Common/Utils/Constants';
-import AppFooter from '../../Common/AppFooter';
-import { Alert } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 
-const VerifyCode = () => {
+const VerifyCode = ({ navigation }) => {
+    const [code, setCode] = useState(['', '', '', '', '', '']);
+    const nav = useNavigation();
 
-    const [email, setEmail] = useState('');
-    const [otp, setOtp] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [name, setName] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
-
-    // const navigation = useNavigation();
-    function handleSignup() {
-        console.log('Register');
-        //navigation.navigate('Login');
-    }
-
-    const route = useRoute();
-    const initialEmail = route.params?.email;
-
-    useEffect(() => {
-        if (initialEmail) {
-            setEmail(initialEmail);
-        }
-    }, [initialEmail]);
-
-    const navigation = useNavigation();
-    const handleVerifyCode = async () => {
-        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/verify-otp';
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, otp }),
-            });
-            const result = await response.json();
-            console.log('Response Status:', response.status);
-            console.log('Response Body:', result);
-            if (response.ok) {
-                const { token } = result;
-                Alert.alert('Success', 'OTP verified successfully.');
-                navigation.navigate('Change Password', { token });
-            } else {
-                console.log('not-ok');
-                Alert.alert('Error', result?.message || 'Invalid credentials.');
-            }
-        } catch (error) {
-            Alert.alert('Error');
-        }
+    const handleCodeChange = (text, index) => {
+        const newCode = [...code];
+        newCode[index] = text;
+        setCode(newCode);
     };
 
+    const handleVerify = () => {
+        // Implement verification logic here
+        console.log('Verifying code:', code.join(''));
+        nav.navigate('change-password');
+    };
+
+    const handleResend = () => {
+        // Implement resend logic here
+        console.log('Resending code');
+    };
 
     return (
-        <AppCenterLayout>
-            <Box
-                backgroundColor={Colors.white}
-                h={'100%'}
-                width={'100%'}
-                mt={20}
-                padding={30}>
-                <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'}>
-                    VERIFY CODE
+        <View style={styles.container}>
+            <AppHeader
+                navigation={navigation}
+                title="VERIFY OTP"
+            />
+            {/* <Text style={styles.title}>VERIFY Code</Text> */}
+            <Box style={styles.sub_container}>
+                <Text style={styles.subtitle}>
+                    Enter the verification otp we just sent you on your email address
                 </Text>
-                <Box mt={10}>
-                    <Text fontSize={FontSizes.medium} color={Colors.dark} my={2} mb={8}>
-                        Enter the verfication code we just sent you on your email address
-                    </Text>
-
-                    <AppInput
-                        placeholder="Enter your Email Address"
-                        value={email}
-                        setValue={setEmail}
-                        icon={<Icon name="heart" size={20} color="red" />}
-                        editable={false}
-                    />
-
-                    <AppInput
-                        placeholder="Enter your verification code"
-                        value={otp}
-                        setValue={setOtp}
-                        icon={<Icon name="heart" size={20} color="red" />}
-                    />
-                </Box>
-
-                <HStack mb={5} justifyContent={'flex-start'} ml={2}>
-                    <Text color={Colors.dark} mr={2} fontSize={FontSizes.small}>Didn't receive a code? </Text>
-                    <Text underline color={Colors.primary} fontSize={FontSizes.small} onPress={handleSignup}>Resend</Text>
+                <HStack space={2} justifyContent="center" mt={5}>
+                    {code.map((digit, index) => (
+                        <Box
+                            key={index}
+                            w={10}
+                            h={12}
+                            borderWidth={1}
+                            borderColor="gray.300"
+                            borderRadius="md"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <TextInput
+                                style={styles.codeText}
+                                value={digit}
+                                onChangeText={(text) => handleCodeChange(text, index)}
+                                maxLength={1}
+                                keyboardType="numeric"
+                            />
+                        </Box>
+                    ))}
                 </HStack>
-
-                <AppFooter>
-                    <Box mt={70}>
-                        <AppButton title={'Verify'} onPress={handleVerifyCode} mt={36} />
-                    </Box>
-                </AppFooter>
+                <TouchableOpacity onPress={handleResend}>
+                    <Text style={styles.resendText}>
+                        Did not receive a otp? <Text style={styles.resendLink}>Resend.</Text>
+                    </Text>
+                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <AppButton title="Verify" onPress={handleVerify} />
+                </View>
             </Box>
-        </AppCenterLayout>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
+    sub_container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: Colors.white,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#3366CC',
+        marginTop: 40,
+        marginBottom: 20,
+    },
+    subtitle: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 30,
+
+    },
+    codeText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: "#000"
+    },
+    resendText: {
+        marginTop: 20,
+        color: '#666',
+        textAlign: 'center'
+    },
+    resendLink: {
+        color: Colors.primary,
+        textDecorationLine: 'underline',
+    },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 40,
+        width: '100%',
+        paddingLeft: 30,
+    },
+});
+
 export default VerifyCode;

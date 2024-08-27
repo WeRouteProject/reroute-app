@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Box, Text } from 'native-base';
-import { Alert } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppInput from '../../Common/AppInput';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 
 
-const ChangePassword = () => {
+const ChangePasswordScreen = () => {
     //const [token, setToken] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setconfirmNewPassword] = useState('');
@@ -60,6 +60,7 @@ const ChangePassword = () => {
     // };
 
     return (
+
         <AppCenterLayout>
             <Box
                 backgroundColor={'white'}
@@ -67,8 +68,9 @@ const ChangePassword = () => {
                 h={'100%'}
                 mt={20}
                 p={30}>
-                <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'}>
-                    Change Your Password</Text>
+                <Text style={styles.subtitle}>
+                    Enter the verification otp we just sent you on your email address
+                </Text>
                 <Box mt={10}>
                     {/* <Text fontSize={FontSizes.small} color={Colors.gray} my={2}>Old Password</Text> */}
                     {/* <AppInput
@@ -95,7 +97,7 @@ const ChangePassword = () => {
                 </Box>
                 <AppFooter>
                     <Box>
-                        <AppButton  title="Change Password" mt={20} />
+                        <AppButton title="Change Password" mt={20} />
                     </Box>
                 </AppFooter>
             </Box>
@@ -103,4 +105,52 @@ const ChangePassword = () => {
     );
 };
 
-export default ChangePassword;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
+    sub_container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: Colors.white,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#3366CC',
+        marginTop: 40,
+        marginBottom: 20,
+    },
+    subtitle: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 30,
+
+    },
+    codeText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: "#000"
+    },
+    resendText: {
+        marginTop: 20,
+        color: '#666',
+        textAlign: 'center'
+    },
+    resendLink: {
+        color: Colors.primary,
+        textDecorationLine: 'underline',
+    },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 40,
+        width: '100%',
+        paddingLeft: 30,
+    },
+});
+
+
+export default ChangePasswordScreen;

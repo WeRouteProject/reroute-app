@@ -12,6 +12,7 @@ import Signup from '../Pages/Signup/Index';
 import { Colors } from './Utils/Constants';
 import { Box } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
+import UserProfile from '../Pages/User-Profile/Index';
 
 
 const Tab = createBottomTabNavigator();
@@ -84,8 +85,8 @@ const BottomNav = () => (
             }}
         />
         <Tab.Screen
-            name="Signup"
-            component={Signup}
+            name="user-profile"
+            component={UserProfile}
             options={{
                 tabBarIcon: ({ focused }) => (
                     <Box style={styles.iconContainer}>

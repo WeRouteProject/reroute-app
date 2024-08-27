@@ -1,23 +1,37 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-lone-blocks */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, FormControl, Select, TextArea, Input, ScrollView, Text, VStack } from 'native-base';
-import { StyleSheet, View } from 'react-native';
+import { Box, FormControl, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button } from 'native-base';
+import { StyleSheet, View, Alert } from 'react-native';
 import AppDropDown from '../../Common/AppDropDown';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors } from '../../Common/Utils/Constants';
+import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import { GradientButton } from '../../Common/Utils/GradientButton';
+import * as DocumentPicker from 'react-native-document-picker';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
     const [selectedState, setSelectedStateValue] = useState('');
     const [selectedCity, setSelectedCityValue] = useState('');
     const [selectedService, setSelectedService] = useState('');
+    const [selectedProjectType, setSelectedProjectType] = useState('');
     const [selectedSubService, setSelectedSubService] = useState('');
+    const [jobTitle, setJobTitle] = useState('');
+    const [openings, setOpenings] = useState(1);
+    const [selectedCurrency, setSelectedCurrency] = useState('');
+    const [budget, setBudget] = useState('');
+    const [projectDuration, setProjectDuration] = useState('');
+    const [experience, setExperience] = useState('');
+    const [pdfFile, setPdfFile] = useState(null);
+
+    const navigation = useNavigation();
+
 
     const options = [
         { label: 'Option 1', value: 'option1' },
@@ -26,6 +40,11 @@ const Form = () => {
     ];
 
     const serviceOptions = [
+        { label: 'Project', value: 'Project' },
+        { label: 'Sourcing', value: 'Sourcing' },
+    ];
+
+    const projectTypeOptions = [
         { label: 'Consulting Services', value: 'Consulting Services' },
         { label: 'Software Development Services', value: 'Software Development Services' },
         { label: 'Design Services', value: 'Design Services' },
@@ -78,12 +97,6 @@ const Form = () => {
             { label: 'DevOps and continuous integration/continuous deployment (CI/CD) automation', value: 'DevOps and continuous integration/continuous deployment (CI/CD) automation' },
             { label: 'Cloud security consulting', value: 'Cloud security consulting' },
         ],
-        'Data Analytics Services': [
-            { label: 'Data analysis and visualization', value: 'Data analysis and visualization' },
-            { label: 'Business intelligence consulting', value: 'Business intelligence consulting' },
-            { label: 'Predictive analytics', value: 'Predictive analytics' },
-            { label: 'Data mining and machine learning', value: 'Data mining and machine learning' },
-        ],
         'Cybersecurity Services': [
             { label: 'Cybersecurity assessment and auditing', value: 'Cybersecurity assessment and auditing' },
             { label: 'Security testing and vulnerability assessment', value: 'Security testing and vulnerability assessment' },
@@ -103,20 +116,88 @@ const Form = () => {
         ],
     };
 
+    // Sourcing options
 
+    const currencyOptions = [
+        { label: 'USD', value: 'USD' },
+        { label: 'EUR', value: 'EUR' },
+        { label: 'GBP', value: 'GBP' },
+        { label: 'INR', value: 'INR' },
+        // Add more currencies as needed
+    ];
+
+    const durationOptions = [
+        { label: '1 month', value: '1 month' },
+        { label: '3 months', value: '3 months' },
+        { label: '6 months', value: '6 months' },
+        { label: '1 year', value: '1 year' },
+        { label: 'More than 1 year', value: 'More than 1 year' },
+    ];
+
+    const experienceOptions = Array.from({ length: 25 }, (_, i) => ({
+        label: `${i + 1} ${i === 0 ? 'year' : 'years'}`,
+        value: `${i + 1}`,
+    }));
+
+    const handlePdfUpload = async () => {
+        try {
+            const result = await DocumentPicker.pick({
+                type: [DocumentPicker.types.pdf],
+            });
+
+            const file = result[0]; // DocumentPicker.pick returns an array
+
+            if (file.size > 5 * 1024 * 1024) { // 5 MB
+                Alert.alert('File Too Large', 'The selected file exceeds the 5 MB limit. Please choose a smaller file.');
+                return;
+            }
+
+            Alert.alert('Success', 'PDF file uploaded successfully!');
+        } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+                console.log('User cancelled file picker');
+            } else {
+                console.error('Error picking document: ', err);
+                Alert.alert('Error', 'An error occurred while picking the document. Please try again.');
+            }
+        }
+    };
+    const selectDoc = async () => {
+        try {
+            const results = await DocumentPicker.pick({
+                type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+                allowMultiSelection: true,
+            });
+            console.log(results);
+        } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+                console.log('User cancelled the upload', err);
+            } else {
+                console.log(err);
+            }
+        }
+    };
 
     const handleCountryChange = (newValue) => {
         setSelectedCountryValue(newValue);
     };
+
     const handleStateChange = (newValue) => {
         setSelectedStateValue(newValue);
     };
+
     const handleCityChange = (newValue) => {
         setSelectedCityValue(newValue);
     };
 
     const handleServiceChange = (newValue) => {
         setSelectedService(newValue);
+        setSelectedProjectType('');
+        setSelectedSubService('');
+    };
+
+    const handleProjectTypeChange = (newValue) => {
+        setSelectedProjectType(newValue);
         setSelectedSubService('');
     };
 
@@ -124,11 +205,27 @@ const Form = () => {
         setSelectedSubService(newValue);
     };
 
-    const navigation = useNavigation();
+    const handleCurrencyChange = (newValue) => {
+        setSelectedCurrency(newValue);
+    };
+
+    const handleDurationChange = (newValue) => {
+        setProjectDuration(newValue);
+    };
+
+    const handleExperienceChange = (newValue) => {
+        setExperience(newValue);
+    };
 
     const handleSubmit = () => {
         navigation.navigate('Feedback');
-    }
+    };
+
+    const handleOpeningsChange = (newValue) => {
+        const value = Math.max(1, Math.min(25, newValue));
+        setOpenings(value);
+    };
+
 
     return (
         <View style={styles.container}>
@@ -138,7 +235,7 @@ const Form = () => {
             />
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <LinearGradient
-                    colors={['#1E3B70', '#29539B']} // Define your gradient colors here
+                    colors={['#1E3B70', '#1e5a7c']}
                     style={styles.sectionContainer}
                 >
                     <Box>
@@ -146,7 +243,7 @@ const Form = () => {
                             <Input
                                 placeholder="Name"
                                 bg="white"
-                                borderRadius="lg"
+                                borderRadius={20}
                             />
                             <AppDropDown
                                 value={selectedCountry}
@@ -159,7 +256,6 @@ const Form = () => {
                                 )}
                                 errorMessage="Please select an option" />
                             <AppDropDown
-
                                 value={selectedState}
                                 onChange={handleStateChange}
                                 placeholder={'State'}
@@ -189,52 +285,191 @@ const Form = () => {
                                     ))
                                 )}
                                 errorMessage="Please select a service" />
-                            {selectedService && (
+                            {/* {selectedService === 'Project' && (
                                 <AppDropDown
-                                    value={selectedSubService}
-                                    onChange={handleSubServiceChange}
-                                    placeholder={'Project Title'}
+                                    value={selectedProjectType}
+                                    onChange={handleProjectTypeChange}
+                                    placeholder={'Project Type'}
                                     renderSelectItems={() => (
-                                        subServiceOptions[selectedService].map(option => (
+                                        projectTypeOptions.map(option => (
                                             <Select.Item key={option.value} label={option.label} value={option.value} />
                                         ))
                                     )}
-                                    errorMessage="Please select a sub-service" />
+                                    errorMessage="Please select a project type" />
+                            )} */}
+                            {selectedService === 'Project' && (
+                                <>
+                                    <AppDropDown
+                                        value={selectedProjectType}
+                                        onChange={handleProjectTypeChange}
+                                        placeholder={'Project Type'}
+                                        renderSelectItems={() => (
+                                            projectTypeOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select a project type" />
+                                    {selectedProjectType && (
+                                        <AppDropDown
+                                            value={selectedSubService}
+                                            onChange={handleSubServiceChange}
+                                            placeholder={'Project Title'}
+                                            renderSelectItems={() => (
+                                                subServiceOptions[selectedProjectType].map(option => (
+                                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                                ))
+                                            )}
+                                            errorMessage="Please select a sub-service" />
+                                    )}
+                                    <AppDropDown
+                                        value={projectDuration}
+                                        onChange={handleDurationChange}
+                                        placeholder={'Project Duration'}
+                                        renderSelectItems={() => (
+                                            durationOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select project duration"
+                                    />
+                                    <AppDropDown
+                                        value={selectedCurrency}
+                                        onChange={handleCurrencyChange}
+                                        placeholder={'Currency'}
+                                        borderColor={0}
+                                        renderSelectItems={() => (
+                                            currencyOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select a currency"
+                                    />
+                                    <Input
+                                        // w="50%"
+                                        placeholder="Budget"
+                                        bg="white"
+                                        borderRadius={20}
+                                        keyboardType="default"
+                                        value={budget}
+                                        onChangeText={setBudget}
+                                    />
+                                </>
                             )}
-                            {selectedService && (
-                                <AppDropDown
-                                    value={selectedSubService}
-                                    onChange={handleSubServiceChange}
-                                    placeholder={'Project Title'}
-                                    renderSelectItems={() => (
-                                        subServiceOptions[selectedService].map(option => (
-                                            <Select.Item key={option.value} label={option.label} value={option.value} />
-                                        ))
-                                    )}
-                                    errorMessage="Please select a sub-service" />
+
+                            {selectedService === 'Sourcing' && (
+                                <>
+                                    <Input
+                                        placeholder="Job Title"
+                                        bg="white"
+                                        borderRadius={20}
+                                        value={jobTitle}
+                                        onChangeText={setJobTitle}
+                                    />
+                                    <HStack space={2} alignItems="center">
+                                        <Text color={Colors.white} >No. of Openings:</Text>
+                                        <Button
+                                            onPress={() => handleOpeningsChange(openings - 1)}
+                                            size={FontSizes.tiny}
+                                        >
+                                            -
+                                        </Button>
+                                        <Input
+                                            w="20%"
+                                            placeholder="1"
+                                            bg="white"
+                                            borderRadius={20}
+                                            keyboardType="numeric"
+                                            value={openings.toString()}
+                                            onChangeText={(text) => handleOpeningsChange(parseInt(text, 10) || 1)}
+                                            textAlign="center"
+                                            fontSize={FontSizes.small}
+                                        />
+                                        <Button
+                                            onPress={() => handleOpeningsChange(openings + 1)}
+                                            size={FontSizes.tiny}
+                                        >
+                                            +
+                                        </Button>
+                                    </HStack>
+
+                                    <AppDropDown
+                                        value={selectedCurrency}
+                                        onChange={handleCurrencyChange}
+                                        placeholder={'Currency'}
+                                        renderSelectItems={() => (
+                                            currencyOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select a currency"
+                                    />
+                                    <Input
+                                        // w="50%"
+                                        placeholder="Budget"
+                                        bg="white"
+                                        borderRadius={20}
+                                        keyboardType="default"
+                                        value={budget}
+                                        onChangeText={setBudget}
+                                    />
+                                    <AppDropDown
+                                        value={projectDuration}
+                                        onChange={handleDurationChange}
+                                        placeholder={'Project Duration'}
+                                        renderSelectItems={() => (
+                                            durationOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select project duration"
+                                    />
+                                    <AppDropDown
+                                        value={experience}
+                                        onChange={handleExperienceChange}
+                                        placeholder={'Years of Experience'}
+                                        renderSelectItems={() => (
+                                            experienceOptions.map(option => (
+                                                <Select.Item key={option.value} label={option.label} value={option.value} />
+                                            ))
+                                        )}
+                                        errorMessage="Please select years of experience"
+                                    />
+                                    {/* <GradientButton onPress={handlePdfUpload}>
+                                        <Text color="white" bold>Upload PDF</Text>
+                                    </GradientButton>
+                                    {pdfFile && (
+                                        <Text>File uploaded: {pdfFile.name}</Text>
+                                    )} */}
+
+                                    <HStack space={2} alignItems="center">
+                                        <Text color={Colors.white}>Upload JD (Job description): </Text>
+                                        <Button
+                                            onPress={handlePdfUpload}
+                                            startIcon={<Icon name="attachment" color={Colors.white} size={20} />}
+                                            bg="transparent"
+                                            _text={{ color: Colors.white }}
+                                        >
+                                            {pdfFile ? 'Change File' : 'Upload'}
+                                        </Button>
+                                    </HStack>
+                                    <View style={{ marginHorizontal: 40 }}>
+                                        <Button title="Select Document" onPress={handlePdfUpload} />
+                                    </View>
+                                </>
                             )}
                             <TextArea
                                 h={20}
                                 placeholder="Brief your requirement"
                                 w="100%"
-                                maxW="300"
-                                backgroundColor={'#FDF4F5'}
+                                maxW="350"
+                                backgroundColor={Colors.white}
                                 mt={2} />
                         </VStack>
                     </Box>
                 </LinearGradient>
 
-                {/* <AppButton
-                    onPress={handleSubmit}
-                    title={'Submit'}
-                    width={'85%'}
-                    mt={30} /> */}
-
-                <GradientButton onPress={handleSubmit}>
-                    <Text color="white" bold>Submit</Text>
-                </GradientButton>
+                <AppButton onPress={handleSubmit} title="Submit" mt={40} />
             </ScrollView>
-
         </View>
     );
 };
@@ -243,21 +478,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    gradientBackground: {
-        flex: 1,
-    },
     scrollContent: {
         flexGrow: 1,
-        padding: 16,
-    },
-    formContainer: {
-        backgroundColor: Colors.white,
-        borderRadius: 20,
-        padding: 20,
-        marginBottom: 20,
+        //marginTop: 10,
+        padding: 15,
+        // paddingStart: 10,
+        // paddingTop: 10,
+        //paddingEnd: 10,
+        //paddingLeft: 10,
     },
     sectionContainer: {
-        backgroundColor: '#E6E6FA',
+        //backgroundColor: '#E6E6FA',
         borderRadius: 20,
         padding: 20,
         shadowColor: '#000',
@@ -265,10 +496,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 4,
         elevation: 8,
-        marginBottom: 20,
+        marginBottom: 15,
     },
 });
-
 
 export default Form;
 //     return (

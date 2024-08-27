@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import {Alert} from 'react-native';
-import {Box, Text, HStack} from 'native-base';
-import {useNavigation} from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { Box, Text, HStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
-import {Colors, FontSizes} from '../../Common/Utils/Constants';
+import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
 import AppCheckbox from '../../Common/AppCheckbox';
-import {useAuth} from '../../Context/AuthProvider';
+import { useAuth } from '../../Context/AuthProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
@@ -16,12 +17,12 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const navigation = useNavigation();
-  const {login} = useAuth();
+  const { login } = useAuth();
   useEffect(() => {
     const getRememberedUser = async () => {
       const credentials = await AsyncStorage.getItem('credentials');
       if (credentials) {
-        const {email, password} = JSON.parse(credentials);
+        const { email, password } = JSON.parse(credentials);
         setEmail(email);
         setPassword(password);
         setRememberMe(true);
@@ -40,7 +41,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email, password}),
+        body: JSON.stringify({ email, password }),
       });
       const result = await response.json();
       console.log('Response Status:', response.status);
