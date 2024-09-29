@@ -1,14 +1,14 @@
-/* eslint-disable eol-last */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Text, HStack } from 'native-base';
-import { Alert } from 'react-native';
+import { Box, Text, HStack, Image } from 'native-base';
+import { Alert, StyleSheet } from 'react-native';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
+import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 
 const Signup = () => {
   const [mobile, setMobile] = useState('');
@@ -59,9 +59,15 @@ const Signup = () => {
         backgroundColor={Colors.white}
         h={'100%'}
         width={'100%'}
-        mt={20}
+        mt={8}
         padding={30}>
-        <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'}>
+        <Image
+          source={Logo}
+          style={styles.logo}
+          resizeMode="contain"
+          alt="WeRoute logo"
+        />
+        <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={3}>
           REGISTRATION
         </Text>
         <Box mt={10}>
@@ -103,20 +109,11 @@ const Signup = () => {
             setValue={setPassword}
             secureTextEntry={true}
           />
-          {/* <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
-            Confirm Password
-          </Text>
-          <AppInput
-            placeholder={'Confirm your password'}
-            value={confirmPassword}
-            setValue={setConfirmPassword}
-            secureTextEntry={true}
-          /> */}
         </Box>
 
         <AppButton title={'Create an account'} onPress={handleSignup} mt={36} />
 
-        <HStack mb={4} mt={6} justifyContent={'center'}>
+        <HStack mb={4} mt={2} justifyContent={'center'}>
           <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
           <Text underline color={Colors.primary} onPress={handleLogin}>Login</Text>
         </HStack>
@@ -124,5 +121,16 @@ const Signup = () => {
     </AppCenterLayout>
   );
 };
+
+const styles = StyleSheet.create({
+  logo: {
+    width: '100%',
+    height: 40,
+  },
+  chartContainer: {
+    padding: 10,
+    //backgroundColor: Colors.logo
+  },
+});
 
 export default Signup;

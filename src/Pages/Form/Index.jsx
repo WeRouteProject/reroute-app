@@ -1,19 +1,13 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-lone-blocks */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, FormControl, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button } from 'native-base';
-import { StyleSheet, View, Alert } from 'react-native';
+import { Box, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button } from 'native-base';
+import { StyleSheet, View } from 'react-native';
 import AppDropDown from '../../Common/AppDropDown';
-import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
-import { GradientButton } from '../../Common/Utils/GradientButton';
-import * as DocumentPicker from 'react-native-document-picker';
-import Icon from 'react-native-vector-icons/Entypo';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -28,7 +22,6 @@ const Form = () => {
     const [budget, setBudget] = useState('');
     const [projectDuration, setProjectDuration] = useState('');
     const [experience, setExperience] = useState('');
-    const [pdfFile, setPdfFile] = useState(null);
 
     const navigation = useNavigation();
 
@@ -139,44 +132,6 @@ const Form = () => {
         value: `${i + 1}`,
     }));
 
-    const handlePdfUpload = async () => {
-        try {
-            const result = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf],
-            });
-
-            const file = result[0]; // DocumentPicker.pick returns an array
-
-            if (file.size > 5 * 1024 * 1024) { // 5 MB
-                Alert.alert('File Too Large', 'The selected file exceeds the 5 MB limit. Please choose a smaller file.');
-                return;
-            }
-
-            Alert.alert('Success', 'PDF file uploaded successfully!');
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                console.log('User cancelled file picker');
-            } else {
-                console.error('Error picking document: ', err);
-                Alert.alert('Error', 'An error occurred while picking the document. Please try again.');
-            }
-        }
-    };
-    const selectDoc = async () => {
-        try {
-            const results = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
-                allowMultiSelection: true,
-            });
-            console.log(results);
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                console.log('User cancelled the upload', err);
-            } else {
-                console.log(err);
-            }
-        }
-    };
 
     const handleCountryChange = (newValue) => {
         setSelectedCountryValue(newValue);
@@ -441,7 +396,7 @@ const Form = () => {
                                         <Text>File uploaded: {pdfFile.name}</Text>
                                     )} */}
 
-                                    <HStack space={2} alignItems="center">
+                                    {/* <HStack space={2} alignItems="center">
                                         <Text color={Colors.white}>Upload JD (Job description): </Text>
                                         <Button
                                             onPress={handlePdfUpload}
@@ -454,7 +409,7 @@ const Form = () => {
                                     </HStack>
                                     <View style={{ marginHorizontal: 40 }}>
                                         <Button title="Select Document" onPress={handlePdfUpload} />
-                                    </View>
+                                    </View> */}
                                 </>
                             )}
                             <TextArea
@@ -527,6 +482,7 @@ export default Form;
 //     variant={'underlined'}
 //     fontSize={18}
 // >Name</Input>
+// eslint-disable-next-line no-lone-blocks
 {/* <AppDropDown
     value={selectedCountry}
     onChange={handleCountryChange}

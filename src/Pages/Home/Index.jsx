@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Box, Image, HStack, Text } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import HappinessChart from '../../components/HappinessChart';

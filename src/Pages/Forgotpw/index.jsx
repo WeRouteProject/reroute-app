@@ -13,10 +13,6 @@ import AppFooter from '../../Common/AppFooter';
 const Forgot = () => {
 
     const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [name, setName] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
-
     const navigation = useNavigation();
 
     function handleSignup() {
@@ -39,7 +35,7 @@ const Forgot = () => {
             console.log('Response Body:', result);
             if (response.ok) {
                 // console.log('ok');
-                navigation.navigate('VerifyCode', { email });
+                navigation.navigate('VerifyOtp', { email });
                 Alert.alert('Otp sent on registered mail id');
             } else {
                 console.log('not-ok');

@@ -19,6 +19,7 @@ import BottomNav from '../Common/BottomNav';
 import About from '../Pages/About/Index';
 import LinearGradient from 'react-native-linear-gradient';
 import ChangePasswordScreen from '../Pages/ChangePassword/Index';
+import Starter from '../Pages/Starter/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();

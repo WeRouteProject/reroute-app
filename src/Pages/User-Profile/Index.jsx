@@ -19,7 +19,6 @@ const UserProfile = () => {
         fetchUserData();
     }, []);
 
-
     const fetchUserData = async () => {
         try {
             // Replace this with your actual API call
@@ -31,7 +30,7 @@ const UserProfile = () => {
             }
 
             const response = await fetch(
-                'https://backend-sec-weroute.onrender.com/backend_sec/User/signIn',
+                'https://backend-sec-weroute.onrender.com/backend_sec/User/user-profile',
                 {
                     method: 'GET',
                     headers: {
@@ -40,11 +39,17 @@ const UserProfile = () => {
                     },
                 },
             );
+            if (!response.ok) {
+                throw new Error('Failed to fetch user profile');
+            }
+
             const data = await response.json();
-            setUserData(data);
+            console.log('User Data:', data);
+            setUserData(data.response);
             setLoading(false);
+
         } catch (error) {
-            Alert.alert('Error', 'Failed to fetch user data');
+            Alert.alert('Error', error.message || 'Failed to fetch user data');
             setLoading(false);
         }
     };
@@ -53,10 +58,32 @@ const UserProfile = () => {
         return <Text>Loading...</Text>;
     }
 
-    const verifyOtp = () => {
-        // console.log('VerifyCode');
-        navigation.navigate('VerifyOtp');
+    const handleSendCode = async () => {
+        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/otp-generate';
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: userData.email }),
+            });
+            const result = await response.json();
+            console.log('Response Status:', response.status);
+            console.log('Response Body:', result);
+            if (response.ok) {
+                // console.log('ok');
+                navigation.navigate('VerifyOtp', { email: userData.email });
+                Alert.alert('Otp sent on registered mail id');
+            } else {
+                console.log('not-ok');
+                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+            }
+        } catch (error) {
+            Alert.alert('Error');
+        }
     };
+
 
     return (
         <><AppHeader
@@ -95,14 +122,14 @@ const UserProfile = () => {
                             Name
                         </Text>
                         <AppInput
-                            value={userData?.Email || ''}
+                            value={userData?.name || ''}
                             editable={false} />
 
                         <Text fontSize={FontSizes.medium} color={Colors.gray}>
                             Email address
                         </Text>
                         <AppInput
-                            value={userData?.Email || ''}
+                            value={userData?.email || ''}
                             editable={false} />
 
                         <Text fontSize={FontSizes.medium} color={Colors.gray}>
@@ -113,7 +140,7 @@ const UserProfile = () => {
                                 <AppInput value="+91" editable={false} />
                             </Box>
                             <Box width="80%">
-                                <AppInput value={userData?.mobileno || ''} editable={false} />
+                                <AppInput value={userData?.mobileNo ? userData.mobileNo.toString() : ''} editable={false} /> {/* Ensure correct casing */}
                             </Box>
                         </HStack>
                     </VStack>
@@ -126,7 +153,7 @@ const UserProfile = () => {
                         We will send you a one-time password to this mobile number
                     </Text>
 
-                    <AppButton title="Get OTP" onPress={verifyOtp} mt={6} />
+                    <AppButton title="Get OTP" onPress={handleSendCode} mt={6} />
                 </Box>
             </AppCenterLayout></>
     );

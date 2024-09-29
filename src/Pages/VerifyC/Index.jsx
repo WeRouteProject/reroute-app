@@ -1,15 +1,25 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react'; // Import useEffect from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Box, HStack } from 'native-base';
 import AppButton from '../../Common/AppButton';
 import AppHeader from '../../Common/AppHeader';
-import { Colors } from '../../Common/Utils/Constants';
-import { useNavigation } from '@react-navigation/native';
+import { Colors, FontSizes } from '../../Common/Utils/Constants';
+import AppInput from '../../Common/AppInput';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useRoute } from '@react-navigation/native';
 
 const VerifyCode = ({ navigation }) => {
     const [code, setCode] = useState(['', '', '', '', '', '']);
-    const nav = useNavigation();
+    const [email, setEmail] = useState('');  // Initialize state for email
+    const route = useRoute();
+
+    // Retrieve email from route.params
+    useEffect(() => {
+        if (route.params?.email) {
+            setEmail(route.params.email);  // Set the email passed from the previous screen
+        }
+    }, [route.params?.email]);
 
     const handleCodeChange = (text, index) => {
         const newCode = [...code];
@@ -17,28 +27,84 @@ const VerifyCode = ({ navigation }) => {
         setCode(newCode);
     };
 
-    const handleVerify = () => {
-        // Implement verification logic here
-        console.log('Verifying code:', code.join(''));
-        nav.navigate('change-password');
+    const handleVerify = async () => {
+        const otp = code.join('');  // Join the OTP array into a single string
+        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/verify-otp';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, otp }),  // Pass email and the concatenated OTP
+            });
+            const result = await response.json();
+            console.log('Response Status:', response.status);
+            console.log('Response Body:', result);
+
+            if (response.ok) {
+                console.log('OTP verified successfully');
+                // Navigate to change password screen, passing the token
+                navigation.navigate('change-password', { token: result.token });
+                Alert.alert('Success', 'OTP verified successfully!');
+            } else {
+                console.log('OTP verification failed');
+                Alert.alert('Error', result?.message || 'Invalid OTP');
+            }
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        }
     };
 
-    const handleResend = () => {
-        // Implement resend logic here
-        console.log('Resending code');
+    const handleResend = async () => {
+        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/otp-generate';
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+            const result = await response.json();
+            console.log('Response Status:', response.status);
+            console.log('Response Body:', result);
+            if (response.ok) {
+                Alert.alert('Success', 'OTP resent successfully!');
+            } else {
+                console.log('not-ok');
+                Alert.alert('Error', result?.message || 'Unable to resend OTP.');
+            }
+        } catch (error) {
+            console.error('Error resending OTP:', error);
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        }
     };
+
 
     return (
         <View style={styles.container}>
-            <AppHeader
-                navigation={navigation}
-                title="VERIFY OTP"
-            />
-            {/* <Text style={styles.title}>VERIFY Code</Text> */}
+            <AppHeader navigation={navigation} title="VERIFY OTP" />
             <Box style={styles.sub_container}>
                 <Text style={styles.subtitle}>
-                    Enter the verification otp we just sent you on your email address
+                    Enter the verification OTP we just sent you on your email address
                 </Text>
+                <Box mt={5}>
+                    <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+                        Your registered email
+                    </Text>
+
+                    {/* Display email as non-editable */}
+                    <AppInput
+                        placeholder="Enter your Email Address"
+                        value={email}
+                        setValue={setEmail}
+                        editable={false}  // Make the email field non-editable
+                        icon={<Icon name="envelope" size={20} color="red" />}  // Icon next to the email input
+                    />
+                </Box>
                 <HStack space={2} justifyContent="center" mt={5}>
                     {code.map((digit, index) => (
                         <Box
@@ -56,14 +122,14 @@ const VerifyCode = ({ navigation }) => {
                                 value={digit}
                                 onChangeText={(text) => handleCodeChange(text, index)}
                                 maxLength={1}
-                                keyboardType="numeric"
+                                keyboardType="default"
                             />
                         </Box>
                     ))}
                 </HStack>
                 <TouchableOpacity onPress={handleResend}>
                     <Text style={styles.resendText}>
-                        Did not receive a otp? <Text style={styles.resendLink}>Resend.</Text>
+                        Did not receive an OTP? <Text style={styles.resendLink}>Resend.</Text>
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.buttonContainer}>
@@ -96,18 +162,17 @@ const styles = StyleSheet.create({
         color: '#666',
         textAlign: 'center',
         marginBottom: 30,
-
     },
     codeText: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: "#000"
+        color: '#000',
     },
     resendText: {
         marginTop: 20,
         color: '#666',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     resendLink: {
         color: Colors.primary,
