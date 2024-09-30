@@ -7,6 +7,7 @@ import { Box, Image, HStack, Text } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import HappinessChart from '../../components/HappinessChart';
 import { Colors } from '../../Common/Utils/Constants';
+import AppSlider from '../../Common/AppSlider';
 
 const Home = () => {
     const navigation = useNavigation();
@@ -30,10 +31,13 @@ const Home = () => {
                     />
                 </Box>
             </HStack>
-
+            {/* 
             <Box style={styles.chartContainer}>
                 <HappinessChart />
-            </Box>
+            </Box> */}
+            <HStack>
+                <AppSlider />
+            </HStack>
         </Box>
     );
 };
