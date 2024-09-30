@@ -91,7 +91,7 @@ const BottomNav = () => (
                 tabBarIcon: ({ focused }) => (
                     <Box style={styles.iconContainer}>
                         <Image
-                            source={require('./Utils/assets/images/home.png')}
+                            source={require('./Utils/assets/images/accontInfo.png')}
                             style={[styles.imagestyle, { tintColor: focused ? '#87CEFA' : 'white' }]}
                         />
                     </Box>
@@ -105,8 +105,8 @@ export default BottomNav;
 
 const styles = StyleSheet.create({
     imagestyle: {
-        height: 24,
-        width: 24,
+        height: 22,
+        width: 22,
     },
     iconContainer: {
         alignItems: 'center',

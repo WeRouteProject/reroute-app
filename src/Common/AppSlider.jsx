@@ -31,7 +31,7 @@ const AppSlider = () => {
                 shadowOpacity: 0.8,
                 shadowRadius: 2,
                 //elevation: 3,
-                marginTop: 5,
+                marginTop: 10,
                 marginRight: 8,
             }}>
             <Image
@@ -57,7 +57,7 @@ const AppSlider = () => {
             pagingEnabled
             contentContainerStyle={{
                 paddingHorizontal: 10,
-                paddingVertical: 10,
+                paddingVertical: 20,
             }}
         />
     );

@@ -3,11 +3,12 @@ import React from 'react';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Box, Image, HStack, Text } from 'native-base';
+import { Box, Image, HStack, Text, VStack } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import HappinessChart from '../../components/HappinessChart';
 import { Colors } from '../../Common/Utils/Constants';
 import AppSlider from '../../Common/AppSlider';
+import AppTabNav from '../../Common/AppTabNav';
 
 const Home = () => {
     const navigation = useNavigation();
@@ -31,13 +32,16 @@ const Home = () => {
                     />
                 </Box>
             </HStack>
-            {/* 
-            <Box style={styles.chartContainer}>
+
+            {/* <Box style={styles.chartContainer}>
                 <HappinessChart />
             </Box> */}
-            <HStack>
+            <Box >
                 <AppSlider />
-            </HStack>
+            </Box>
+            <Box mt={10}>
+                <AppTabNav />
+            </Box>
         </Box>
     );
 };
