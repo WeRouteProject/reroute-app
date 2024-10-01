@@ -36,7 +36,7 @@ const Home = () => {
             {/* <Box style={styles.chartContainer}>
                 <HappinessChart />
             </Box> */}
-            <Box >
+            <Box mb={5}>
                 <AppSlider />
             </Box>
             <Box mt={10}>

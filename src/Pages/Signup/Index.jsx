@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Box, Text, HStack, Image } from 'native-base';
-import { Alert, StyleSheet } from 'react-native';
+import {
+  Alert, StyleSheet, SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
@@ -16,7 +18,6 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  //const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigation = useNavigation();
 
@@ -62,65 +63,68 @@ const Signup = () => {
         width={'100%'}
         mt={8}
         padding={30}>
-        <Image
-          source={Logo}
-          style={styles.logo}
-          resizeMode="contain"
-          alt="WeRoute logo"
-        />
-        <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={3}>
-          REGISTRATION
-        </Text>
-        <Box mt={8}>
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
-            Mobile Number
-          </Text>
+        <SafeAreaView>
+          <ScrollView>
+            <Image
+              source={Logo}
+              style={styles.logo}
+              resizeMode="contain"
+              alt="WeRoute logo"
+            />
+            <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={3}>
+              REGISTRATION
+            </Text>
+            <Box mt={8}>
+              <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
+                Mobile Number
+              </Text>
 
-          <AppInput
-            placeholder="Enter your Mobile number"
-            value={mobile}
-            setValue={setMobile}
-            iconName="mobile-phone"
-            iconLibrary="FontAwesome"
-          />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
-            Email ID
-          </Text>
+              <AppInput
+                placeholder="Enter your Mobile number"
+                value={mobile}
+                setValue={setMobile}
+                iconName="mobile-phone"
+                iconLibrary="FontAwesome"
+              />
+              <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
+                Email ID
+              </Text>
 
-          <AppInput
-            placeholder="Enter your Email Address"
-            value={email}
-            setValue={setEmail}
-            iconName="email-outline"
-            iconLibrary="MaterialCommunityIcons"
-          />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
-            Name
-          </Text>
-          <AppInput
-            placeholder={'Enter your Name'}
-            value={name}
-            setValue={setName}
-            secureTextEntry={false}
-            iconName="person"
-          />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
-            Password
-          </Text>
-          <AppInput
-            placeholder={'Enter your password'}
-            value={password}
-            setValue={setPassword}
-            secureTextEntry={true}
-          />
-        </Box>
+              <AppInput
+                placeholder="Enter your Email Address"
+                value={email}
+                setValue={setEmail}
+                iconName="email-outline"
+                iconLibrary="MaterialCommunityIcons"
+              />
+              <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
+                Name
+              </Text>
+              <AppInput
+                placeholder={'Enter your Name'}
+                value={name}
+                setValue={setName}
+                secureTextEntry={false}
+                iconName="person"
+              />
+              <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
+                Password
+              </Text>
+              <AppInput
+                placeholder={'Enter your password'}
+                value={password}
+                setValue={setPassword}
+                secureTextEntry={true}
+              />
+            </Box>
+            <AppButton title={'Create an account'} onPress={handleSignup} mt={60} />
 
-        <AppButton title={'Create an account'} onPress={handleSignup} mt={40} />
-
-        <HStack mb={4} mt={2} justifyContent={'center'}>
-          <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
-          <Text underline color={Colors.primary} onPress={handleLogin}>Login</Text>
-        </HStack>
+            <HStack mb={4} mt={2} justifyContent={'center'}>
+              <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
+              <Text underline color={Colors.primary} onPress={handleLogin}>Login</Text>
+            </HStack>
+          </ScrollView>
+        </SafeAreaView>
       </Box>
     </AppCenterLayout>
   );
@@ -133,7 +137,6 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     padding: 10,
-    //backgroundColor: Colors.logo
   },
 });
 

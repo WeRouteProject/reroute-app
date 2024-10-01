@@ -5,13 +5,11 @@ import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Box } from 'native-base';
-import LinearGradient from 'react-native-linear-gradient';
 import Home from '../Pages/Home/Index';
 import Form from '../Pages/Form/Index';
 import Signup from '../Pages/Signup/Index';
 import Login from '../Pages/Login/Index';
-
-// Example screen components (these would be replaced by actual imports in your code)
+import { Colors } from './Utils/Constants';
 
 // Create the bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -27,19 +25,17 @@ const AppTabNav = () => (
                 right: 20,
                 bottom: 10,
                 borderRadius: 30,
-                elevation: 0,
-                shadowOpacity: 0,
+                elevation: 10,
+                shadowColor: Colors.black,
+                shadowOpacity: 0.3,
+                shadowOffset: { width: 0, height: 5 },
+                shadowRadius: 10,
+                backgroundColor: 'white',
                 borderTopWidth: 0,
             },
             tabBarShowLabel: false,
-            tabBarBackground: () => (
-                <LinearGradient
-                    colors={['#182B3A', '#1E3B70']} // Gradient background
-                    style={{ flex: 1, borderRadius: 30 }}
-                />
-            ),
         }}>
-        {/* Adding Screens with text labels */}
+
         <Tab.Screen
             name="Form"
             component={Form}
@@ -49,7 +45,10 @@ const AppTabNav = () => (
                         <Text
                             style={[
                                 styles.textStyle,
-                                { color: focused ? '#87CEFA' : 'white' },
+                                {
+                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
+                                    fontSize: focused ? 16 : 12,
+                                },
                             ]}>
                             Form
                         </Text>
@@ -66,7 +65,10 @@ const AppTabNav = () => (
                         <Text
                             style={[
                                 styles.textStyle,
-                                { color: focused ? '#87CEFA' : 'white' },
+                                {
+                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
+                                    fontSize: focused ? 16 : 12,
+                                },
                             ]}>
                             Login
                         </Text>
@@ -83,7 +85,10 @@ const AppTabNav = () => (
                         <Text
                             style={[
                                 styles.textStyle,
-                                { color: focused ? '#87CEFA' : 'white' },
+                                {
+                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
+                                    fontSize: focused ? 16 : 12,
+                                },
                             ]}>
                             Signup
                         </Text>

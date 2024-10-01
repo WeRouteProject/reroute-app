@@ -98,7 +98,7 @@ const Login = () => {
           LOGIN
         </Text>
         <Box mt={10}>
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2} ml={0.5}>
             Email ID
           </Text>
           <AppInput
@@ -109,7 +109,7 @@ const Login = () => {
             iconLibrary="MaterialCommunityIcons"
           />
 
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2} ml={0.5}>
             Password
           </Text>
           <AppInput
