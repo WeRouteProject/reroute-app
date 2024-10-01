@@ -16,6 +16,8 @@ export const Colors = {
   title: '#4b6798',
   ButtonColor: '#2895bc',
   uniqueButton: '#4a69bd',
+  ButtonColorDark: '#1E3B70',
+  ButtonColorLight: '#6996b1',
 };
 
 export const FontSizes = {

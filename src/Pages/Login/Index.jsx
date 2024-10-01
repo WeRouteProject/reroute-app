@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { Box, Text, HStack, Image } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
@@ -19,6 +19,8 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigation = useNavigation();
   const { login } = useAuth();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+
   useEffect(() => {
     const getRememberedUser = async () => {
       const credentials = await AsyncStorage.getItem('credentials');
@@ -33,6 +35,9 @@ const Login = () => {
     getRememberedUser();
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  }
   const handleLogin = async () => {
     const apiUrl =
       'https://backend-sec-weroute.onrender.com/backend_sec/User/signIn';
@@ -97,11 +102,13 @@ const Login = () => {
             Email ID
           </Text>
           <AppInput
-            placeholder="Enter your email"
+            placeholder="Enter your Email Address"
             value={email}
             setValue={setEmail}
-            secureTextEntry={false}
+            iconName="email-outline"
+            iconLibrary="MaterialCommunityIcons"
           />
+
           <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
             Password
           </Text>
@@ -160,7 +167,7 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     padding: 10,
-    //backgroundColor: Colors.logo
+    backgroundColor: Colors.ButtonColorLight,
   },
 });
 

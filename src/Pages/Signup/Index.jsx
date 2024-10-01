@@ -10,6 +10,7 @@ import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 
+
 const Signup = () => {
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
@@ -70,8 +71,8 @@ const Signup = () => {
         <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={3}>
           REGISTRATION
         </Text>
-        <Box mt={10}>
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+        <Box mt={8}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
             Mobile Number
           </Text>
 
@@ -79,9 +80,10 @@ const Signup = () => {
             placeholder="Enter your Mobile number"
             value={mobile}
             setValue={setMobile}
-            icon={<Icon name="heart" size={20} color="red" />}
+            iconName="mobile-phone"
+            iconLibrary="FontAwesome"
           />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
             Email ID
           </Text>
 
@@ -89,9 +91,10 @@ const Signup = () => {
             placeholder="Enter your Email Address"
             value={email}
             setValue={setEmail}
-            icon={<Icon name="heart" size={20} color="red" />}
+            iconName="email-outline"
+            iconLibrary="MaterialCommunityIcons"
           />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
             Name
           </Text>
           <AppInput
@@ -99,8 +102,9 @@ const Signup = () => {
             value={name}
             setValue={setName}
             secureTextEntry={false}
+            iconName="person"
           />
-          <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
+          <Text fontSize={FontSizes.medium} color={Colors.gray} my={1}>
             Password
           </Text>
           <AppInput
@@ -111,7 +115,7 @@ const Signup = () => {
           />
         </Box>
 
-        <AppButton title={'Create an account'} onPress={handleSignup} mt={36} />
+        <AppButton title={'Create an account'} onPress={handleSignup} mt={40} />
 
         <HStack mb={4} mt={2} justifyContent={'center'}>
           <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
