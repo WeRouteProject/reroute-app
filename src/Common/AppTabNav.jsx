@@ -1,114 +1,116 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Box } from 'native-base';
-import Home from '../Pages/Home/Index';
-import Form from '../Pages/Form/Index';
-import Signup from '../Pages/Signup/Index';
-import Login from '../Pages/Login/Index';
-import { Colors } from './Utils/Constants';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Colors, FontSizes } from '../Common/Utils/Constants';
+import ManagedService from '../Pages/ManagedService/Index';
+import CloudService from '../Pages/CloudService/Index';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-// Create the bottom tab navigator
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-const AppTabNav = () => (
-    <Tab.Navigator
-        screenOptions={{
-            headerShown: false,
-            tabBarStyle: {
-                height: 50,
-                position: 'absolute',
-                left: 20,
-                right: 20,
-                bottom: 10,
-                borderRadius: 30,
-                elevation: 10,
-                shadowColor: Colors.black,
-                shadowOpacity: 0.3,
-                shadowOffset: { width: 0, height: 5 },
-                shadowRadius: 10,
-                backgroundColor: 'white',
-                borderTopWidth: 0,
-            },
-            tabBarShowLabel: false,
-        }}>
+const CustomTabBar = ({ state, descriptors, navigation }) => {
+    return (
+        <View style={styles.tabContainer}>
+            {state.routes.map((route, index) => {
+                const { options } = descriptors[route.key];
+                const label =
+                    options.tabBarLabel !== undefined
+                        ? options.tabBarLabel
+                        : options.title !== undefined
+                            ? options.title
+                            : route.name;
 
-        <Tab.Screen
-            name="Form"
-            component={Form}
-            options={{
-                tabBarIcon: ({ focused }) => (
-                    <Box style={styles.iconContainer}>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                {
-                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
-                                    fontSize: focused ? 16 : 12,
-                                },
-                            ]}>
-                            Form
+                const isFocused = state.index === index;
+
+                const onPress = () => {
+                    const event = navigation.emit({
+                        type: 'tabPress',
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
+
+                    if (!isFocused && !event.defaultPrevented) {
+                        navigation.navigate(route.name);
+                    }
+                };
+
+                const iconName = route.name === 'managed-service'
+                    ? isFocused ? 'cloud' : 'cloud-outline'
+                    : isFocused ? 'arrow-forward-circle' : 'arrow-forward-circle-outline';
+
+                return (
+                    <TouchableOpacity
+                        key={route.key}
+                        accessibilityRole="button"
+                        accessibilityState={isFocused ? { selected: true } : {}}
+                        accessibilityLabel={options.tabBarAccessibilityLabel}
+                        testID={options.tabBarTestID}
+                        onPress={onPress}
+                        style={[styles.tabButton, isFocused ? styles.activeTab : styles.inactiveTab]}
+                    >
+                        <Icon name={iconName} size={24} color={isFocused ? Colors.primary : Colors.grey} />
+                        <Text style={{ color: isFocused ? Colors.white : Colors.black, marginLeft: 5, fontSize: FontSizes.small }}>
+                            {label}
                         </Text>
-                    </Box>
-                ),
-            }}
-        />
-        <Tab.Screen
-            name="Login"
-            component={Login}
-            options={{
-                tabBarIcon: ({ focused }) => (
-                    <Box style={styles.iconContainer}>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                {
-                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
-                                    fontSize: focused ? 16 : 12,
-                                },
-                            ]}>
-                            Login
-                        </Text>
-                    </Box>
-                ),
-            }}
-        />
-        <Tab.Screen
-            name="Signup"
-            component={Signup}
-            options={{
-                tabBarIcon: ({ focused }) => (
-                    <Box style={styles.iconContainer}>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                {
-                                    color: focused ? Colors.ButtonColorLight : Colors.ButtonColorDark,
-                                    fontSize: focused ? 16 : 12,
-                                },
-                            ]}>
-                            Signup
-                        </Text>
-                    </Box>
-                ),
-            }}
-        />
-    </Tab.Navigator>
-);
+                    </TouchableOpacity>
+                );
+            })}
+        </View>
+    );
+};
 
-export default AppTabNav;
+const AppTabNav = () => {
+    return (
+        <Tab.Navigator
+            tabBar={(props) => <CustomTabBar {...props} />}
+            screenOptions={{
+                tabBarStyle: { height: 0 },
+            }}
+            style={styles.navigator}
+        >
+            <Tab.Screen
+                name="managed-service"
+                component={ManagedService}
+                options={{ tabBarLabel: 'Managed Services' }}
+            />
+            <Tab.Screen
+                name="cloud-service"
+                component={CloudService}
+                options={{ tabBarLabel: 'Network Integration' }}
+            />
+        </Tab.Navigator>
+    );
+};
 
 const styles = StyleSheet.create({
-    textStyle: {
-        fontSize: 12,
-        fontWeight: 'bold',
+    navigator: {
+        flex: 1,
+        minHeight: 450, // Increased minimum height to accommodate content
     },
-    iconContainer: {
+    tabContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingVertical: 8,
+        borderRadius: 50,
+        marginHorizontal: 8,
+        marginBottom: 8,
+    },
+    tabButton: {
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 20,
+    },
+    activeTab: {
+        backgroundColor: Colors.ButtonColorDark,
+    },
+    inactiveTab: {
+        backgroundColor: Colors.ButtonColorLight,
     },
 });
+
+export default AppTabNav;

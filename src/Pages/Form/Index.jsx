@@ -128,7 +128,8 @@ const Form = () => {
     ];
 
     const experienceOptions = Array.from({ length: 25 }, (_, i) => ({
-        label: `${i + 1} ${i === 0 ? 'year' : 'years'}`,
+        // label: `${i + 1} ${i === 0 ? 'year' : 'years'}`,
+        label: `${i + 1}`,
         value: `${i + 1}`,
     }));
 
@@ -180,7 +181,6 @@ const Form = () => {
         const value = Math.max(1, Math.min(25, newValue));
         setOpenings(value);
     };
-
 
     return (
         <View style={styles.container}>
@@ -276,17 +276,19 @@ const Form = () => {
                                             )}
                                             errorMessage="Please select a sub-service" />
                                     )}
-                                    <AppDropDown
-                                        value={projectDuration}
-                                        onChange={handleDurationChange}
-                                        placeholder={'Project Duration'}
-                                        renderSelectItems={() => (
-                                            durationOptions.map(option => (
-                                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                                            ))
-                                        )}
-                                        errorMessage="Please select project duration"
-                                    />
+                                    {selectedProjectType && (
+                                        <AppDropDown
+                                            value={projectDuration}
+                                            onChange={handleDurationChange}
+                                            placeholder={'Project Duration'}
+                                            renderSelectItems={() => (
+                                                durationOptions.map(option => (
+                                                    <Select.Item key={option.value} label={option.label} value={option.value} />
+                                                ))
+                                            )}
+                                            errorMessage="Please select project duration"
+                                        />
+                                    )}
                                     <AppDropDown
                                         value={selectedCurrency}
                                         onChange={handleCurrencyChange}
@@ -367,7 +369,7 @@ const Form = () => {
                                         value={budget}
                                         onChangeText={setBudget}
                                     />
-                                    <AppDropDown
+                                    {/* <AppDropDown
                                         value={projectDuration}
                                         onChange={handleDurationChange}
                                         placeholder={'Project Duration'}
@@ -377,7 +379,7 @@ const Form = () => {
                                             ))
                                         )}
                                         errorMessage="Please select project duration"
-                                    />
+                                    /> */}
                                     <AppDropDown
                                         value={experience}
                                         onChange={handleExperienceChange}

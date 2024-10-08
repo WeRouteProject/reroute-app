@@ -1,8 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import { FlatList } from 'native-base';
+import AppCustomCard from '../Common/AppCustomCard'; // Importing the reusable CustomCard component
 
 const images = [
     require('../../src/Common/Utils/assets/images/slide1.jpg'),
@@ -19,30 +20,9 @@ const data = [
 const { width } = Dimensions.get('window');
 
 const AppSlider = () => {
+
     const renderItem = ({ item }) => (
-        <View
-            style={{
-                width: width - 20,
-                backgroundColor: '#fff',
-                padding: 8,
-                borderRadius: 10,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.8,
-                shadowRadius: 2,
-                //elevation: 3,
-                marginTop: 10,
-                marginRight: 8,
-            }}>
-            <Image
-                source={item.image}
-                style={{
-                    width: '100%',
-                    height: 170,
-                    borderRadius: 5,
-                }}
-            />
-        </View>
+        <AppCustomCard image={item.image} />
     );
 
     return (

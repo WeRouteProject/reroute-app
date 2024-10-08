@@ -20,6 +20,10 @@ import About from '../Pages/About/Index';
 import LinearGradient from 'react-native-linear-gradient';
 import ChangePasswordScreen from '../Pages/ChangePassword/Index';
 import Starter from '../Pages/Starter/Index';
+import ManagedService from '../Pages/ManagedService/Index';
+import CloudService from '../Pages/CloudService/Index';
+import AppTabNav from '../Common/AppTabNav';
+import AppSolution from '../Common/AppSolution';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -113,6 +117,9 @@ const Navigation = () => {
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="user-profile" component={UserProfile} />
         <Stack.Screen name="change-password" component={ChangePasswordScreen} />
+        <Stack.Screen name="managed-service" component={ManagedService} />
+        <Stack.Screen name="cloud-service" component={CloudService} />
+        <Stack.Screen name="solution" component={AppSolution} />
       </Stack.Navigator>
     </NavigationContainer>
   );

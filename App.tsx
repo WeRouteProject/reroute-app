@@ -1,10 +1,11 @@
+/* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {NativeBaseProvider} from 'native-base';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/Navigation/Index';
-import {AuthProvider} from './src/Context/AuthProvider';
+import { AuthProvider } from './src/Context/AuthProvider';
 
 function App(): React.JSX.Element {
   return (
