@@ -8,7 +8,7 @@ import AboutLogo from '../../Common/Utils/assets/images/aboutus.png';
 import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
-import { GradientButton } from '../../Common/Utils/GradientButton';
+import { GradientButton } from '../../Common/GradientButton';
 
 
 const About = ({ navigation }) => {

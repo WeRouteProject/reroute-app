@@ -38,8 +38,7 @@ const VerifyCode = () => {
             borderColor="gray.300"
             borderRadius="md"
             alignItems="center"
-            justifyContent="center"
-          >
+            justifyContent="center">
             <Text style={styles.codeText}>{digit}</Text>
           </Box>
         ))}

@@ -1,12 +1,14 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Colors, FontSizes } from '../Common/Utils/Constants';
-import ManagedService from '../Pages/ManagedService/Index';
+import ManagedService from '../Pages/Services/ManagedService/Index';
 import CloudService from '../Pages/CloudService/Index';
 import Icon from 'react-native-vector-icons/Ionicons';
+import NetworkIntegrationService from '../Pages/Services/NetworkInteService/Index';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,8 +40,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
                 const iconName = route.name === 'managed-service'
                     ? isFocused ? 'cloud' : 'cloud-outline'
-                    : isFocused ? 'arrow-forward-circle' : 'arrow-forward-circle-outline';
-
+                    : route.name === 'network-service'
+                        ? isFocused ? 'git-network' : 'git-network-outline'
+                        : isFocused ? 'arrow-forward-circle' : 'arrow-forward-circle-outline';
                 return (
                     <TouchableOpacity
                         key={route.key}
@@ -76,10 +79,15 @@ const AppTabNav = () => {
                 options={{ tabBarLabel: 'Managed Services' }}
             />
             <Tab.Screen
+                name="network-service"
+                component={NetworkIntegrationService}
+                options={{ tabBarLabel: 'Network Integration' }}
+            />
+            {/* <Tab.Screen
                 name="cloud-service"
                 component={CloudService}
                 options={{ tabBarLabel: 'Network Integration' }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 };

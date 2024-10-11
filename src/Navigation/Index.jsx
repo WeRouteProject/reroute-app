@@ -19,11 +19,16 @@ import BottomNav from '../Common/BottomNav';
 import About from '../Pages/About/Index';
 import LinearGradient from 'react-native-linear-gradient';
 import ChangePasswordScreen from '../Pages/ChangePassword/Index';
-import Starter from '../Pages/Starter/Index';
-import ManagedService from '../Pages/ManagedService/Index';
 import CloudService from '../Pages/CloudService/Index';
-import AppTabNav from '../Common/AppTabNav';
 import AppSolution from '../Common/AppSolution';
+import ManagedServiceDetails from '../Pages/Services/ManagedService/ManagedServiceDetails';
+import WebDevComp from '../Pages/Solutions/WebDevComp';
+import WanSolution from '../Pages/Solutions/WanSolution';
+import AutomationSolution from '../Pages/Solutions/AutomationSolution';
+import MobileDev from '../Pages/Solutions/MobileDev';
+import SDNSolutions from '../Pages/Solutions/SdnSolution';
+import CloudSolution from '../Pages/Solutions/CloudSolution';
+import NetworkServiceDetails from '../Pages/Services/NetworkInteService/NetworkServiceDetails';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -117,9 +122,16 @@ const Navigation = () => {
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="user-profile" component={UserProfile} />
         <Stack.Screen name="change-password" component={ChangePasswordScreen} />
-        <Stack.Screen name="managed-service" component={ManagedService} />
+        <Stack.Screen name="ManagedServiceDetails" component={ManagedServiceDetails} />
+        <Stack.Screen name="NetworkServiceDetails" component={NetworkServiceDetails} />
         <Stack.Screen name="cloud-service" component={CloudService} />
         <Stack.Screen name="solution" component={AppSolution} />
+        <Stack.Screen name="wan-sol" component={WanSolution} />
+        <Stack.Screen name="WebsiteDevelopment" component={WebDevComp} />
+        <Stack.Screen name="AutomationSolution" component={AutomationSolution} />
+        <Stack.Screen name="MobileDevSolution" component={MobileDev} />
+        <Stack.Screen name="SDNSolution" component={SDNSolutions} />
+        <Stack.Screen name="CloudSolution" component={CloudSolution} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -3,10 +3,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Box, VStack } from 'native-base';
-import AppCustomCard from '../../Common/AppCustomCard';
-import { Colors } from '../../Common/Utils/Constants';
+import AppCustomCard from '../../../Common/AppCustomCard';
+import { Colors } from '../../../Common/Utils/Constants';
+import { useNavigation } from '@react-navigation/native';
 
 const ManagedService = () => {
+
+    const navigation = useNavigation();
+
+    const handleImagePress = () => {
+        navigation.navigate('ManagedServiceDetails', {
+            image: require('../../../Common/Utils/assets/images/services/cloud.png'),
+        });
+    };
     return (
         <View style={{
             flex: 1,
@@ -18,9 +27,11 @@ const ManagedService = () => {
                 flex: 0.6,
                 marginBottom: 5,
             }}>
-                <AppCustomCard
-                    image={require('../../Common/Utils/assets/images/cloud.png')}
-                />
+                <TouchableOpacity onPress={handleImagePress}>
+                    <AppCustomCard
+                        image={require('../../../Common/Utils/assets/images/services/cloud.png')}
+                    />
+                </TouchableOpacity>
             </View>
 
             <View style={{
@@ -41,7 +52,7 @@ const ManagedService = () => {
 
                 <TouchableOpacity
                     style={{
-                        backgroundColor: Colors.ButtonColorLight,
+                        backgroundColor: Colors.ButtonColorDark,
                         paddingVertical: 10,
                         paddingHorizontal: 25,
                         borderRadius: 20,
@@ -49,7 +60,7 @@ const ManagedService = () => {
                     }}
                 >
                     <Text style={{
-                        color: '#000000',
+                        color: '#fff',
                         fontWeight: '500',
                     }}>
                         Know More

@@ -2,86 +2,54 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { Image } from 'react-native';
-import { Box, Text, VStack, HStack, Heading, Center } from 'native-base';
+import { Box, Text, Heading, Center } from 'native-base';
+import AppCustomGrid from './AppCustomGrid';
+import { useNavigation } from '@react-navigation/native';
 
 const AppSolution = () => {
+    const navigation = useNavigation();
     const solutions = [
         {
             title: 'Website',
             subtitle: 'Development',
-            image: require('../Common/Utils/assets/images/dev.jpg'),  // Update path as per your project structure
+            image: require('../Common/Utils/assets/images/solutions/web.png'),
+            screen: 'WebsiteDevelopment',
         },
         {
             title: 'WAN',
             subtitle: 'Solution',
-            image: require('../Common/Utils/assets/images/dev.jpg'),
+            image: require('../Common/Utils/assets/images/solutions/wan.png'),
+            screen: 'wan-sol',
         },
         {
             title: 'Automation',
-            subtitle: '',
-            image: require('../Common/Utils/assets/images/dev.jpg'),
+            subtitle: 'Solution',
+            image: require('../Common/Utils/assets/images/solutions/autos.png'),
+            screen: 'AutomationSolution',
         },
         {
-            title: 'Virtualization',
-            subtitle: '',
-            image: require('../Common/Utils/assets/images/dev.jpg'),
+            title: 'Mobile',
+            subtitle: 'Development',
+            image: require('../Common/Utils/assets/images/solutions/mobile.png'),
+            screen: 'MobileDevSolution',
         },
         {
             title: 'SDN',
             subtitle: 'Software Defined Networking',
-            image: require('../Common/Utils/assets/images/dev.jpg'),
+            image: require('../Common/Utils/assets/images/solutions/sdn.png'),
+            screen: 'SDNSolution',
         },
         {
             title: 'Cloud',
             subtitle: 'Solution',
-            image: require('../Common/Utils/assets/images/dev.jpg'),
-        }
+            image: require('../Common/Utils/assets/images/solutions/clouds.png'),
+            screen: 'CloudSolution',
+        },
     ];
 
-    const SolutionCard = ({ title, subtitle, image }) => (
-        <Box
-            style={{
-                width: '48%',
-                height: 180,
-                backgroundColor: '#1a73e8', // Blue color from image
-                borderRadius: 15,
-                marginBottom: 15,
-                padding: 15,
-                justifyContent: 'space-between',
-            }}
-        >
-            <VStack>
-                <Text
-                    style={{
-                        color: 'white',
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                    }}
-                >
-                    {title}
-                </Text>
-                <Text
-                    style={{
-                        color: 'white',
-                        fontSize: 14,
-                        opacity: 0.9,
-                    }}
-                >
-                    {subtitle}
-                </Text>
-            </VStack>
-            <Image
-                source={image}
-                style={{
-                    width: '100%',
-                    height: 80,
-                    resizeMode: 'contain',
-                    alignSelf: 'flex-end',
-                }}
-            />
-        </Box>
-    );
+    const handleSolutionPress = (solution) => {
+        navigation.navigate(solution.screen);
+    };
 
     return (
         <Box
@@ -110,22 +78,7 @@ const AppSolution = () => {
                 </Text>
             </Center>
 
-            <Box
-                style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                }}
-            >
-                {solutions.map((solution, index) => (
-                    <SolutionCard
-                        key={index}
-                        title={solution.title}
-                        subtitle={solution.subtitle}
-                        image={solution.image}
-                    />
-                ))}
-            </Box>
+            <AppCustomGrid solutions={solutions} onSolutionPress={handleSolutionPress} />
         </Box>
     );
 };
