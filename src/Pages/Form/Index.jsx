@@ -110,7 +110,6 @@ const Form = () => {
     };
 
     // Sourcing options
-
     const currencyOptions = [
         { label: 'USD', value: 'USD' },
         { label: 'EUR', value: 'EUR' },
