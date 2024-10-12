@@ -13,7 +13,7 @@ const ManagedService = () => {
 
     const handleImagePress = () => {
         navigation.navigate('ManagedServiceDetails', {
-            image: require('../../../Common/Utils/assets/images/services/cloud.png'),
+            image: require('../../../Common/Utils/assets/images/services/manageds.png'),
         });
     };
     return (
@@ -29,7 +29,7 @@ const ManagedService = () => {
             }}>
                 <TouchableOpacity onPress={handleImagePress}>
                     <AppCustomCard
-                        image={require('../../../Common/Utils/assets/images/services/cloud.png')}
+                        image={require('../../../Common/Utils/assets/images/services/manageds.png')}
                     />
                 </TouchableOpacity>
             </View>

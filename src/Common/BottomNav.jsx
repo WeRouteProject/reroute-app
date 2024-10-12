@@ -63,7 +63,7 @@ const BottomNav = () => (
                 tabBarIcon: ({ focused }) => (
                     <Box style={styles.iconContainer}>
                         <Image
-                            source={require('./Utils/assets/images/home.png')}
+                            source={require('./Utils/assets/images/about2.png')}
                             style={[styles.imagestyle, { tintColor: focused ? '#87CEFA' : 'white' }]}
                         />
                     </Box>
@@ -77,7 +77,7 @@ const BottomNav = () => (
                 tabBarIcon: ({ focused }) => (
                     <Box style={styles.iconContainer}>
                         <Image
-                            source={require('./Utils/assets/images/home.png')}
+                            source={require('./Utils/assets/images/form.png')}
                             style={[styles.imagestyle, { tintColor: focused ? '#87CEFA' : 'white' }]}
                         />
                     </Box>
