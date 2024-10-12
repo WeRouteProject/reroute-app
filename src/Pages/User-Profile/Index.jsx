@@ -115,7 +115,7 @@ const UserProfile = () => {
                             Basic Information
                         </Text>
                         <Text fontSize={FontSizes.small} color={Colors.gray}>
-                            Kindly add your data, it will help nurses to better remember you.
+                            Kindly add your data, it will help us to better remember you.
                         </Text>
 
                         <Text fontSize={FontSizes.medium} color={Colors.gray}>
