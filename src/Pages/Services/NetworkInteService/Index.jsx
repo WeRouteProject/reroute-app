@@ -6,13 +6,13 @@ import AppCustomCard from '../../../Common/AppCustomCard';
 import { Colors } from '../../../Common/Utils/Constants';
 import { useNavigation } from '@react-navigation/native';
 
-const NetworkIntegrationService = () => {
+const ConsultingService = () => {
 
     const navigation = useNavigation();
 
     const handleImagePress = () => {
-        navigation.navigate('NetworkServiceDetails', {
-            image: require('../../../Common/Utils/assets/images/services/cloud.png'),
+        navigation.navigate('ConsultingServiceDetails', {
+            // image: require('../../../Common/Utils/assets/images/services/cloud.png'),
         });
     };
     return (
@@ -28,7 +28,7 @@ const NetworkIntegrationService = () => {
             }}>
                 <TouchableOpacity onPress={handleImagePress}>
                     <AppCustomCard
-                        image={require('../../../Common/Utils/assets/images/services/cloud.png')}
+                        image={require('../../../Common/Utils/assets/images/services/it.png')}
                     />
                 </TouchableOpacity>
             </View>
@@ -46,7 +46,7 @@ const NetworkIntegrationService = () => {
                     lineHeight: 20,
                     marginBottom: 15,
                 }}>
-                    NGN enables clients to align infrastructure costs and management processes with business processes, enables creative management and financial propositions, leverages NGN partner relationships etc.
+                    IT and consulting services help clients optimize technology, streamline operations, and implement innovative solutions for digital transformation and competitive advantage.
                 </Text>
 
                 <TouchableOpacity
@@ -57,6 +57,7 @@ const NetworkIntegrationService = () => {
                         borderRadius: 20,
                         alignSelf: 'center',
                     }}
+                    onPress={handleImagePress}
                 >
                     <Text style={{
                         color: '#fff',
@@ -70,4 +71,4 @@ const NetworkIntegrationService = () => {
     );
 };
 
-export default NetworkIntegrationService;
+export default ConsultingService;

@@ -28,7 +28,9 @@ import AutomationSolution from '../Pages/Solutions/AutomationSolution';
 import MobileDev from '../Pages/Solutions/MobileDev';
 import SDNSolutions from '../Pages/Solutions/SdnSolution';
 import CloudSolution from '../Pages/Solutions/CloudSolution';
-import NetworkServiceDetails from '../Pages/Services/NetworkInteService/NetworkServiceDetails';
+import ConsultingServiceDetails from '../Pages/Services/NetworkInteService/ConsultingServiceDetails';
+import HappinessChart from '../components/HappinessChart';
+import CaseStudies from '../Pages/CaseStudies/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -55,7 +57,7 @@ const DrawerNavigator = () => {
         },
       }}>
       <Drawer.Screen
-        name="Home"
+        name="MainHome"
         component={BottomNav}
         options={{
           headerShown: false,
@@ -123,7 +125,7 @@ const Navigation = () => {
         <Stack.Screen name="user-profile" component={UserProfile} />
         <Stack.Screen name="change-password" component={ChangePasswordScreen} />
         <Stack.Screen name="ManagedServiceDetails" component={ManagedServiceDetails} />
-        <Stack.Screen name="NetworkServiceDetails" component={NetworkServiceDetails} />
+        <Stack.Screen name="ConsultingServiceDetails" component={ConsultingServiceDetails} />
         <Stack.Screen name="cloud-service" component={CloudService} />
         <Stack.Screen name="solution" component={AppSolution} />
         <Stack.Screen name="wan-sol" component={WanSolution} />
@@ -132,6 +134,8 @@ const Navigation = () => {
         <Stack.Screen name="MobileDevSolution" component={MobileDev} />
         <Stack.Screen name="SDNSolution" component={SDNSolutions} />
         <Stack.Screen name="CloudSolution" component={CloudSolution} />
+        <Stack.Screen name="happines-chart" component={HappinessChart} />
+        <Stack.Screen name="Case-Studies" component={CaseStudies} />
       </Stack.Navigator>
     </NavigationContainer>
   );

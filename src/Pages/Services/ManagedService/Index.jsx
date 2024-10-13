@@ -13,7 +13,7 @@ const ManagedService = () => {
 
     const handleImagePress = () => {
         navigation.navigate('ManagedServiceDetails', {
-            image: require('../../../Common/Utils/assets/images/services/manageds.png'),
+            // image: require('../../../Common/Utils/assets/images/services/manageds.png'),
         });
     };
     return (
@@ -47,7 +47,7 @@ const ManagedService = () => {
                     lineHeight: 20,
                     marginBottom: 15,
                 }}>
-                    NGN enables clients to align infrastructure costs and management processes with business processes, enables creative management and financial propositions, leverages NGN partner relationships etc.
+                    NGN helps clients align infrastructure costs with business processes, drive innovative management strategies, and leverage partnerships for optimal outcomes.
                 </Text>
 
                 <TouchableOpacity
@@ -58,6 +58,7 @@ const ManagedService = () => {
                         borderRadius: 20,
                         alignSelf: 'center',
                     }}
+                    onPress={handleImagePress}
                 >
                     <Text style={{
                         color: '#fff',

@@ -1,17 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { ScrollView, StyleSheet, useWindowDimensions, Alert, View } from 'react-native';
-import { Box, Text, VStack, Button, HStack } from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AboutLogo from '../../Common/Utils/assets/images/aboutus.png';
+import { ScrollView, StyleSheet, Alert, View } from 'react-native';
+import { Box, Text, VStack, HStack } from 'native-base';
 import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { GradientButton } from '../../Common/GradientButton';
 
 const About = ({ navigation }) => {
-    const { width } = useWindowDimensions();
-
     const handleLearnMorePress = () => {
         Alert.alert(
             'Learn More',

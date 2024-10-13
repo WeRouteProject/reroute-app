@@ -40,8 +40,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
                 const iconName = route.name === 'managed-service'
                     ? isFocused ? 'cloud' : 'cloud-outline'
-                    : route.name === 'network-service'
-                        ? isFocused ? 'git-network' : 'git-network-outline'
+                    : route.name === 'consult-service'
+                        ? isFocused ? 'settings' : 'cog'
                         : isFocused ? 'arrow-forward-circle' : 'arrow-forward-circle-outline';
                 return (
                     <TouchableOpacity
@@ -79,9 +79,9 @@ const AppTabNav = () => {
                 options={{ tabBarLabel: 'Managed Services' }}
             />
             <Tab.Screen
-                name="network-service"
+                name="consult-service"
                 component={NetworkIntegrationService}
-                options={{ tabBarLabel: 'Network Integration' }}
+                options={{ tabBarLabel: 'Consulting Services' }}
             />
             {/* <Tab.Screen
                 name="cloud-service"

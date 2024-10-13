@@ -27,11 +27,12 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         marginBottom: 15,
-        marginRight: 10,
+        marginRight: 18,
+        height: 200,
     },
     cardImage: {
-        width: '100%',
-        height: 200,
+        width: '103%',
+        height: '100%',
         borderRadius: 10,
     },
 });

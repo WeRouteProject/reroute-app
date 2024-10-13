@@ -1,15 +1,16 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Dimensions, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Svg, { Circle, G, Text as SvgText, Line, Rect } from 'react-native-svg';
+import { Dimensions } from 'react-native';
+import { Box, Text, ScrollView, VStack } from 'native-base';
+import Svg, { Circle, G, Text as SvgText, Line, Rect, LinearGradient, Defs, Stop } from 'react-native-svg';
 import { scaleLinear, scaleBand, scaleOrdinal, scaleSqrt } from 'd3-scale';
 import { mean, rollups } from 'd3-array';
 import { forceSimulation, forceX, forceY, forceCollide, Simulation } from 'd3-force';
 import { happinessData as data } from '../data/happiness_data';
 import Legend from './Legend';
 import { Colors, FontSizes } from '../Common/Utils/Constants';
-import { Box } from 'native-base';
-
+import AppHeader from '../Common/AppHeader';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const CHART_WIDTH = screenWidth * 0.8;
@@ -24,7 +25,7 @@ interface Node {
     country: string;
 }
 
-export default function HappinessChart() {
+export default function HappinessChart({ navigation }) {
     const [nodes, setNodes] = useState<Node[]>([]);
     const [hovered, setHovered] = useState<Node | null>(null);
 
@@ -40,7 +41,7 @@ export default function HappinessChart() {
         .sort((a, b) => (b[1] as number) - (a[1] as number))
         .map(d => d[0]);
 
-    const colorRange = ['#fe7f2d', '#fcca46', '#a1c181', '#619b8a', '#eae2b7', '#dda0dd'];
+    const colorRange = ['#4c94bd', '#77adee', '#3d79a4', '#619b8a', '#eae2b7', '#dda0dd'];
     const colorScale = scaleOrdinal<string>().domain(continents).range(colorRange);
 
     const xScale = scaleLinear().domain([1, 9]).range([MARGIN.left, CHART_WIDTH - MARGIN.right]);
@@ -68,112 +69,111 @@ export default function HappinessChart() {
     }, [initializeSimulation]);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.title}>The Happiest Countries Clients Of Weroute System</Text>
-            <Legend colorScale={colorScale} />
-            <View style={styles.chartContainer}>
-                <Svg width={CHART_WIDTH} height={CHART_HEIGHT}>
-                    <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill={Colors.lightGray} />
-                    <G>
-                        {/* X-axis */}
-                        <Line
-                            x1={MARGIN.left}
-                            y1={CHART_HEIGHT - MARGIN.bottom}
-                            x2={CHART_WIDTH - MARGIN.right}
-                            y2={CHART_HEIGHT - MARGIN.bottom}
-                            stroke="#333"
-                            strokeWidth={2}
-                        />
-                        {/* Y-axis */}
-                        <Line
-                            x1={MARGIN.left}
-                            y1={MARGIN.top - 10}
-                            x2={MARGIN.left}
-                            y2={CHART_HEIGHT - MARGIN.bottom + 1}
-                            stroke="#333"
-                            strokeWidth={2}
-                        />
-                        {nodes.map((node, i) => (
-                            <React.Fragment key={i}>
-                                <Circle
-                                    cx={node.x}
-                                    cy={node.y}
-                                    r={radiusScale(node.happiness)}
-                                    fill={colorScale(node.continent)}
-                                    onPress={() => setHovered(node)}
-                                />
-                                {hovered === node && (
-                                    <SvgText
-                                        x={node.x}
-                                        y={node.y - radiusScale(node.happiness) - 5}
-                                        textAnchor="middle"
-                                        fill="#333"
-                                        fontSize="8"
-                                    >
-                                        {node.country}
-                                    </SvgText>
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </G>
-                    {/* X-axis label */}
-                    <SvgText
-                        x={CHART_WIDTH / 1.5}
-                        y={CHART_HEIGHT - 10}
-                        textAnchor="middle"
-                        fill="#333"
-                        fontSize="12">
-                        Happiness out of 10 →
-                    </SvgText>
-                    {/* Y-axis labels */}
-                    {continents.map((continent, i) => (
-                        <Text
-                            key={i}
-                            style={styles.ytextstyle}
-                        //x={5}
-                        //y={yScale(continent)! + yScale.bandwidth() / 1}
-                        //textAnchor="start"
-                        //alignmentBaseline="middle"
-                        //fill={Colors.black}
-                        //fontSize={FontSizes.tiny}
-                        >
-                            {continent}
-                        </Text>
-                    ))}
-                </Svg>
-            </View>
+        <ScrollView>
+            <AppHeader navigation={navigation} title="Happiness Index" />
+            <VStack space={4} alignItems="center" bg={Colors.white} py={4} borderRadius={10}>
+                <Text fontSize="xl" fontWeight="bold" color="black" textAlign="center">
+                    The Happiest Countries
+                </Text>
+                <Text fontSize="md" color="gray.600" textAlign="center">
+                    Clients of Weroute System
+                </Text>
+                <Legend colorScale={colorScale} />
+                <Box
+                    width={CHART_WIDTH}
+                    height={CHART_HEIGHT}
+                    borderWidth={2}
+                    borderColor={Colors.uniqueButton}
+                    borderRadius={5}
+                    overflow="hidden"
+                    shadow={5}
+                >
+                    <Svg width={CHART_WIDTH} height={CHART_HEIGHT}>
+                        <Defs>
+                            <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                                <Stop offset="0" stopColor="#1E3B70" stopOpacity="1" />
+                                <Stop offset="1" stopColor="#29539B" stopOpacity="1" />
+                            </LinearGradient>
+                        </Defs>
+                        <Rect x={0} y={0} width={CHART_WIDTH} height={CHART_HEIGHT} fill="url(#grad)" />
+                        <G>
+                            {/* X-axis */}
+                            <Line
+                                x1={MARGIN.left}
+                                y1={CHART_HEIGHT - MARGIN.bottom}
+                                x2={CHART_WIDTH - MARGIN.right}
+                                y2={CHART_HEIGHT - MARGIN.bottom}
+                                stroke="white"
+                                strokeWidth={2}
+                            />
+                            {/* Y-axis */}
+                            <Line
+                                x1={MARGIN.left}
+                                y1={MARGIN.top - 10}
+                                x2={MARGIN.left}
+                                y2={CHART_HEIGHT - MARGIN.bottom + 1}
+                                stroke="white"
+                                strokeWidth={2}
+                            />
+                            {nodes.map((node, i) => (
+                                <React.Fragment key={i}>
+                                    <Circle
+                                        cx={node.x}
+                                        cy={node.y}
+                                        r={radiusScale(node.happiness)}
+                                        fill={colorScale(node.continent)}
+                                        onPress={() => setHovered(node)}
+                                    />
+                                    {hovered === node && (
+                                        <SvgText
+                                            x={node.x}
+                                            y={node.y - radiusScale(node.happiness) - 5}
+                                            textAnchor="middle"
+                                            fill="white"
+                                            fontSize="8"
+                                        >
+                                            {node.country}
+                                        </SvgText>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            {/* X-axis label */}
+                            <SvgText
+                                x={CHART_WIDTH / 2}
+                                y={CHART_HEIGHT - 10}
+                                textAnchor="middle"
+                                fill="white"
+                                fontSize="12"
+                            >
+                                Happiness Score (out of 10)
+                            </SvgText>
+                            {/* Y-axis labels */}
+                            {continents.map((continent, i) => (
+                                <SvgText
+                                    key={i}
+                                    x={10}
+                                    y={yScale(continent)! + yScale.bandwidth() / 2}
+                                    textAnchor="start"
+                                    alignmentBaseline="middle"
+                                    fill="white"
+                                    fontSize={FontSizes.tiny}
+                                >
+                                    {continent}
+                                </SvgText>
+                            ))}
+                        </G>
+                    </Svg>
+                </Box>
+                <Box bg="blue.50" p={4} borderRadius="md" width="90%">
+                    <Text fontSize="lg" fontWeight="bold" color="#1E3B70" mb={2}>Key Insights:</Text>
+                    <VStack space={1}>
+                        <Text fontSize="sm" color="#4A4A4A">• Oceania countries lead in happiness scores</Text>
+                        <Text fontSize="sm" color="#4A4A4A">• North American countries follow closely</Text>
+                        <Text fontSize="sm" color="#4A4A4A">• African countries show lower happiness scores</Text>
+                        <Text fontSize="sm" color="#4A4A4A">• Asia displays a wide range of happiness levels</Text>
+                    </VStack>
+                </Box>
+            </VStack>
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        backgroundColor: Colors.uniqueButton,
-        paddingVertical: 10,
-        borderRadius: 10,
-    },
-    title: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        textAlign: 'center',
-        color: '#000',
-    },
-    chartContainer: {
-        borderWidth: 2,
-        borderColor: Colors.uniqueButton,
-        // opacity: 5,
-        shadowOpacity: 5,
-        borderRadius: 5,
-        overflow: 'hidden',
-    },
-    ytextstyle: {
-        color: Colors.black,
-        fontSize: FontSizes.tiny,
-        marginStart: 18,
-        marginTop: 28,
-        gap: 1.5,
-    },
-});

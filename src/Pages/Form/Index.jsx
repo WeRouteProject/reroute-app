@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
+import { useRoute } from '@react-navigation/native';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -28,6 +29,8 @@ const Form = () => {
     const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
     const navigation = useNavigation();
+    const route = useRoute();
+    const token = route.params?.token;
 
 
     const options = [
@@ -186,12 +189,12 @@ const Form = () => {
     };
     const selectDoc = async () => {
         try {
-            const doc = await DocumentPicker.pick({
+            const result = await DocumentPicker.pick({
                 type: [DocumentPicker.types.doc, DocumentPicker.types.docx],
                 allowMultiSelection: false,
             });
-            setSelectedDocument(doc[0]);
-            console.log('Selected document:', doc[0]);
+            setSelectedDocument(result[0]);
+            console.log('Selected document:', result[0]);
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
                 console.log('Document selection cancelled');
@@ -210,9 +213,12 @@ const Form = () => {
         formData.append('projectType', selectedProjectType);
         formData.append('projectTitle', selectedSubService);
         formData.append('projectDuration', projectDuration);
+        formData.append('jobTitle', jobTitle);
+        formData.append('noOfOpenings', openings);
+        formData.append('yearsOfExperience', experience);
         formData.append('usd', selectedCurrency);
         formData.append('budget', budget);
-        formData.append('description', setRequirement);
+        formData.append('description', requirement);
 
         if (selectedDocument) {
             formData.append('document', {
@@ -228,15 +234,17 @@ const Form = () => {
                 body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`,
                 },
+
             });
             console.log(response);
 
             if (response.ok) {
                 Toast.show({
-                    title: "Form Submitted",
-                    status: "success",
-                    description: "Your form has been successfully submitted.",
+                    title: 'Form Submitted',
+                    status: 'success',
+                    description: 'Your form has been successfully submitted.',
                 });
                 navigation.navigate('Feedback');
             } else {
@@ -245,9 +253,9 @@ const Form = () => {
         } catch (error) {
             console.error('Error submitting form:', error);
             Toast.show({
-                title: "Submission Failed",
-                status: "error",
-                description: "There was an error submitting your form. Please try again.",
+                title: 'Submission Failed',
+                status: 'error',
+                description: 'There was an error submitting your form. Please try again.',
             });
         }
     };
@@ -485,24 +493,26 @@ const Form = () => {
                                 </>
                             )}
                             <TextArea
-                            value={requirement}
+                                value={requirement}
                                 h={20}
                                 placeholder="Brief your requirement"
                                 w="100%"
                                 maxW="350"
                                 backgroundColor={Colors.white}
                                 mt={2} />
-                               <Pressable onPress={selectDoc} bgColor={Colors.primary} padding={10} borderRadius={10} mt={2}>
-                               <Text color={Colors.white}>
+                            <Pressable onPress={selectDoc} bgColor={Colors.primary} padding={10} borderRadius={10} mt={2}>
+                                <Text color={Colors.white}>
                                     {selectedDocument ? `Selected: ${selectedDocument.name}` : 'Select Document (.doc/.docx)'}
                                 </Text>
-                               </Pressable>
-                               
+                            </Pressable>
+
                         </VStack>
                     </Box>
                 </LinearGradient>
 
-                <AppButton onPress={handleSubmit} title="Submit" mt={4} />
+                <Box mb={10} p={5}>
+                    <AppButton onPress={handleSubmit} title="Submit" mt={4} />
+                </Box>
             </ScrollView>
         </View>
     );

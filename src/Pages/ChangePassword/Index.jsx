@@ -39,10 +39,10 @@ const ChangePasswordScreen = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Include token in the headers
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    password: newPassword,  // Use appropriate field names as expected by the API
+                    password: newPassword,
                     confirmPassword: confirmNewPassword,
                     token,
                 }),
