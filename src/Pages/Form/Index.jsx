@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button } from 'native-base';
+import { Box, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button, Pressable, Toast } from 'native-base';
 import { StyleSheet, View } from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 import AppDropDown from '../../Common/AppDropDown';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +23,9 @@ const Form = () => {
     const [budget, setBudget] = useState('');
     const [projectDuration, setProjectDuration] = useState('');
     const [experience, setExperience] = useState('');
+    const [requirement, setRequirement] = useState('');
+    const [selectedDocument, setSelectedDocument] = useState(null);
+    const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
     const navigation = useNavigation();
 
@@ -172,13 +176,80 @@ const Form = () => {
         setExperience(newValue);
     };
 
-    const handleSubmit = () => {
-        navigation.navigate('Feedback');
-    };
+    // const handleSubmit = () => {
+    //     navigation.navigate('Feedback');
+    // };
 
     const handleOpeningsChange = (newValue) => {
         const value = Math.max(1, Math.min(25, newValue));
         setOpenings(value);
+    };
+    const selectDoc = async () => {
+        try {
+            const doc = await DocumentPicker.pick({
+                type: [DocumentPicker.types.doc, DocumentPicker.types.docx],
+                allowMultiSelection: false,
+            });
+            setSelectedDocument(doc[0]);
+            console.log('Selected document:', doc[0]);
+        } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+                console.log('Document selection cancelled');
+            } else {
+                console.error('Error picking document:', err);
+            }
+        }
+    };
+    const handleSubmit = async () => {
+        const formData = new FormData();
+
+        formData.append('country', selectedCountry);
+        formData.append('state', selectedState);
+        formData.append('city', selectedCity);
+        formData.append('serviceType', selectedService);
+        formData.append('projectType', selectedProjectType);
+        formData.append('projectTitle', selectedSubService);
+        formData.append('projectDuration', projectDuration);
+        formData.append('usd', selectedCurrency);
+        formData.append('budget', budget);
+        formData.append('description', setRequirement);
+
+        if (selectedDocument) {
+            formData.append('document', {
+                uri: selectedDocument.uri,
+                type: selectedDocument.type,
+                name: selectedDocument.name,
+            });
+        }
+
+        try {
+            const response = await fetch('https://backend-sec-weroute.onrender.com/backend_sec/User/home', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response);
+
+            if (response.ok) {
+                Toast.show({
+                    title: "Form Submitted",
+                    status: "success",
+                    description: "Your form has been successfully submitted.",
+                });
+                navigation.navigate('Feedback');
+            } else {
+                throw new Error('Server responded with an error');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            Toast.show({
+                title: "Submission Failed",
+                status: "error",
+                description: "There was an error submitting your form. Please try again.",
+            });
+        }
     };
 
     return (
@@ -414,17 +485,24 @@ const Form = () => {
                                 </>
                             )}
                             <TextArea
+                            value={requirement}
                                 h={20}
                                 placeholder="Brief your requirement"
                                 w="100%"
                                 maxW="350"
                                 backgroundColor={Colors.white}
                                 mt={2} />
+                               <Pressable onPress={selectDoc} bgColor={Colors.primary} padding={10} borderRadius={10} mt={2}>
+                               <Text color={Colors.white}>
+                                    {selectedDocument ? `Selected: ${selectedDocument.name}` : 'Select Document (.doc/.docx)'}
+                                </Text>
+                               </Pressable>
+                               
                         </VStack>
                     </Box>
                 </LinearGradient>
 
-                <AppButton onPress={handleSubmit} title="Submit" mt={40} />
+                <AppButton onPress={handleSubmit} title="Submit" mt={4} />
             </ScrollView>
         </View>
     );
@@ -457,111 +535,3 @@ const styles = StyleSheet.create({
 });
 
 export default Form;
-//     return (
-//         <><Box>
-//             <AppHeader
-//                 navigation={navigation}
-//                 title="New Requirement" />
-//         </Box><AppCenterLayout>
-//                 <ScrollView>
-//                     <Box
-//                         alignItems="center" w="100%" p={2}
-//                     >
-//                         {/* <Box
-//                             mt={10}
-//                             alignItems={'center'}
-//                         >
-//                             <Text
-//                                 fontSize={25}
-//                                 color={'#007bff'}
-//                                 underline
-//                                 bold
-//                             >Your Requirements</Text>
-//                         </Box> */}
-// <Input
-//     m={8}
-//     variant={'underlined'}
-//     fontSize={18}
-// >Name</Input>
-// eslint-disable-next-line no-lone-blocks
-{/* <AppDropDown
-    value={selectedCountry}
-    onChange={handleCountryChange}
-    placeholder={'Country'}
-    renderSelectItems={() => (
-        options.map(option => (
-            <Select.Item key={option.value} label={option.label} value={option.value} />
-        ))
-    )}
-    errorMessage="Please select an option" />
-<AppDropDown
-
-    value={selectedState}
-    onChange={handleStateChange}
-    placeholder={'State'}
-    renderSelectItems={() => (
-        options.map(option => (
-            <Select.Item key={option.value} label={option.label} value={option.value} />
-        ))
-    )}
-    errorMessage="Please select an option" />
-<AppDropDown
-    value={selectedCity}
-    onChange={handleCityChange}
-    placeholder={'City'}
-    renderSelectItems={() => (
-        options.map(option => (
-            <Select.Item key={option.value} label={option.label} value={option.value} />
-        ))
-    )}
-    errorMessage="Please select an option" />
-<AppDropDown
-    value={selectedService}
-    onChange={handleServiceChange}
-    placeholder={'Our Services'}
-    renderSelectItems={() => (
-        serviceOptions.map(option => (
-            <Select.Item key={option.value} label={option.label} value={option.value} />
-        ))
-    )}
-    errorMessage="Please select a service" />
-{selectedService && (
-    <AppDropDown
-        value={selectedSubService}
-        onChange={handleSubServiceChange}
-        placeholder={'Project Title'}
-        renderSelectItems={() => (
-            subServiceOptions[selectedService].map(option => (
-                <Select.Item key={option.value} label={option.label} value={option.value} />
-            ))
-        )}
-        errorMessage="Please select a sub-service" />
-)}
-{selectedService && (
-    <AppDropDown
-        value={selectedSubService}
-        onChange={handleSubServiceChange}
-        placeholder={'Project Title'}
-        renderSelectItems={() => (
-            subServiceOptions[selectedService].map(option => (
-                <Select.Item key={option.value} label={option.label} value={option.value} />
-            ))
-        )}
-        errorMessage="Please select a sub-service" />
-)}
- */}
-
-//                         <TextArea h={20} placeholder="Brief your requirement" w="100%" maxW="300" mt={2} />
-
-// <AppButton
-//     onPress={handleSubmit}
-//     title={'Submit'}
-//     width={'85%'}
-//     mt={60} />
-// </Box>
-//                 </ScrollView>
-//             </AppCenterLayout></>
-//     );
-// }
-
-// export default Form;
