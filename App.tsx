@@ -6,6 +6,8 @@ import { NativeBaseProvider } from 'native-base';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/Navigation/Index';
 import { AuthProvider } from './src/Context/AuthProvider';
+import FlashMessage from 'react-native-flash-message';
+
 
 function App(): React.JSX.Element {
   return (
@@ -13,6 +15,7 @@ function App(): React.JSX.Element {
       <SafeAreaProvider>
         <AuthProvider>
           <Navigation style={styles.main} />
+          <FlashMessage position="top" />
         </AuthProvider>
       </SafeAreaProvider>
     </NativeBaseProvider>

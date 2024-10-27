@@ -31,6 +31,8 @@ import CloudSolution from '../Pages/Solutions/CloudSolution';
 import ConsultingServiceDetails from '../Pages/Services/NetworkInteService/ConsultingServiceDetails';
 import HappinessChart from '../components/HappinessChart';
 import CaseStudies from '../Pages/CaseStudies/Index';
+import Projects from '../Pages/Projects/Index';
+import EditProfile from '../Pages/EditProfile/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -136,6 +138,8 @@ const Navigation = () => {
         <Stack.Screen name="CloudSolution" component={CloudSolution} />
         <Stack.Screen name="happines-chart" component={HappinessChart} />
         <Stack.Screen name="Case-Studies" component={CaseStudies} />
+        <Stack.Screen name="projects" component={Projects} />
+        <Stack.Screen name="edit-profile" component={EditProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

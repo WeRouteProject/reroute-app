@@ -2,7 +2,7 @@
 import React from 'react';
 import { Select, FormControl, CheckIcon, WarningOutlineIcon, Input } from 'native-base';
 
-const AppDropDown = ({ value, onChange, renderSelectItems, placeholder, }) => {
+const AppDropDown = ({ value, onChange, renderSelectItems, placeholder, editable }) => {
     const hasError = !value || value === '';
     return (
         <>
@@ -19,6 +19,7 @@ const AppDropDown = ({ value, onChange, renderSelectItems, placeholder, }) => {
                     shadow={5}
                     selectedValue={value}
                     placeholder={placeholder}
+                    editable={editable}
                     onValueChange={itemValue => onChange(itemValue)}
                     _selectedItem={{
                         //bg: 'teal.600',

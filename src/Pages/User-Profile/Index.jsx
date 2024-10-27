@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { Box, Text, VStack, HStack } from 'native-base';
+import { Box, Text, VStack, HStack, Spinner } from 'native-base';
 import { Alert } from 'react-native';
 import AppHeader from '../../Common/AppHeader';
 import AppInput from '../../Common/AppInput';
-import AppButton from '../../Common/AppButton';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,7 +20,6 @@ const UserProfile = () => {
 
     const fetchUserData = async () => {
         try {
-            // Replace this with your actual API call
             const token = await AsyncStorage.getItem('userToken');
             console.log('Token:', token);
 
@@ -30,7 +28,7 @@ const UserProfile = () => {
             }
 
             const response = await fetch(
-                'https://backend-sec-weroute.onrender.com/backend_sec/User/user-profile',
+                'https://backend-sec-weroute.onrender.com/backend_sec/User/profile',
                 {
                     method: 'GET',
                     headers: {
@@ -45,7 +43,7 @@ const UserProfile = () => {
 
             const data = await response.json();
             console.log('User Data:', data);
-            setUserData(data.response);
+            setUserData(data.data);
             setLoading(false);
 
         } catch (error) {
@@ -55,35 +53,11 @@ const UserProfile = () => {
     };
 
     if (loading) {
-        return <Text>Loading...</Text>;
+        return <Box>
+            <Spinner size="sm" color={Colors.gray} mt={10} mb={2} />
+            <Text textAlign={'center'}>Loading...</Text>
+        </Box>
     }
-
-    const handleSendCode = async () => {
-        const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/otp-generate';
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: userData.email }),
-            });
-            const result = await response.json();
-            console.log('Response Status:', response.status);
-            console.log('Response Body:', result);
-            if (response.ok) {
-                // console.log('ok');
-                navigation.navigate('VerifyOtp', { email: userData.email });
-                Alert.alert('Otp sent on registered mail id');
-            } else {
-                console.log('not-ok');
-                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
-            }
-        } catch (error) {
-            Alert.alert('Error');
-        }
-    };
-
 
     return (
         <><AppHeader
@@ -103,19 +77,20 @@ const UserProfile = () => {
                     </Text>
 
                     {/* Progress indicator */}
-                    <HStack space={2} justifyContent="center" mt={5}>
+                    {/* <HStack space={2} justifyContent="center" mt={5}>
                         <Box w={3} h={3} borderRadius="full" bg={Colors.primary} />
                         <Box w={3} h={3} borderRadius="full" bg={Colors.lightGray} />
                         <Box w={3} h={3} borderRadius="full" bg={Colors.lightGray} />
                         <Box w={3} h={3} borderRadius="full" bg={Colors.lightGray} />
-                    </HStack>
+                    </HStack> */}
 
                     <VStack space={4} mt={5}>
                         <Text fontSize={FontSizes.medium} color={Colors.gray}>
                             Basic Information
                         </Text>
                         <Text fontSize={FontSizes.small} color={Colors.gray}>
-                            Kindly add your data, it will help us to better remember you.
+                            You are currently viewing your profile information.
+                            If you want to update any details, please go to the Edit Profile section.
                         </Text>
 
                         <Text fontSize={FontSizes.medium} color={Colors.gray}>
@@ -148,12 +123,12 @@ const UserProfile = () => {
                     <Text
                         fontSize={FontSizes.small}
                         color={Colors.gray}
-                        mt={2}
+                        mt={1}
                         textAlign="center">
-                        We will send you a one-time password to this mobile number
+                        Thank you for being a valued member of WeRoute! Your profile information helps us serve you better.
                     </Text>
 
-                    <AppButton title="Get OTP" onPress={handleSendCode} mt={6} />
+                    {/* <AppButton title="Get OTP" onPress={handleSendCode} mt={6} /> */}
                 </Box>
             </AppCenterLayout></>
     );

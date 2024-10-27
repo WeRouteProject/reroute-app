@@ -7,7 +7,8 @@ const Logout = () => {
         <View>
             <Text>Logout</Text>
         </View>
-    )
-}
+    );
+};
 
-export default Logout
+export default Logout;
+

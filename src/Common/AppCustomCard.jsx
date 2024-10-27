@@ -18,7 +18,7 @@ const AppCustomCard = ({ image }) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        width: width - 20,
+        width: width - 30,
         backgroundColor: '#fff',
         borderRadius: 10,
         shadowColor: '#000',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         marginBottom: 15,
-        marginRight: 18,
+        marginRight: 20,
         height: 200,
     },
     cardImage: {

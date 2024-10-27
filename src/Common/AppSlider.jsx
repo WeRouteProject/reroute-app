@@ -7,7 +7,7 @@ import AppCustomCard from '../Common/AppCustomCard'; // Importing the reusable C
 import { useNavigation } from '@react-navigation/native';
 
 const images = [
-    require('../../src/Common/Utils/assets/images/slide1.jpg'),
+    require('../../src/Common/Utils/assets/images/Sliders1/p7.png'),
     require('../../src/Common/Utils/assets/images/Sliders1/image.png'),
     require('../../src/Common/Utils/assets/images/Sliders1/partners.png'),
 ];
@@ -27,7 +27,7 @@ const AppSlider = () => {
     const handleImagePress = (id) => {
         console.log('Image pressed:', id);
         if (id === '1') {
-            navigation.navigate('happines-chart');
+            navigation.navigate('projects');
         }
         else if (id === '2') {
             navigation.navigate('Case-Studies');

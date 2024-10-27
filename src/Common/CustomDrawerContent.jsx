@@ -1,24 +1,104 @@
 /* eslint-disable jsx-quotes */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Text, Divider, HStack, Pressable, VStack } from 'native-base';
-import { Avatar } from 'react-native-elements';
+import { Box, Text, Divider, HStack, Pressable, VStack, Toast, Spinner } from 'native-base';
 import { Colors } from './Utils/Constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { showMessage } from 'react-native-flash-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomDrawerContent = props => {
-    const [profilePicture, setProfilePicture] = useState('');
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
+    const [token, setToken] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const userToken = await AsyncStorage.getItem('userToken');
+                const userName = await AsyncStorage.getItem('userName');
+                const email = await AsyncStorage.getItem('emailId');
+
+                if (userToken && userName && email) {
+                    setToken(userToken);
+                    console.log('Token fetched:', userToken);
+                    console.log('Recieved userName + Email id: ' + userName + ',' + email);
+                    setEmail(email);
+                    setUserName(userName);
+                }
+            }
+            catch (error) {
+                console.error('Error fetching user data:', error);
+                Toast.show({
+                    title: 'Error',
+                    status: 'error',
+                    description: 'Failed to fetch user data',
+                });
+            }
+        };
+        fetchUserData();
+    }, [navigation]);
+
+    const logout = async () => {
+        try {
+            // Show loading state if needed
+            setIsLoading(true);
+
+            const response = await fetch('https://backend-sec-weroute.onrender.com/backend_sec/User/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Clear all stored data
+                await AsyncStorage.multiRemove([
+                    'userToken',
+                    'userName',
+                    'emailId',
+                ]);
+
+                showMessage({
+                    message: 'Logged out successfully',
+                    type: 'success',
+                });
+
+                // Navigate to login
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }],
+                });
+            } else {
+                showMessage({
+                    message: data.error || 'Logout failed',
+                    type: 'danger',
+                });
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            showMessage({
+                message: 'Network error occurred',
+                type: 'danger',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <VStack flex={1}>
@@ -36,9 +116,9 @@ const CustomDrawerContent = props => {
                             />
                         </Box>
                         <Box>
-                            <Text color={Colors.white}>User Name</Text>
-                            <Text fontSize={12} color={Colors.white}>
-                                user@example.com
+                            <Text color={Colors.white}>{userName}</Text>
+                            <Text fontSize={12} color={Colors.white} mt={1}>
+                                {email}
                             </Text>
                         </Box>
                     </HStack>
@@ -71,15 +151,24 @@ const CustomDrawerContent = props => {
                         </HStack>
                     </Pressable>
 
-                    <Pressable onPress={() => navigation.navigate('user-profile')}>
+                    <Pressable onPress={() => navigation.navigate('edit-profile')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             <MaterialCommunityIcons name='account-edit' color="white" size={20} />
                             <Text color={Colors.white} fontSize={16}>
-                                Account Info
+                                Edit Profile
                             </Text>
                         </HStack>
                     </Pressable>
 
+                    <Pressable onPress={() => navigation.navigate('happines-chart')}>
+                        <HStack alignItems={'center'} space={5} ml={3} mt={8}>
+                            {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
+                            <Icon name='line-chart' color="white" size={15} />
+                            <Text color={Colors.white} fontSize={16}>
+                                Statistics
+                            </Text>
+                        </HStack>
+                    </Pressable>
 
                     <Pressable onPress={() => navigation.navigate('change-password')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
@@ -113,9 +202,24 @@ const CustomDrawerContent = props => {
                 <HStack space={5} ml={3}>
                     {/* <AppIcon isCustom name={'logout'} color={colors.white} size={25} /> */}
                     <Box mt={4}><MaterialIcon name='logout' color={Colors.light} size={20} /></Box>
-                    <Text color={Colors.white} fontSize={16} mt={3}>
-                        Logout
-                    </Text>
+                    <Pressable
+                        onPress={logout}
+                        disabled={isLoading}
+                        opacity={isLoading ? 0.5 : 1}
+                    >
+                        <HStack space={2} alignItems="center">
+                            <Text
+                                color={Colors.white}
+                                fontSize={16}
+                                mt={3}
+                            >
+                                {isLoading ? 'Logging out...' : 'Logout'}
+                            </Text>
+                            {isLoading && (
+                                <Spinner size="sm" color={Colors.white} mt={3} />
+                            )}
+                        </HStack>
+                    </Pressable>
                 </HStack>
             </VStack>
         </VStack>

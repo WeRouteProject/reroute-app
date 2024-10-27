@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button, Pressable, Toast } from 'native-base';
 import { StyleSheet, View } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
-import { useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -26,12 +26,46 @@ const Form = () => {
     const [experience, setExperience] = useState('');
     const [requirement, setRequirement] = useState('');
     const [selectedDocument, setSelectedDocument] = useState(null);
-    const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+    const [userName, setUserName] = useState('');
 
+    const [token, setToken] = useState(null);
     const navigation = useNavigation();
-    const route = useRoute();
-    const token = route.params?.token;
 
+    // Add useEffect for data fetching
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                // Fetch token from AsyncStorage
+                const userToken = await AsyncStorage.getItem('userToken');
+                const storedName = await AsyncStorage.getItem('userName');
+
+                if (userToken) {
+                    setToken(userToken);
+                    console.log('Token fetched:', userToken);
+                } else {
+                    console.log('No token found');
+                    navigation.navigate('Login'); // Redirect to login if no token
+                }
+
+                if (storedName) {
+                    setUserName(storedName);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                Toast.show({
+                    title: 'Error',
+                    status: 'error',
+                    description: 'Failed to fetch user data',
+                });
+            }
+        };
+
+        fetchUserData();
+    }, [navigation]);
+    console.log('Name: ', userName);
+
+    // Logging options for debugging
+    console.log('Initial State Values:');
 
     const options = [
         { label: 'Option 1', value: 'option1' },
@@ -141,24 +175,29 @@ const Form = () => {
 
 
     const handleCountryChange = (newValue) => {
+        console.log('Country selected:', newValue);
         setSelectedCountryValue(newValue);
     };
 
     const handleStateChange = (newValue) => {
+        console.log('State selected:', newValue);
         setSelectedStateValue(newValue);
     };
 
     const handleCityChange = (newValue) => {
+        console.log('City selected:', newValue);
         setSelectedCityValue(newValue);
     };
 
     const handleServiceChange = (newValue) => {
+        console.log('Service selected:', newValue);
         setSelectedService(newValue);
         setSelectedProjectType('');
         setSelectedSubService('');
     };
 
     const handleProjectTypeChange = (newValue) => {
+        console.log('Project Type selected:', newValue);
         setSelectedProjectType(newValue);
         setSelectedSubService('');
     };
@@ -168,14 +207,17 @@ const Form = () => {
     };
 
     const handleCurrencyChange = (newValue) => {
+        console.log('Currency selected:', newValue);
         setSelectedCurrency(newValue);
     };
 
     const handleDurationChange = (newValue) => {
+        console.log('Project Duration selected:', newValue);
         setProjectDuration(newValue);
     };
 
     const handleExperienceChange = (newValue) => {
+        console.log('Years of Experience selected:', newValue);
         setExperience(newValue);
     };
 
@@ -185,6 +227,7 @@ const Form = () => {
 
     const handleOpeningsChange = (newValue) => {
         const value = Math.max(1, Math.min(25, newValue));
+        console.log('Number of Openings selected:', value);
         setOpenings(value);
     };
     const selectDoc = async () => {
@@ -204,8 +247,9 @@ const Form = () => {
         }
     };
     const handleSubmit = async () => {
-        const formData = new FormData();
+        console.log('Submitting form...');
 
+        const formData = new FormData();
         formData.append('country', selectedCountry);
         formData.append('state', selectedState);
         formData.append('city', selectedCity);
@@ -216,7 +260,7 @@ const Form = () => {
         formData.append('jobTitle', jobTitle);
         formData.append('noOfOpenings', openings);
         formData.append('yearsOfExperience', experience);
-        formData.append('usd', selectedCurrency);
+        formData.append('currency', selectedCurrency);
         formData.append('budget', budget);
         formData.append('description', requirement);
 
@@ -228,6 +272,8 @@ const Form = () => {
             });
         }
 
+        console.log('Form data ready to send:', formData);
+
         try {
             const response = await fetch('https://backend-sec-weroute.onrender.com/backend_sec/User/home', {
                 method: 'POST',
@@ -238,9 +284,13 @@ const Form = () => {
                 },
 
             });
-            console.log(response);
+            console.log('Response:', response);
+
+            const responseBody = await response.text(); // or response.json() if the response is in JSON format
+            console.log('Response Body:', responseBody); // Log the response body
 
             if (response.ok) {
+                console.log('Form submitted successfully');
                 Toast.show({
                     title: 'Form Submitted',
                     status: 'success',
@@ -248,9 +298,15 @@ const Form = () => {
                 });
                 navigation.navigate('Feedback');
             } else {
-                throw new Error('Server responded with an error');
+                if (response.status === 401) {
+                    // Token expired or invalid
+                    await AsyncStorage.removeItem('userToken');
+                    navigation.navigate('Login');
+                }
+                throw new Error('Submission failed');
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error submitting form:', error);
             Toast.show({
                 title: 'Submission Failed',
@@ -277,11 +333,13 @@ const Form = () => {
                                 placeholder="Name"
                                 bg="white"
                                 borderRadius={20}
+                                value={userName}
                             />
                             <AppDropDown
                                 value={selectedCountry}
                                 onChange={handleCountryChange}
                                 placeholder={'Country'}
+                                editable={false}
                                 renderSelectItems={() => (
                                     options.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -292,6 +350,7 @@ const Form = () => {
                                 value={selectedState}
                                 onChange={handleStateChange}
                                 placeholder={'State'}
+                                editable={false}
                                 renderSelectItems={() => (
                                     options.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -302,6 +361,7 @@ const Form = () => {
                                 value={selectedCity}
                                 onChange={handleCityChange}
                                 placeholder={'City'}
+                                editable={false}
                                 renderSelectItems={() => (
                                     options.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -312,6 +372,7 @@ const Form = () => {
                                 value={selectedService}
                                 onChange={handleServiceChange}
                                 placeholder={'Our Services'}
+                                editable={false}
                                 renderSelectItems={() => (
                                     serviceOptions.map(option => (
                                         <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -336,6 +397,7 @@ const Form = () => {
                                         value={selectedProjectType}
                                         onChange={handleProjectTypeChange}
                                         placeholder={'Project Type'}
+                                        editable={false}
                                         renderSelectItems={() => (
                                             projectTypeOptions.map(option => (
                                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -347,6 +409,7 @@ const Form = () => {
                                             value={selectedSubService}
                                             onChange={handleSubServiceChange}
                                             placeholder={'Project Title'}
+                                            editable={false}
                                             renderSelectItems={() => (
                                                 subServiceOptions[selectedProjectType].map(option => (
                                                     <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -359,6 +422,7 @@ const Form = () => {
                                             value={projectDuration}
                                             onChange={handleDurationChange}
                                             placeholder={'Project Duration'}
+                                            editable={false}
                                             renderSelectItems={() => (
                                                 durationOptions.map(option => (
                                                     <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -371,6 +435,7 @@ const Form = () => {
                                         value={selectedCurrency}
                                         onChange={handleCurrencyChange}
                                         placeholder={'Currency'}
+                                        editable={false}
                                         borderColor={0}
                                         renderSelectItems={() => (
                                             currencyOptions.map(option => (
@@ -431,6 +496,7 @@ const Form = () => {
                                         value={selectedCurrency}
                                         onChange={handleCurrencyChange}
                                         placeholder={'Currency'}
+                                        editable={false}
                                         renderSelectItems={() => (
                                             currencyOptions.map(option => (
                                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -462,6 +528,7 @@ const Form = () => {
                                         value={experience}
                                         onChange={handleExperienceChange}
                                         placeholder={'Years of Experience'}
+                                        editable={false}
                                         renderSelectItems={() => (
                                             experienceOptions.map(option => (
                                                 <Select.Item key={option.value} label={option.label} value={option.value} />
@@ -494,6 +561,7 @@ const Form = () => {
                             )}
                             <TextArea
                                 value={requirement}
+                                onChangeText={setRequirement}
                                 h={20}
                                 placeholder="Brief your requirement"
                                 w="100%"
