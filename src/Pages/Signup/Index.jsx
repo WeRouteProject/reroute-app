@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
+import { showMessage } from 'react-native-flash-message';
 
 
 const Signup = () => {
@@ -47,12 +48,21 @@ const Signup = () => {
 
       if (response.ok) {
         navigation.navigate('Login');
-        Alert.alert('Successfully Registered');
+        showMessage({
+          message: 'Successfully Registered!',
+          type: 'success',
+        });
       } else {
-        Alert.alert('Register Failed', result?.message || 'Filled all the fields carefully');
+        showMessage({
+          message: 'Register Failed! Please fill all the fields carefully.',
+          type: 'danger',
+        });
       }
     } catch (error) {
-      Alert.alert('Error');
+      showMessage({
+        message: 'Something went wrong, please check your internet connectivity.',
+        type: 'danger',
+      });
     }
   };
   return (

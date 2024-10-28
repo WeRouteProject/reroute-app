@@ -113,7 +113,7 @@ const Login = () => {
     } catch (error) {
       console.error('Login error:', error);
       showMessage({
-        message: error.message || 'Something went wrong, please try again later.',
+        message: 'Something went wrong, please try again later.',
         type: 'danger',
       });
     } finally {

@@ -10,6 +10,7 @@ import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showMessage } from 'react-native-flash-message';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountryValue] = useState('');
@@ -286,32 +287,33 @@ const Form = () => {
             });
             console.log('Response:', response);
 
-            const responseBody = await response.text(); // or response.json() if the response is in JSON format
-            console.log('Response Body:', responseBody); // Log the response body
+            const responseBody = await response.text();
+            console.log('Response Body:', responseBody);
 
             if (response.ok) {
                 console.log('Form submitted successfully');
-                Toast.show({
-                    title: 'Form Submitted',
-                    status: 'success',
-                    description: 'Your form has been successfully submitted.',
+                showMessage({
+                    message: 'Got your request! Thank you for your interest.',
+                    type: 'success',
                 });
-                navigation.navigate('Feedback');
+                //navigation.navigate('Feedback');
             } else {
                 if (response.status === 401) {
                     // Token expired or invalid
                     await AsyncStorage.removeItem('userToken');
                     navigation.navigate('Login');
                 }
-                throw new Error('Submission failed');
+                showMessage({
+                    message: 'Please check your internet connectivity!',
+                    type: 'danger',
+                });
             }
         }
         catch (error) {
             console.error('Error submitting form:', error);
-            Toast.show({
-                title: 'Submission Failed',
-                status: 'error',
-                description: 'There was an error submitting your form. Please try again.',
+            showMessage({
+                message: 'Please check your internet connectivity!',
+                type: 'danger',
             });
         }
     };
