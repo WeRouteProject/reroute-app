@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
-import { Box, Text, HStack, Image } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Box, Text, HStack, Image, Select } from 'native-base';
 import {
   Alert, StyleSheet, SafeAreaView,
   ScrollView,
@@ -12,6 +13,8 @@ import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import { showMessage } from 'react-native-flash-message';
+import countryData from '../../data/country_code.json';
+import CountryCodeDropdown from '../../Common/CustomCountryDropDown';
 
 
 const Signup = () => {
@@ -19,6 +22,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [countryCode, setCountryCode] = useState('');
 
   const navigation = useNavigation();
 
@@ -38,7 +42,6 @@ const Signup = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({ mobile, email, name, password }),
         body: JSON.stringify({ mobileno: mobile, email, Name: name, password }),
       });
       const result = await response.json();
@@ -65,6 +68,19 @@ const Signup = () => {
       });
     }
   };
+
+  useEffect(() => {
+    // Set the default country code
+    const defaultCountryCode = countryData.countries[0].code; // Assuming you want the first country code
+    setCountryCode(defaultCountryCode);
+  }, []);
+
+  const renderSelectItems = () => {
+    return countryData.countries.map((country, index) => (
+      <Select.Item label={country.name} value={country.code} key={index} />
+    ));
+  };
+
   return (
     <AppCenterLayout>
       <Box
@@ -89,13 +105,25 @@ const Signup = () => {
                 Mobile Number
               </Text>
 
-              <AppInput
-                placeholder="Enter your Mobile number"
-                value={mobile}
-                setValue={setMobile}
-                iconName="mobile-phone"
-                iconLibrary="FontAwesome"
-              />
+              <Box mr="3%">
+                <HStack space={2} alignItems="center">
+                  <Box width="32%">
+                    <CountryCodeDropdown
+                      value={countryCode}
+                      onChange={setCountryCode}
+                    />
+                  </Box>
+                  <Box width="68%">
+                    <AppInput
+                      placeholder="Enter your Mobile number"
+                      value={mobile}
+                      setValue={setMobile}
+                      iconName="mobile-phone"
+                      iconLibrary="FontAwesome"
+                    />
+                  </Box>
+                </HStack>
+              </Box>
               <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
                 Email ID
               </Text>

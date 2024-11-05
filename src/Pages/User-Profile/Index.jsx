@@ -115,7 +115,7 @@ const UserProfile = () => {
                                 <AppInput value="+91" editable={false} />
                             </Box>
                             <Box width="80%">
-                                <AppInput value={userData?.mobileNo ? userData.mobileNo.toString() : ''} editable={false} /> {/* Ensure correct casing */}
+                                <AppInput value={userData?.mobileNo ? userData.mobileNo.toString() : ''} editable={false} />
                             </Box>
                         </HStack>
                     </VStack>
