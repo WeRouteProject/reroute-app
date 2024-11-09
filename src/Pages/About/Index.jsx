@@ -1,19 +1,164 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { ScrollView, StyleSheet, Alert, View } from 'react-native';
-import { Box, Text, VStack, HStack } from 'native-base';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Alert, View, Linking } from 'react-native';
+import { Box, Text, VStack, HStack, Modal, Pressable } from 'native-base';
 import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { GradientButton } from '../../Common/GradientButton';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const About = ({ navigation }) => {
-    const handleLearnMorePress = () => {
-        Alert.alert(
-            'Learn More',
-            'To learn more about our services, please visit our website or contact us directly.'
-        );
+
+    const [showLearnMore, setShowLearnMore] = useState(false);
+    const [showContact, setShowContact] = useState(false);
+
+    const handleCall = () => {
+        Linking.openURL('tel:+1234567890');  // Replace with your company's phone number
     };
+
+    const handleEmail = () => {
+        Linking.openURL('mailto:info@weroute.com');  // Replace with your company's email
+    };
+
+    const handleWebsite = () => {
+        Linking.openURL('https://weroute.ai/');  // Replace with your company's website
+    };
+
+    const LearnMoreModal = () => (
+        <Modal isOpen={showLearnMore} onClose={() => setShowLearnMore(false)} size="lg">
+            <Modal.Content>
+                <Modal.CloseButton />
+                <Modal.Header>
+                    <Text color={Colors.primary} bold fontSize="xl">
+                        Learn More About Weroute
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <VStack space={4}>
+                        <Box>
+                            <Text bold fontSize="md" color={Colors.primary} mb={2}>
+                                Our Expertise
+                            </Text>
+                            <VStack space={2}>
+                                <HStack space={2} alignItems="center">
+                                    <Icon name="check-circle" size={20} color={Colors.success} />
+                                    <Text>Software Development</Text>
+                                </HStack>
+                                <HStack space={2} alignItems="center">
+                                    <Icon name="check-circle" size={20} color={Colors.success} />
+                                    <Text>Network Solutions</Text>
+                                </HStack>
+                                <HStack space={2} alignItems="center">
+                                    <Icon name="check-circle" size={20} color={Colors.success} />
+                                    <Text>Cloud Services</Text>
+                                </HStack>
+                                <HStack space={2} alignItems="center">
+                                    <Icon name="check-circle" size={20} color={Colors.success} />
+                                    <Text>Cybersecurity</Text>
+                                </HStack>
+                            </VStack>
+                        </Box>
+
+                        <Box>
+                            <Text bold fontSize="md" color={Colors.primary} mb={2}>
+                                Why Choose Us?
+                            </Text>
+                            <VStack space={2}>
+                                <Text>• 14+ years of industry experience</Text>
+                                <Text>• Certified expert engineers</Text>
+                                <Text>• Comprehensive IT solutions</Text>
+                                <Text>• 24/7 support availability</Text>
+                            </VStack>
+                        </Box>
+
+                        <Pressable onPress={handleWebsite}>
+                            <HStack space={2} alignItems="center" justifyContent="center">
+                                <Icon name="web" size={20} color={Colors.primary} />
+                                <Text color={Colors.primary} bold>
+                                    Visit our website
+                                </Text>
+                            </HStack>
+                        </Pressable>
+                    </VStack>
+                </Modal.Body>
+            </Modal.Content>
+        </Modal>
+    );
+
+    const ContactModal = () => (
+        <Modal isOpen={showContact} onClose={() => setShowContact(false)} size="lg">
+            <Modal.Content>
+                <Modal.CloseButton />
+                <Modal.Header>
+                    <Text color={Colors.primary} bold fontSize="xl">
+                        Contact Us
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <VStack space={6}>
+                        <Pressable onPress={handleCall}>
+                            <HStack space={4} alignItems="center">
+                                <Box
+                                    bg={Colors.primary}
+                                    p={3}
+                                    borderRadius="full"
+                                >
+                                    <FontAwesome name="phone" size={20} color="white" />
+                                </Box>
+                                <VStack>
+                                    <Text bold>Call Us</Text>
+                                    <Text color="gray.500">+1 234 567 890</Text>
+                                </VStack>
+                            </HStack>
+                        </Pressable>
+
+                        <Pressable onPress={handleEmail}>
+                            <HStack space={4} alignItems="center">
+                                <Box
+                                    bg={Colors.primary}
+                                    p={3}
+                                    borderRadius="full"
+                                >
+                                    <FontAwesome name="envelope" size={20} color="white" />
+                                </Box>
+                                <VStack>
+                                    <Text bold>Email Us</Text>
+                                    <Text color="gray.500">info@weroute.com</Text>
+                                </VStack>
+                            </HStack>
+                        </Pressable>
+
+                        <Pressable onPress={handleWebsite}>
+                            <HStack space={4} alignItems="center">
+                                <Box
+                                    bg={Colors.primary}
+                                    p={3}
+                                    borderRadius="full"
+                                >
+                                    <FontAwesome name="globe" size={20} color="white" />
+                                </Box>
+                                <VStack>
+                                    <Text bold>Visit Website</Text>
+                                    <Text color="gray.500">www.weroute.ai</Text>
+                                </VStack>
+                            </HStack>
+                        </Pressable>
+
+                        <Box bg="gray.100" p={4} borderRadius="md">
+                            <Text bold mb={2}>Office Hours</Text>
+                            <Text>Monday - Friday: 9:00 AM - 6:00 PM</Text>
+                            <Text>Saturday: 9:00 AM - 1:00 PM</Text>
+                            <Text>Sunday: Closed</Text>
+                        </Box>
+                    </VStack>
+                </Modal.Body>
+            </Modal.Content>
+        </Modal>
+    );
 
     return (
         <View style={styles.container}>
@@ -91,16 +236,27 @@ const About = ({ navigation }) => {
                     </Box>
                 </LinearGradient>
 
-                <HStack justifyContent="center" space={4} marginBottom={10}>
-                    <GradientButton onPress={handleLearnMorePress}>
-                        <Text color="white" bold>Learn more</Text>
-                    </GradientButton>
-                    <GradientButton onPress={handleLearnMorePress}>
-                        <Text color="white" bold>Contact us</Text>
-                    </GradientButton>
-                </HStack>
+                <Box mb={5}>
+                    <HStack justifyContent="center" space={4} marginBottom={10}>
+                        <GradientButton onPress={() => setShowLearnMore(true)}>
+                            <HStack space={2} alignItems="center">
+                                <Icon name="information" size={20} color="white" />
+                                <Text color="white" bold>Learn more</Text>
+                            </HStack>
+                        </GradientButton>
+                        <GradientButton onPress={() => setShowContact(true)}>
+                            <HStack space={2} alignItems="center">
+                                <Icon name="phone-message" size={20} color="white" />
+                                <Text color="white" bold>Contact us</Text>
+                            </HStack>
+                        </GradientButton>
+                    </HStack>
+                </Box>
 
             </ScrollView>
+
+            <LearnMoreModal />
+            <ContactModal />
         </View>
     );
 };
@@ -109,6 +265,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f9f9f9',
+        mb: 12,
     },
     scrollContent: {
         flexGrow: 1,

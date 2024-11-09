@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Box, Text } from 'native-base';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import AppInput from '../../Common/AppInput';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
@@ -9,6 +9,7 @@ import AppFooter from '../../Common/AppFooter';
 import AppButton from '../../Common/AppButton';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 const ChangePasswordScreen = () => {
     const [newPassword, setNewPassword] = useState('');
@@ -17,18 +18,23 @@ const ChangePasswordScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
 
-    // Fix token extraction
     const token = route.params?.token;
 
     const handleChangePassword = async () => {
-        // Validate inputs
+
         if (!newPassword || !confirmNewPassword) {
-            Alert.alert('Error', 'Please fill in both password fields.');
+            showMessage({
+                message: 'Please fill all the fields correctly',
+                type: 'danger',
+            });
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            Alert.alert('Error', 'Passwords do not match.');
+            showMessage({
+                message: 'New password and confirm password must be same',
+                type: 'warning',
+            });
             return;
         }
 
@@ -53,15 +59,22 @@ const ChangePasswordScreen = () => {
             console.log('Response Body:', result);
 
             if (response.ok) {
-                Alert.alert('Success', 'Password changed successfully.');
+                showMessage({
+                    message: 'Password changed successfully',
+                    type: 'success',
+                });
                 navigation.navigate('Login');
             } else {
-                console.log('not-ok');
-                Alert.alert('Error', result?.message || 'Failed to change the password');
+                showMessage({
+                    message: 'Failed to change the password, please check your internet connectivity and try again',
+                    type: 'danger',
+                });
             }
         } catch (error) {
-            console.error('Error:', error);
-            Alert.alert('Error', 'Something went wrong. Please try again.');
+            showMessage({
+                message: 'Something went wrong, please check your internet connectivity and try again',
+                type: 'danger',
+            });
         }
     };
 

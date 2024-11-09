@@ -22,6 +22,7 @@ const AppInput = ({
   iconName,
   iconLibrary = 'MaterialIcons',
   editable,
+  maxLength,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -76,6 +77,7 @@ const AppInput = ({
       onChangeText={setValue}
       secureTextEntry={secureTextEntry && !showPassword}
       editable={editable}
+      maxLength={maxLength}
       _focus={{
         borderColor: Colors.ButtonColorDark || '#000',
       }}

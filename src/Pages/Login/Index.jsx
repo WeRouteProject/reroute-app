@@ -40,16 +40,9 @@ const Login = () => {
   }, []);
 
   const validateInput = () => {
-    if (!email.trim()) {
+    if (!email?.trim() || !password?.trim()) {
       showMessage({
-        message: 'Please enter your email address',
-        type: 'warning',
-      });
-      return false;
-    }
-    if (!password.trim()) {
-      showMessage({
-        message: 'Please enter your password',
+        message: 'Please fill all the fields carefully',
         type: 'warning',
       });
       return false;
@@ -71,7 +64,7 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    if (!validateInput()) return;
+    if (!validateInput()) { return; }
 
     setIsLoading(true);
     const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/signIn';
@@ -113,7 +106,7 @@ const Login = () => {
     } catch (error) {
       console.error('Login error:', error);
       showMessage({
-        message: 'Something went wrong, please try again later.',
+        message: 'Internal server error, please check your internet connectivity and try again',
         type: 'danger',
       });
     } finally {

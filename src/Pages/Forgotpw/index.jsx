@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Box, Text, HStack } from 'native-base';
-import { Alert } from 'react-native';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppCenterLayout from '../../Common/AppCenterLayout';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppFooter from '../../Common/AppFooter';
+import { showMessage } from 'react-native-flash-message';
 
 const Forgot = () => {
 
@@ -34,15 +34,22 @@ const Forgot = () => {
             console.log('Response Status:', response.status);
             console.log('Response Body:', result);
             if (response.ok) {
-                // console.log('ok');
+                showMessage({
+                    message: 'Otp sent on your registered email id.',
+                    type: 'success',
+                });
                 navigation.navigate('VerifyOtp', { email });
-                Alert.alert('Otp sent on registered mail id');
             } else {
-                console.log('not-ok');
-                Alert.alert('User not found with provided email id', result?.message || 'Invalid Credientials');
+                showMessage({
+                    message: 'User not found with provided email id, please enter registered email id.',
+                    type: 'danger',
+                });
             }
         } catch (error) {
-            Alert.alert('Error');
+            showMessage({
+                message: 'Internal server error, please check your internet connectivity and try again.',
+                type: 'danger',
+            });
         }
     };
 

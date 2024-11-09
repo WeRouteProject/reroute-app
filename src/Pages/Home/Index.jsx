@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity, StyleSheet, ScrollView, Animated, View } from 'react-native';
-import { Box, Image, HStack, Text } from 'native-base';
+import { Box, Image, HStack } from 'native-base';
 import Logo from '../../Common/Utils/assets/images/light-logo-removebg.png';
 import AppSlider from '../../Common/AppSlider';
 import AppTabNav from '../../Common/AppTabNav';
@@ -13,8 +13,7 @@ const HEADER_HEIGHT = 60; // Set the height of the header
 
 const Home = () => {
     const navigation = useNavigation();
-    const scrollY = useRef(new Animated.Value(0)).current; // Animated value for scroll position
-    const [footerVisible, setFooterVisible] = useState(true);
+    const scrollY = useRef(new Animated.Value(0)).current; // Animated value for scroll positio
 
     const openDrawer = () => {
         navigation.dispatch(DrawerActions.openDrawer());
@@ -26,17 +25,12 @@ const Home = () => {
             useNativeDriver: false,
             listener: (event) => {
                 const offsetY = event.nativeEvent.contentOffset.y;
-                if (offsetY > 100) {
-                    setFooterVisible(false); // Hide footer when scrolling down
-                } else {
-                    setFooterVisible(true); // Show footer when scrolling up
-                }
             },
         }
     );
 
     return (
-        <Box safeArea flex={1} bg="white">
+        <Box safeArea flex={1} bg="white" mb={12}>
             {/* Sticky Header */}
             <View style={styles.header}>
                 <HStack alignItems="center" space={4} px={4} py={2}>
@@ -74,14 +68,6 @@ const Home = () => {
                     </Box>
                 </Box>
             </ScrollView>
-
-            {/* Footer Section */}
-            {footerVisible && (
-                <Box style={styles.footer}>
-                    {/* Add your footer content here */}
-                    <Text>Footer Content Here</Text>
-                </Box>
-            )}
         </Box>
     );
 };

@@ -13,6 +13,7 @@ import Icon2 from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { showMessage } from 'react-native-flash-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomDrawerContent = props => {
@@ -21,7 +22,7 @@ const CustomDrawerContent = props => {
     const [token, setToken] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const navigation = useNavigation();
+    const { navigation } = props;
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -144,7 +145,7 @@ const CustomDrawerContent = props => {
                     <Pressable onPress={() => navigation.navigate('About')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
-                            <MaterialCommunityIcons name='account-edit' color="white" size={20} />
+                            <Entypo name='info-with-circle' color="white" size={18} />
                             <Text color={Colors.white} fontSize={16}>
                                 About Us
                             </Text>
@@ -153,7 +154,7 @@ const CustomDrawerContent = props => {
 
                     <Pressable onPress={() => navigation.navigate('edit-profile')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
-                            <MaterialCommunityIcons name='account-edit' color="white" size={20} />
+                            <MaterialCommunityIcons name='account-edit' color="white" size={19} />
                             <Text color={Colors.white} fontSize={16}>
                                 Edit Profile
                             </Text>
@@ -173,7 +174,7 @@ const CustomDrawerContent = props => {
                     <Pressable onPress={() => navigation.navigate('change-password')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
-                            <MaterialCommunityIcons name='key-alert' color="white" size={20} />
+                            <MaterialCommunityIcons name='key-alert' color="white" size={18} />
                             <Text color={Colors.white} fontSize={16}>
                                 Change Password
                             </Text>
@@ -183,7 +184,7 @@ const CustomDrawerContent = props => {
                     <Pressable onPress={() => navigation.navigate('Form')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
-                            <Icon name='home' color="white" size={20} />
+                            <MaterialCommunityIcons name='notebook-edit-outline' color="white" size={20} />
                             <Text color={Colors.white} fontSize={16}>
                                 New Requirement
                             </Text>

@@ -20,8 +20,8 @@ const CountryCodeDropdown = ({ value, onChange, countries }) => {
                 selectedValue={value}
                 onValueChange={(itemValue) => onChange(itemValue)}
                 _selectedItem={{
-                    bg: 'teal.600',
-                    endIcon: <CheckIcon size="5" />,
+                    bg: Colors.ButtonColorLight,
+                    endIcon: <CheckIcon color={Colors.white} size="5" />,
                 }}
                 dropdownIcon={
                     <Icon name="angle-down" size={20} color="#BDBDBD" style={{ marginRight: 8 }} />

@@ -1,6 +1,7 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react'; // Import useEffect from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { Box, HStack } from 'native-base';
 import AppButton from '../../Common/AppButton';
 import AppHeader from '../../Common/AppHeader';
@@ -8,27 +9,65 @@ import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AppInput from '../../Common/AppInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useRoute } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 const VerifyCode = ({ navigation }) => {
     const [code, setCode] = useState(['', '', '', '', '', '']);
-    const [email, setEmail] = useState('');  // Initialize state for email
+    const [email, setEmail] = useState('');
     const route = useRoute();
 
-    // Retrieve email from route.params
+    const inputRefs = useRef([...Array(6)].map(() => React.createRef()));
+
     useEffect(() => {
         if (route.params?.email) {
-            setEmail(route.params.email);  // Set the email passed from the previous screen
+            setEmail(route.params.email);
         }
     }, [route.params?.email]);
 
     const handleCodeChange = (text, index) => {
+        // Only allow numbers and letters
+        const sanitizedText = text.replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+
         const newCode = [...code];
-        newCode[index] = text;
+        newCode[index] = sanitizedText;
         setCode(newCode);
+
+        // If a value is entered and there is a next input, focus it
+        if (sanitizedText !== '' && index < 5) {
+            inputRefs.current[index + 1].focus();
+        }
+    };
+
+    const handleKeyPress = (e, index) => {
+        // Handle backspace
+        if (e.nativeEvent.key === 'Backspace') {
+            if (code[index] === '' && index > 0) {
+                inputRefs.current[index - 1].focus();
+                const newCode = [...code];
+                newCode[index - 1] = '';
+                setCode(newCode);
+            } else {
+                const newCode = [...code];
+                newCode[index] = '';
+                setCode(newCode);
+            }
+        }
+    };
+
+    const focusInput = (index) => {
+        inputRefs.current[index].focus();
     };
 
     const handleVerify = async () => {
-        const otp = code.join('');  // Join the OTP array into a single string
+        const otp = code.join('');
+        if (otp.length !== 6) {
+            showMessage({
+                message: 'Please enter valid otp.',
+                type: 'danger',
+            });
+            return;
+        }
+
         const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/verify-otp';
 
         try {
@@ -37,24 +76,29 @@ const VerifyCode = ({ navigation }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, otp }),  // Pass email and the concatenated OTP
+                body: JSON.stringify({ email, otp }),
             });
             const result = await response.json();
             console.log('Response Status:', response.status);
             console.log('Response Body:', result);
 
             if (response.ok) {
-                console.log('OTP verified successfully');
-                // Navigate to change password screen, passing the token
+                showMessage({
+                    message: 'OTP verified successfully!',
+                    type: 'success',
+                });
                 navigation.navigate('change-password', { token: result.token });
-                Alert.alert('Success', 'OTP verified successfully!');
             } else {
-                console.log('OTP verification failed');
-                Alert.alert('Error', result?.message || 'Invalid OTP');
+                showMessage({
+                    message: 'Invalid otp. Please enter valid otp.',
+                    type: 'danger',
+                });
             }
         } catch (error) {
-            console.error(error);
-            Alert.alert('Error', 'Something went wrong. Please try again.');
+            showMessage({
+                message: 'Internal server error, please check your internet connectivity and try again',
+                type: 'danger',
+            });
         }
     };
 
@@ -72,17 +116,26 @@ const VerifyCode = ({ navigation }) => {
             console.log('Response Status:', response.status);
             console.log('Response Body:', result);
             if (response.ok) {
-                Alert.alert('Success', 'OTP resent successfully!');
+                setCode(['', '', '', '', '', '']);
+                inputRefs.current[0].focus();
+
+                showMessage({
+                    message: 'Re-sent otp on your registered email id',
+                    type: 'success',
+                });
             } else {
-                console.log('not-ok');
-                Alert.alert('Error', result?.message || 'Unable to resend OTP.');
+                showMessage({
+                    message: 'User not found with provided email id, please enter registered email id',
+                    type: 'danger',
+                });
             }
         } catch (error) {
-            console.error('Error resending OTP:', error);
-            Alert.alert('Error', 'Something went wrong. Please try again.');
+            showMessage({
+                message: 'Internal server error, please check your internet connectivity',
+                type: 'danger',
+            });
         }
     };
-
 
     return (
         <View style={styles.container}>
@@ -95,36 +148,44 @@ const VerifyCode = ({ navigation }) => {
                     <Text fontSize={FontSizes.medium} color={Colors.gray} my={2}>
                         Your registered email
                     </Text>
-
-                    {/* Display email as non-editable */}
                     <AppInput
                         placeholder="Enter your Email Address"
                         value={email}
                         setValue={setEmail}
-                        editable={false}  // Make the email field non-editable
-                        icon={<Icon name="envelope" size={20} color="red" />}  // Icon next to the email input
+                        editable={false}
+                        icon={<Icon name="envelope" size={20} color="red" />}
                     />
                 </Box>
                 <HStack space={2} justifyContent="center" mt={5}>
                     {code.map((digit, index) => (
-                        <Box
+                        <TouchableOpacity
                             key={index}
-                            w={10}
-                            h={12}
-                            borderWidth={1}
-                            borderColor="gray.300"
-                            borderRadius="md"
-                            alignItems="center"
-                            justifyContent="center"
+                            onPress={() => focusInput(index)}
+                            activeOpacity={0.7}
                         >
-                            <TextInput
-                                style={styles.codeText}
-                                value={digit}
-                                onChangeText={(text) => handleCodeChange(text, index)}
-                                maxLength={1}
-                                keyboardType="default"
-                            />
-                        </Box>
+                            <Box
+                                w={10}
+                                h={12}
+                                borderWidth={1}
+                                borderColor={inputRefs.current[index]?.isFocused?.() ? Colors.primary : 'gray.300'}
+                                borderRadius="md"
+                                alignItems="center"
+                                justifyContent="center"
+                                backgroundColor="white"
+                            >
+                                <TextInput
+                                    ref={el => inputRefs.current[index] = el}
+                                    style={styles.codeText}
+                                    value={digit}
+                                    onChangeText={(text) => handleCodeChange(text, index)}
+                                    onKeyPress={(e) => handleKeyPress(e, index)}
+                                    maxLength={1}
+                                    keyboardType="numeric"
+                                    autoCapitalize="characters"
+                                    selectTextOnFocus
+                                />
+                            </Box>
+                        </TouchableOpacity>
                     ))}
                 </HStack>
                 <TouchableOpacity onPress={handleResend}>
@@ -168,6 +229,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         color: '#000',
+        width: '100%',
+        height: '100%',
+        paddingHorizontal: 5,
     },
     resendText: {
         marginTop: 20,

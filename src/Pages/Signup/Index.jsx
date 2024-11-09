@@ -16,13 +16,12 @@ import { showMessage } from 'react-native-flash-message';
 import countryData from '../../data/country_code.json';
 import CountryCodeDropdown from '../../Common/CustomCountryDropDown';
 
-
 const Signup = () => {
   const [mobile, setMobile] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [countryCode, setCountryCode] = useState('');
 
   const navigation = useNavigation();
 
@@ -30,22 +29,57 @@ const Signup = () => {
     console.log('Register');
     navigation.navigate('Login');
   }
+
+  const validateInput = () => {
+
+    if (!mobile?.trim() || !email?.trim() || !name?.trim() || !password?.trim()) {
+      showMessage({
+        message: 'Please fill all the fields carefully',
+        type: 'warning',
+      });
+      return false;
+    }
+
+    if (!countryCode?.trim()) {
+      showMessage({
+        message: 'Please enter country code',
+        type: 'warning',
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSignup = async () => {
+    if (!validateInput()) { return; }
+
     const apiUrl = 'https://backend-sec-weroute.onrender.com/backend_sec/User/signUp';
-    if (!mobile || !email || !name || !password) {
+
+    if (!mobile || !email || !name || !password || !countryCode) {
       Alert.alert('Please fill in all required fields.');
       return;
     }
+
+    const sanitizedMobile = String(mobile).replace(/\D/g, '');
+
+    const fullMobileNumber = `${countryCode}${sanitizedMobile}`;
+
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mobileno: mobile, email, Name: name, password }),
+        body: JSON.stringify({
+          mobileno: fullMobileNumber,
+          countryCode,
+          email,
+          Name: name,
+          password,
+        }),
       });
-      const result = await response.json();
 
+      const result = await response.json();
       console.log('Response Status:', response.status);
       console.log('Response Body:', result);
 
@@ -57,7 +91,7 @@ const Signup = () => {
         });
       } else {
         showMessage({
-          message: 'Register Failed! Please fill all the fields carefully.',
+          message: result.error || 'Register Failed! Please fill all the fields carefully.',
           type: 'danger',
         });
       }
@@ -70,16 +104,9 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    // Set the default country code
-    const defaultCountryCode = countryData.countries[0].code; // Assuming you want the first country code
+    const defaultCountryCode = countryData.countries[0].code;
     setCountryCode(defaultCountryCode);
   }, []);
-
-  const renderSelectItems = () => {
-    return countryData.countries.map((country, index) => (
-      <Select.Item label={country.name} value={country.code} key={index} />
-    ));
-  };
 
   return (
     <AppCenterLayout>
@@ -110,16 +137,17 @@ const Signup = () => {
                   <Box width="32%">
                     <CountryCodeDropdown
                       value={countryCode}
-                      onChange={setCountryCode}
+                      onChange={(code) => setCountryCode(code)}
                     />
                   </Box>
                   <Box width="68%">
                     <AppInput
                       placeholder="Enter your Mobile number"
                       value={mobile}
-                      setValue={setMobile}
+                      setValue={(value) => setMobile(value)}
                       iconName="mobile-phone"
                       iconLibrary="FontAwesome"
+                      maxLength={10}
                     />
                   </Box>
                 </HStack>

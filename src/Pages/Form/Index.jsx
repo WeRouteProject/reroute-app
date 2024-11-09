@@ -11,11 +11,26 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from 'react-native-flash-message';
+import FeedbackModal from '../Feedback/Index';
 
 const Form = () => {
-    const [selectedCountry, setSelectedCountryValue] = useState('');
-    const [selectedState, setSelectedStateValue] = useState('');
-    const [selectedCity, setSelectedCityValue] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState({
+        name: '',
+        iso2: ''
+    });
+    const [selectedState, setSelectedState] = useState({
+        name: '',
+        iso2: ''
+    });
+    const [selectedCity, setSelectedCity] = useState({
+        name: '',
+        value: ''
+    });
+
+    const [countries, setCountries] = useState([]);
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+
     const [selectedService, setSelectedService] = useState('');
     const [selectedProjectType, setSelectedProjectType] = useState('');
     const [selectedSubService, setSelectedSubService] = useState('');
@@ -28,6 +43,97 @@ const Form = () => {
     const [requirement, setRequirement] = useState('');
     const [selectedDocument, setSelectedDocument] = useState(null);
     const [userName, setUserName] = useState('');
+    const [showFeedback, setShowFeedback] = useState(false);
+
+    const API_KEY = 'ZEloYWNwT0VGSVh5SGtCcGNnRmRGNk1TZDFENklPVUNwSU9JQlZYYg==';
+
+    // Fetch countries on component mount
+    useEffect(() => {
+        fetchCountries();
+    }, []);
+
+    // Fetch states when country changes
+    useEffect(() => {
+        if (selectedCountry.iso2) {
+            fetchStates(selectedCountry.iso2);
+            setSelectedState({ name: '', iso2: '' });
+            setSelectedCity({ name: '', value: '' });
+            setCities([]);
+        }
+    }, [selectedCountry.iso2]);
+
+    useEffect(() => {
+        if (selectedCountry.iso2 && selectedState.iso2) {
+            fetchCities(selectedCountry.iso2, selectedState.iso2);
+            setSelectedCity({ name: '', value: '' });
+        }
+    }, [selectedCountry.iso2, selectedState.iso2]);
+
+    const fetchCountries = async () => {
+        try {
+            const response = await fetch('https://api.countrystatecity.in/v1/countries', {
+                headers: {
+                    'X-CSCAPI-KEY': API_KEY
+                }
+            });
+            const data = await response.json();
+            setCountries(data.map(country => ({
+                label: country.name,
+                value: country.iso2,
+                name: country.name
+            })));
+        } catch (error) {
+            console.error('Error fetching countries:', error);
+            showMessage({
+                message: 'Error fetching countries',
+                type: 'danger'
+            });
+        }
+    };
+
+    const fetchStates = async (countryCode) => {
+        try {
+            const response = await fetch(`https://api.countrystatecity.in/v1/countries/${countryCode}/states`, {
+                headers: {
+                    'X-CSCAPI-KEY': API_KEY,
+                }
+            });
+            const data = await response.json();
+            setStates(data.map(state => ({
+                label: state.name,
+                value: state.iso2,
+                name: state.name
+            })));
+        } catch (error) {
+            console.error('Error fetching states:', error);
+            showMessage({
+                message: 'Error fetching states',
+                type: 'danger'
+            });
+        }
+    };
+
+    const fetchCities = async (countryCode, stateCode) => {
+        try {
+            const response = await fetch(`https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`, {
+                headers: {
+                    'X-CSCAPI-KEY': API_KEY
+                }
+            });
+            const data = await response.json();
+            setCities(data.map(city => ({
+                label: city.name,
+                value: city.name,
+                name: city.name
+            })));
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+            showMessage({
+                message: 'Error fetching cities',
+                type: 'danger'
+            });
+        }
+    };
 
     const [token, setToken] = useState(null);
     const navigation = useNavigation();
@@ -67,12 +173,6 @@ const Form = () => {
 
     // Logging options for debugging
     console.log('Initial State Values:');
-
-    const options = [
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        // Add more options as needed
-    ];
 
     const serviceOptions = [
         { label: 'Project', value: 'Project' },
@@ -174,22 +274,29 @@ const Form = () => {
         value: `${i + 1}`,
     }));
 
-
     const handleCountryChange = (newValue) => {
-        console.log('Country selected:', newValue);
-        setSelectedCountryValue(newValue);
+        const country = countries.find(c => c.value === newValue);
+        setSelectedCountry({
+            name: country?.name || '',
+            iso2: newValue
+        });
     };
 
     const handleStateChange = (newValue) => {
-        console.log('State selected:', newValue);
-        setSelectedStateValue(newValue);
+        const state = states.find(s => s.value === newValue);
+        setSelectedState({
+            name: state?.name || '',
+            iso2: newValue
+        });
     };
 
     const handleCityChange = (newValue) => {
-        console.log('City selected:', newValue);
-        setSelectedCityValue(newValue);
+        const city = cities.find(c => c.value === newValue);
+        setSelectedCity({
+            name: city?.name || '',
+            value: newValue
+        });
     };
-
     const handleServiceChange = (newValue) => {
         console.log('Service selected:', newValue);
         setSelectedService(newValue);
@@ -222,10 +329,6 @@ const Form = () => {
         setExperience(newValue);
     };
 
-    // const handleSubmit = () => {
-    //     navigation.navigate('Feedback');
-    // };
-
     const handleOpeningsChange = (newValue) => {
         const value = Math.max(1, Math.min(25, newValue));
         console.log('Number of Openings selected:', value);
@@ -247,74 +350,127 @@ const Form = () => {
             }
         }
     };
+
     const handleSubmit = async () => {
         console.log('Submitting form...');
 
+        // Validate required fields before submission
+        if (!selectedCountry.name || !selectedState.name || !selectedCity.name) {
+            showMessage({
+                message: 'Please fill in all location fields',
+                type: 'warning',
+            });
+            return;
+        }
+
+        // Create FormData object
         const formData = new FormData();
-        formData.append('country', selectedCountry);
-        formData.append('state', selectedState);
-        formData.append('city', selectedCity);
+
+        // Append simple string values
+        formData.append('country', selectedCountry.name);
+        formData.append('state', selectedState.name);
+        formData.append('city', selectedCity.name);
         formData.append('serviceType', selectedService);
         formData.append('projectType', selectedProjectType);
         formData.append('projectTitle', selectedSubService);
         formData.append('projectDuration', projectDuration);
         formData.append('jobTitle', jobTitle);
-        formData.append('noOfOpenings', openings);
+        formData.append('noOfOpenings', openings.toString());
         formData.append('yearsOfExperience', experience);
         formData.append('currency', selectedCurrency);
         formData.append('budget', budget);
         formData.append('description', requirement);
 
+        // Handle document attachment
         if (selectedDocument) {
-            formData.append('document', {
-                uri: selectedDocument.uri,
-                type: selectedDocument.type,
-                name: selectedDocument.name,
-            });
+            // Create file object with correct structure
+            const fileToUpload = {
+                uri: Platform.OS === 'ios' ?
+                    selectedDocument.uri.replace('file://', '') :
+                    selectedDocument.uri,
+                type: selectedDocument.type || 'application/msword', // fallback mime type
+                name: selectedDocument.name || 'document.doc',
+            };
+            formData.append('document', fileToUpload);
         }
 
-        console.log('Form data ready to send:', formData);
+        // Log the formData for debugging
+        console.log('Form data prepared:', Object.fromEntries(formData._parts));
 
         try {
+            // Check if we have a valid token
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            // Set timeout for the fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
             const response = await fetch('https://backend-sec-weroute.onrender.com/backend_sec/User/home', {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`,
+                    // Don't set Content-Type header - let fetch set it automatically with boundary
                 },
-
+                signal: controller.signal
             });
-            console.log('Response:', response);
 
-            const responseBody = await response.text();
-            console.log('Response Body:', responseBody);
+            // Clear timeout
+            clearTimeout(timeoutId);
+
+            // Parse response
+            let responseData;
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                responseData = await response.json();
+            } else {
+                responseData = await response.text();
+            }
+
+            console.log('Response status:', response.status);
+            console.log('Response data:', responseData);
 
             if (response.ok) {
-                console.log('Form submitted successfully');
                 showMessage({
-                    message: 'Got your request! Thank you for your interest.',
+                    message: 'Got your request! Thank you for your interest',
                     type: 'success',
                 });
-                //navigation.navigate('Feedback');
+                setShowFeedback(true);
             } else {
                 if (response.status === 401) {
                     // Token expired or invalid
                     await AsyncStorage.removeItem('userToken');
+                    showMessage({
+                        message: 'Session expired. Please login again',
+                        type: 'warning',
+                    });
                     navigation.navigate('Login');
+                    return;
                 }
+
+                throw new Error(responseData.message || 'Internal server error, please check your internet connectivity and try again');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+
+            if (error.name === 'AbortError') {
                 showMessage({
-                    message: 'Please check your internet connectivity!',
+                    message: 'Request timed out. Please check your internet connection',
+                    type: 'danger',
+                });
+            } else if (!navigator.onLine) {
+                showMessage({
+                    message: 'No internet connection. Please check your network and try again',
+                    type: 'danger',
+                });
+            } else {
+                showMessage({
+                    message: 'Internal server error, please check your internet connectivity and try again',
                     type: 'danger',
                 });
             }
-        }
-        catch (error) {
-            console.error('Error submitting form:', error);
-            showMessage({
-                message: 'Please check your internet connectivity!',
-                type: 'danger',
-            });
         }
     };
 
@@ -338,38 +494,45 @@ const Form = () => {
                                 value={userName}
                             />
                             <AppDropDown
-                                value={selectedCountry}
+                                value={selectedCountry.iso2}
                                 onChange={handleCountryChange}
                                 placeholder={'Country'}
                                 editable={false}
                                 renderSelectItems={() => (
-                                    options.map(option => (
-                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    countries.map(country => (
+                                        <Select.Item key={country.value} label={country.label} value={country.value} />
                                     ))
                                 )}
-                                errorMessage="Please select an option" />
+                                errorMessage="Please select a country"
+                            />
+
                             <AppDropDown
-                                value={selectedState}
+                                value={selectedState.iso2}
                                 onChange={handleStateChange}
                                 placeholder={'State'}
                                 editable={false}
                                 renderSelectItems={() => (
-                                    options.map(option => (
-                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    states.map(state => (
+                                        <Select.Item key={state.value} label={state.label} value={state.value} />
                                     ))
                                 )}
-                                errorMessage="Please select an option" />
+                                errorMessage="Please select a state"
+                                isDisabled={!selectedCountry.iso2}
+                            />
+
                             <AppDropDown
-                                value={selectedCity}
+                                value={selectedCity.value}
                                 onChange={handleCityChange}
                                 placeholder={'City'}
                                 editable={false}
                                 renderSelectItems={() => (
-                                    options.map(option => (
-                                        <Select.Item key={option.value} label={option.label} value={option.value} />
+                                    cities.map(city => (
+                                        <Select.Item key={city.value} label={city.label} value={city.value} />
                                     ))
                                 )}
-                                errorMessage="Please select an option" />
+                                errorMessage="Please select a city"
+                                isDisabled={!selectedState.iso2}
+                            />
                             <AppDropDown
                                 value={selectedService}
                                 onChange={handleServiceChange}
@@ -381,18 +544,7 @@ const Form = () => {
                                     ))
                                 )}
                                 errorMessage="Please select a service" />
-                            {/* {selectedService === 'Project' && (
-                                <AppDropDown
-                                    value={selectedProjectType}
-                                    onChange={handleProjectTypeChange}
-                                    placeholder={'Project Type'}
-                                    renderSelectItems={() => (
-                                        projectTypeOptions.map(option => (
-                                            <Select.Item key={option.value} label={option.label} value={option.value} />
-                                        ))
-                                    )}
-                                    errorMessage="Please select a project type" />
-                            )} */}
+
                             {selectedService === 'Project' && (
                                 <>
                                     <AppDropDown
@@ -515,17 +667,6 @@ const Form = () => {
                                         value={budget}
                                         onChangeText={setBudget}
                                     />
-                                    {/* <AppDropDown
-                                        value={projectDuration}
-                                        onChange={handleDurationChange}
-                                        placeholder={'Project Duration'}
-                                        renderSelectItems={() => (
-                                            durationOptions.map(option => (
-                                                <Select.Item key={option.value} label={option.label} value={option.value} />
-                                            ))
-                                        )}
-                                        errorMessage="Please select project duration"
-                                    /> */}
                                     <AppDropDown
                                         value={experience}
                                         onChange={handleExperienceChange}
@@ -538,27 +679,6 @@ const Form = () => {
                                         )}
                                         errorMessage="Please select years of experience"
                                     />
-                                    {/* <GradientButton onPress={handlePdfUpload}>
-                                        <Text color="white" bold>Upload PDF</Text>
-                                    </GradientButton>
-                                    {pdfFile && (
-                                        <Text>File uploaded: {pdfFile.name}</Text>
-                                    )} */}
-
-                                    {/* <HStack space={2} alignItems="center">
-                                        <Text color={Colors.white}>Upload JD (Job description): </Text>
-                                        <Button
-                                            onPress={handlePdfUpload}
-                                            startIcon={<Icon name="attachment" color={Colors.white} size={20} />}
-                                            bg="transparent"
-                                            _text={{ color: Colors.white }}
-                                        >
-                                            {pdfFile ? 'Change File' : 'Upload'}
-                                        </Button>
-                                    </HStack>
-                                    <View style={{ marginHorizontal: 40 }}>
-                                        <Button title="Select Document" onPress={handlePdfUpload} />
-                                    </View> */}
                                 </>
                             )}
                             <TextArea
@@ -584,6 +704,19 @@ const Form = () => {
                     <AppButton onPress={handleSubmit} title="Submit" mt={4} />
                 </Box>
             </ScrollView>
+            <FeedbackModal
+                isVisible={showFeedback}
+                onClose={() => setShowFeedback(false)}
+                onSubmit={async (feedbackData) => {
+                    console.log('Feedback:', feedbackData);
+
+                    showMessage({
+                        message: 'Thank you for your feedback!',
+                        type: 'success',
+                    });
+                    navigation.navigate('Home');
+                }}
+            />
         </View>
     );
 };
