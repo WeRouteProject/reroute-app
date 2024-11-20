@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { Box, Select, TextArea, Input, ScrollView, Text, VStack, HStack, Button, Pressable, Toast } from 'native-base';
@@ -12,6 +14,7 @@ import { Colors, FontSizes } from '../../Common/Utils/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from 'react-native-flash-message';
 import FeedbackModal from '../Feedback/Index';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const Form = () => {
     const [selectedCountry, setSelectedCountry] = useState({
@@ -351,49 +354,131 @@ const Form = () => {
         }
     };
 
-    const handleSubmit = async () => {
-        console.log('Submitting form...');
-
-        // Validate required fields before submission
+    const validateForm = () => {
+        // Basic location validation
         if (!selectedCountry.name || !selectedState.name || !selectedCity.name) {
             showMessage({
                 message: 'Please fill in all location fields',
                 type: 'warning',
             });
+            return false;
+        }
+
+        // Service selection validation
+        if (!selectedService) {
+            showMessage({
+                message: 'Please select the service you want',
+                type: 'warning',
+            });
+            return false;
+        }
+
+        // Project-specific validation
+        if (selectedService === 'Project') {
+            if (!selectedProjectType) {
+                showMessage({
+                    message: 'Please select a project type',
+                    type: 'warning',
+                });
+                return false;
+            }
+            if (!selectedSubService) {
+                showMessage({
+                    message: 'Please select a project title',
+                    type: 'warning',
+                });
+                return false;
+            }
+            if (!projectDuration) {
+                showMessage({
+                    message: 'Please select project duration',
+                    type: 'warning',
+                });
+                return false;
+            }
+        }
+
+        // Sourcing-specific validation
+        if (selectedService === 'Sourcing') {
+            if (!jobTitle) {
+                showMessage({
+                    message: 'Please enter a job title',
+                    type: 'warning',
+                });
+                return false;
+            }
+            if (!experience) {
+                showMessage({
+                    message: 'Please select years of experience',
+                    type: 'warning',
+                });
+                return false;
+            }
+        }
+
+        // Common validations for both service types
+        if (!selectedCurrency || !budget) {
+            showMessage({
+                message: 'Please fill in both currency and budget',
+                type: 'warning',
+            });
+            return false;
+        }
+
+        // Requirement description validation
+        if (!requirement.trim()) {
+            showMessage({
+                message: 'Please provide a brief description of your requirement',
+                type: 'warning',
+            });
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleSubmit = async () => {
+        console.log('Validating form...');
+
+        if (!validateForm()) {
             return;
         }
+        console.log('Submitting form...');
 
         // Create FormData object
         const formData = new FormData();
 
-        // Append simple string values
+        // Append all required fields
         formData.append('country', selectedCountry.name);
         formData.append('state', selectedState.name);
         formData.append('city', selectedCity.name);
         formData.append('serviceType', selectedService);
-        formData.append('projectType', selectedProjectType);
-        formData.append('projectTitle', selectedSubService);
-        formData.append('projectDuration', projectDuration);
-        formData.append('jobTitle', jobTitle);
-        formData.append('noOfOpenings', openings.toString());
-        formData.append('yearsOfExperience', experience);
         formData.append('currency', selectedCurrency);
         formData.append('budget', budget);
         formData.append('description', requirement);
 
-        // Handle document attachment
+        // Append service-specific fields
+        if (selectedService === 'Project') {
+            formData.append('projectType', selectedProjectType);
+            formData.append('projectTitle', selectedSubService);
+            formData.append('projectDuration', projectDuration);
+        } else if (selectedService === 'Sourcing') {
+            formData.append('jobTitle', jobTitle);
+            formData.append('noOfOpenings', openings.toString());
+            formData.append('yearsOfExperience', experience);
+        }
+
+        // Optionally append document if selected
         if (selectedDocument) {
-            // Create file object with correct structure
             const fileToUpload = {
                 uri: Platform.OS === 'ios' ?
                     selectedDocument.uri.replace('file://', '') :
                     selectedDocument.uri,
-                type: selectedDocument.type || 'application/msword', // fallback mime type
+                type: selectedDocument.type || 'application/msword',
                 name: selectedDocument.name || 'document.doc',
             };
             formData.append('document', fileToUpload);
         }
-
         // Log the formData for debugging
         console.log('Form data prepared:', Object.fromEntries(formData._parts));
 
@@ -449,8 +534,6 @@ const Form = () => {
                     navigation.navigate('Login');
                     return;
                 }
-
-                throw new Error(responseData.message || 'Internal server error, please check your internet connectivity and try again');
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -690,9 +773,10 @@ const Form = () => {
                                 maxW="350"
                                 backgroundColor={Colors.white}
                                 mt={2} />
-                            <Pressable onPress={selectDoc} bgColor={Colors.primary} padding={10} borderRadius={10} mt={2}>
+                            <Pressable onPress={selectDoc} padding={5} flexDirection="row" alignItems="center">
+                                <Icon name="upload" size={25} color={Colors.white} style={{ marginRight: 15 }} />
                                 <Text color={Colors.white}>
-                                    {selectedDocument ? `Selected: ${selectedDocument.name}` : 'Select Document (.doc/.docx)'}
+                                    {selectedDocument ? `Uploaded: ${selectedDocument.name}` : 'Upload Document (Optional)'}
                                 </Text>
                             </Pressable>
 

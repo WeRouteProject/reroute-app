@@ -1,10 +1,10 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { Box, Text, HStack, Image, Select } from 'native-base';
+import { Box, Text, HStack, Image } from 'native-base';
 import {
   Alert, StyleSheet, SafeAreaView,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import AppInput from '../../Common/AppInput';
 import AppButton from '../../Common/AppButton';
@@ -23,6 +23,16 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
 
+  // Get window dimensions
+  const { width, height } = useWindowDimensions();
+
+  // Calculate responsive values
+  const containerPadding = width * 0.075;
+  const logoHeight = height * 0.06;
+  const marginTop = height * 0.05;
+  const inputMarginTop = height * 0.025;
+  const buttonMarginTop = height * 0.075;
+
   const navigation = useNavigation();
 
   function handleLogin() {
@@ -31,7 +41,6 @@ const Signup = () => {
   }
 
   const validateInput = () => {
-
     if (!mobile?.trim() || !email?.trim() || !name?.trim() || !password?.trim()) {
       showMessage({
         message: 'Please fill all the fields carefully',
@@ -61,7 +70,6 @@ const Signup = () => {
     }
 
     const sanitizedMobile = String(mobile).replace(/\D/g, '');
-
     const fullMobileNumber = `${countryCode}${sanitizedMobile}`;
 
     try {
@@ -114,20 +122,20 @@ const Signup = () => {
         backgroundColor={Colors.white}
         h={'100%'}
         width={'100%'}
-        mt={8}
-        padding={30}>
-        <SafeAreaView>
+        mt={marginTop}
+        padding={containerPadding}>
+        <SafeAreaView style={{ height: height }}>
           <ScrollView>
             <Image
               source={Logo}
-              style={styles.logo}
+              style={[styles.logo, { height: logoHeight }]}
               resizeMode="contain"
               alt="WeRoute logo"
             />
-            <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={3}>
+            <Text fontSize={FontSizes.xlarge} color={Colors.title} textAlign={'center'} mt={marginTop}>
               REGISTRATION
             </Text>
-            <Box mt={8}>
+            <Box mt={inputMarginTop}>
               <Text fontSize={FontSizes.medium} color={Colors.gray} my={1} ml={0.5}>
                 Mobile Number
               </Text>
@@ -183,7 +191,7 @@ const Signup = () => {
                 secureTextEntry={true}
               />
             </Box>
-            <AppButton title={'Create an account'} onPress={handleSignup} mt={60} />
+            <AppButton title={'Create an account'} onPress={handleSignup} mt={buttonMarginTop} />
 
             <HStack mb={4} mt={2} justifyContent={'center'}>
               <Text color={Colors.dark} fontSize={FontSizes.medium}>Already have an account? </Text>
@@ -199,7 +207,6 @@ const Signup = () => {
 const styles = StyleSheet.create({
   logo: {
     width: '100%',
-    height: 40,
   },
   chartContainer: {
     padding: 10,

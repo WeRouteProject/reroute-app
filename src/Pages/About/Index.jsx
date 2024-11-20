@@ -2,14 +2,14 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Alert, View, Linking } from 'react-native';
+import { ScrollView, StyleSheet, View, Linking } from 'react-native';
 import { Box, Text, VStack, HStack, Modal, Pressable } from 'native-base';
 import { Colors } from '../../Common/Utils/Constants';
 import AppHeader from '../../Common/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { GradientButton } from '../../Common/GradientButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const About = ({ navigation }) => {
 
@@ -17,30 +17,30 @@ const About = ({ navigation }) => {
     const [showContact, setShowContact] = useState(false);
 
     const handleCall = () => {
-        Linking.openURL('tel:+1234567890');  // Replace with your company's phone number
+        Linking.openURL('tel:+91 7977276432');
     };
 
     const handleEmail = () => {
-        Linking.openURL('mailto:info@weroute.com');  // Replace with your company's email
+        Linking.openURL('mailto:kp@weroute.ai');
     };
 
     const handleWebsite = () => {
-        Linking.openURL('https://weroute.ai/');  // Replace with your company's website
+        Linking.openURL('https://weroute.ai/');
     };
 
     const LearnMoreModal = () => (
         <Modal isOpen={showLearnMore} onClose={() => setShowLearnMore(false)} size="lg">
             <Modal.Content>
-                <Modal.CloseButton />
+                <Modal.CloseButton size={8} />
                 <Modal.Header>
-                    <Text color={Colors.primary} bold fontSize="xl">
+                    <Text color={Colors.heading} bold fontSize="lg">
                         Learn More About Weroute
                     </Text>
                 </Modal.Header>
                 <Modal.Body>
                     <VStack space={4}>
                         <Box>
-                            <Text bold fontSize="md" color={Colors.primary} mb={2}>
+                            <Text bold fontSize="md" color={Colors.heading} mb={2}>
                                 Our Expertise
                             </Text>
                             <VStack space={2}>
@@ -64,7 +64,7 @@ const About = ({ navigation }) => {
                         </Box>
 
                         <Box>
-                            <Text bold fontSize="md" color={Colors.primary} mb={2}>
+                            <Text bold fontSize="md" color={Colors.heading} mb={2}>
                                 Why Choose Us?
                             </Text>
                             <VStack space={2}>
@@ -77,8 +77,8 @@ const About = ({ navigation }) => {
 
                         <Pressable onPress={handleWebsite}>
                             <HStack space={2} alignItems="center" justifyContent="center">
-                                <Icon name="web" size={20} color={Colors.primary} />
-                                <Text color={Colors.primary} bold>
+                                <Icon name="web" size={20} color={Colors.heading} />
+                                <Text color={Colors.heading} bold>
                                     Visit our website
                                 </Text>
                             </HStack>
@@ -94,7 +94,7 @@ const About = ({ navigation }) => {
             <Modal.Content>
                 <Modal.CloseButton />
                 <Modal.Header>
-                    <Text color={Colors.primary} bold fontSize="xl">
+                    <Text color={Colors.heading} bold fontSize="lg">
                         Contact Us
                     </Text>
                 </Modal.Header>
@@ -103,7 +103,7 @@ const About = ({ navigation }) => {
                         <Pressable onPress={handleCall}>
                             <HStack space={4} alignItems="center">
                                 <Box
-                                    bg={Colors.primary}
+                                    bg={Colors.heading}
                                     p={3}
                                     borderRadius="full"
                                 >
@@ -111,7 +111,7 @@ const About = ({ navigation }) => {
                                 </Box>
                                 <VStack>
                                     <Text bold>Call Us</Text>
-                                    <Text color="gray.500">+1 234 567 890</Text>
+                                    <Text color="gray.500">+91 7977276432</Text>
                                 </VStack>
                             </HStack>
                         </Pressable>
@@ -119,15 +119,15 @@ const About = ({ navigation }) => {
                         <Pressable onPress={handleEmail}>
                             <HStack space={4} alignItems="center">
                                 <Box
-                                    bg={Colors.primary}
+                                    bg={Colors.heading}
                                     p={3}
                                     borderRadius="full"
                                 >
-                                    <FontAwesome name="envelope" size={20} color="white" />
+                                    <FontAwesome name="envelope" size={18} color="white" />
                                 </Box>
                                 <VStack>
                                     <Text bold>Email Us</Text>
-                                    <Text color="gray.500">info@weroute.com</Text>
+                                    <Text color="gray.500">kp@weroute.com</Text>
                                 </VStack>
                             </HStack>
                         </Pressable>
@@ -135,7 +135,7 @@ const About = ({ navigation }) => {
                         <Pressable onPress={handleWebsite}>
                             <HStack space={4} alignItems="center">
                                 <Box
-                                    bg={Colors.primary}
+                                    bg={Colors.heading}
                                     p={3}
                                     borderRadius="full"
                                 >

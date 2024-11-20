@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import {
     DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
 import { Box, Text, Divider, HStack, Pressable, VStack, Toast, Spinner } from 'native-base';
 import { Colors } from './Utils/Constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -171,7 +170,7 @@ const CustomDrawerContent = props => {
                         </HStack>
                     </Pressable>
 
-                    <Pressable onPress={() => navigation.navigate('change-password')}>
+                    <Pressable onPress={() => navigation.navigate('changePassword1')}>
                         <HStack alignItems={'center'} space={5} ml={3} mt={8}>
                             {/* <AppIcon isCustom name={'login'} color={colors.white} size={23} /> */}
                             <MaterialCommunityIcons name='key-alert' color="white" size={18} />

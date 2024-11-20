@@ -2,19 +2,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Colors, FontSizes } from '../Common/Utils/Constants';
 import ManagedService from '../Pages/Services/ManagedService/Index';
-import CloudService from '../Pages/CloudService/Index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NetworkIntegrationService from '../Pages/Services/NetworkInteService/Index';
 
 const Tab = createMaterialTopTabNavigator();
+const { width: screenWidth } = Dimensions.get('window');
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-        <View style={styles.tabContainer}>
+        <View style={[styles.tabContainer, { width: screenWidth * 0.9 }]}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const label =
@@ -43,6 +43,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     : route.name === 'consult-service'
                         ? isFocused ? 'settings' : 'cog'
                         : isFocused ? 'arrow-forward-circle' : 'arrow-forward-circle-outline';
+
                 return (
                     <TouchableOpacity
                         key={route.key}
@@ -83,11 +84,6 @@ const AppTabNav = () => {
                 component={NetworkIntegrationService}
                 options={{ tabBarLabel: 'Consulting Services' }}
             />
-            {/* <Tab.Screen
-                name="cloud-service"
-                component={CloudService}
-                options={{ tabBarLabel: 'Network Integration' }}
-            /> */}
         </Tab.Navigator>
     );
 };
@@ -104,6 +100,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginHorizontal: 8,
         marginBottom: 8,
+        alignSelf: 'center', // Center the tab container on the screen
     },
     tabButton: {
         flexDirection: 'row',

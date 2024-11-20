@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import AppInput from '../../Common/AppInput';

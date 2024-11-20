@@ -6,7 +6,6 @@ import { Select, FormControl, CheckIcon } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import countryCodeData from '../data/country_code.json';
 import { Colors } from './Utils/Constants';
-import { Text } from 'react-native';
 
 const CountryCodeDropdown = ({ value, onChange, countries }) => {
     return (

@@ -33,6 +33,7 @@ import HappinessChart from '../components/HappinessChart';
 import CaseStudies from '../Pages/CaseStudies/Index';
 import Projects from '../Pages/Projects/Index';
 import EditProfile from '../Pages/EditProfile/Index';
+import InsideChangePass from '../Pages/InsideChangePassword/Index';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -140,6 +141,7 @@ const Navigation = () => {
         <Stack.Screen name="Case-Studies" component={CaseStudies} />
         <Stack.Screen name="projects" component={Projects} />
         <Stack.Screen name="edit-profile" component={EditProfile} />
+        <Stack.Screen name="changePassword1" component={InsideChangePass} />
       </Stack.Navigator>
     </NavigationContainer>
   );
